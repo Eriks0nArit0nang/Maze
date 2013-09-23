@@ -2,13 +2,8 @@ Feature Development List
 
 Below is a list of features/updates that are planned for the game.
 
-- Limit health gained by level
-	This will be done to make the game more challenging.  Maximum health (If you have not lost any since the start of the game) will be determined by 700 + 300x where x is the level you are currently on. *Done*
-- Limit maximum range to prevent user from having infinite range *Done*
 - Allow for create a game to be done with any game name the user wishes and for any size map.
-	An update for this feature would be the difficulty of the map.  This would affect the number of enemies spawning
-- Allow for enemy spawning at a certain rate with maximum number of enemies at one time.  Would spawn randomly somewhere within range of tracking user.
-- Manage maximum quantities for upgrades and features
+- Allow for enemy spawning at a certain rate with maximum number of enemies at one time.  Would spawn randomly somewhere within range of tracking user. Only on Medium or higher.
 - Create user friendly interface for upgrades screen
 - Create a battle mode for 2 users.  Initially on same computer.  Potentially set up for within network, internet connection.  Can upgrade to include more than 2 people.
 - Other Multiplayer modes
