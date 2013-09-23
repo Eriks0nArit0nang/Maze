@@ -16,6 +16,7 @@ class Player
               int weaponQuantities[6];
               int maxQuantities[6];
               int weaponCost[6];
+              int activeWeapon;
               
       public:
            //  Bullet weapon;
@@ -35,6 +36,8 @@ class Player
              int Get_Range ();
              void Set_Range(int r);
              int Get_Rate();
+             int Get_ActiveWeapon();
+             void Set_ActiveWeapon(int a);
              void Set_Rate(int r);
              void Set_ClipSize(int c);
              bool Max_Quantity (int type);
@@ -50,6 +53,7 @@ Player::Player ()
     xVel = 0;
     yVel = 0;
     addedHealth = 0;
+    activeWeapon = 0;
  //   xRep = 0;
    // yRep = 0;
    clipSize = 25;
@@ -92,6 +96,11 @@ bool Player::Collide (char xy, int grid[GRID_SIZE][GRID_SIZE])
      else if (xy == 'y' && yVel != 0)
           return grid[Get_X()/60][((int)round(yPos+yVel+yVel/abs(yVel)*5))/60] == 1;
      return false;
+}
+
+int Player::Get_ActiveWeapon()
+{
+    return activeWeapon;
 }
 
 int Player::Get_Added_Health()
@@ -189,6 +198,11 @@ void Player::Add_Health (int h)
 {
      addedHealth += h;
      health += h;
+}
+
+void Player::Set_ActiveWeapon(int a)
+{
+     activeWeapon = a;
 }
 
 void Player::Set_ClipSize (int c)

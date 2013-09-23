@@ -18,7 +18,6 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
          E[i].Set_Coords (x1*60+30,y1*60+30);
      }
      
-     
      bool known[GRID_SIZE][GRID_SIZE];
      for (int i = 0; i < GRID_SIZE; i++)
          for (int j = 0; j < GRID_SIZE; j++)
@@ -31,7 +30,7 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
      for (int i = 0; i < GRID_SIZE; i++)
          pknown[i] = known[i];
     
-     int shotX = -1, shotY = -1, shots = 0, activeWeapon = 0;
+     int shotX = -1, shotY = -1, shots = 0;
      int bombX, bombY, bombN;
      bool shot;
      vector <pair <string, int> > upgrades;
@@ -39,7 +38,7 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
      int shotCounter = 0; // to slow down shooting
      bool moved; // if player moved for update
      int wallAnimate = 0, wallX, wallY;
-     updateScreen(P1,E,B1,-1,-1,false,key,activeWeapon);
+     updateScreen(P1,E,B1,-1,-1,false,key);
      install_int (ticker, 25);
     
      pair <int,int[GRID_SIZE][GRID_SIZE]> Enemy_Squares;
@@ -51,8 +50,8 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
                ticks--;
                Enemy_Squares = bfs (grid.second, P1);
                shot = false;
-               if ((activeWeapon == 1 && P1.Get_Quantity(2) == 0)||(activeWeapon == 2 && P1.Get_Quantity(5) == 0))
-                  activeWeapon = 0;
+               if ((P1.Get_ActiveWeapon() == 1 && P1.Get_Quantity(2) == 0)||(P1.Get_ActiveWeapon() == 2 && P1.Get_Quantity(5) == 0))
+                  P1.Set_ActiveWeapon ( 0);
                for (int i = 0; i < E.size(); i++)
                {
                    E[i].Update(P1,grid.second,Enemy_Squares.second);
@@ -95,7 +94,7 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
                       else if (upgrades[i].first == "money")
                            P1.Add_Money (upgrades[i].second-P1.Get_Money());
                   }
-                  updateScreen (P1,E,B1,shotX, shotY,shot,key,activeWeapon);
+                  updateScreen (P1,E,B1,shotX, shotY,shot,key);
                   while (key[KEY_U]) poll_keyboard();
                   ticks = 0;
                }
@@ -150,18 +149,17 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
                }
                if (key[KEY_X])
                {
-                  activeWeapon = next_weapon(P1,activeWeapon);
+                  P1.Set_ActiveWeapon( next_weapon(P1,P1.Get_ActiveWeapon()));
                   while (key[KEY_X]) poll_keyboard();
                }
                else if (key[KEY_Z])
                {
-                  activeWeapon = prev_weapon(P1,activeWeapon);
+                  P1.Set_ActiveWeapon( prev_weapon(P1,P1.Get_ActiveWeapon()));
                   while (key[KEY_Z]) poll_keyboard();
                }
                bombN = B1.Hit_Bomb(E);
                if (bombN > -1)
                {
-                         cout << "bla";
                   bombY = B1.Get_BombY(bombN);
                   bombX = B1.Get_BombX(bombN);
                   for (int i = 0; i < E.size(); i++)
@@ -174,7 +172,7 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
                   shotY = B1.Get_GrenadeY();
                   for (int i = 0; i < E.size();i++)
                       E[i].Shot (shotX, shotY, rand () % 20 + 1,40);
-                  activeWeapon = 1;
+                  P1.Set_ActiveWeapon (1);
                }
                else if (shotCounter <= 0)
                {
@@ -182,11 +180,11 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
                     shotY = -2;
                   if (key[KEY_W])
                   {
-                     if (activeWeapon == 0)
+                     if (P1.Get_ActiveWeapon() == 0)
                          shotY = B1.Shoot (E,P1,3,grid.second);
-                     else if (activeWeapon == 1)
+                     else if (P1.Get_ActiveWeapon() == 1)
                          shotY = B1.Grenade (E,P1,3,grid.second);
-                     else if (activeWeapon == 2)
+                     else if (P1.Get_ActiveWeapon() == 2)
                          shotY = B1.Walls (E,P1,3,grid.second);
                      shotX = P1.Get_X();
                      shotCounter = P1.Get_Rate();
@@ -194,11 +192,11 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
                   }
                   else if (key[KEY_S])
                   {
-                     if (activeWeapon == 0)
+                     if (P1.Get_ActiveWeapon() == 0)
                          shotY = B1.Shoot (E,P1,2,grid.second);
-                     else if (activeWeapon == 1)
+                     else if (P1.Get_ActiveWeapon() == 1)
                          shotY = B1.Grenade (E,P1,2,grid.second);
-                     else if (activeWeapon == 2)
+                     else if (P1.Get_ActiveWeapon() == 2)
                          shotY = B1.Walls (E,P1,2,grid.second);
                      shotX = P1.Get_X();
                      shotCounter = P1.Get_Rate();
@@ -206,11 +204,11 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
                   }
                   else if (key[KEY_A])
                   {
-                     if (activeWeapon == 0)
+                     if (P1.Get_ActiveWeapon() == 0)
                          shotX = B1.Shoot (E,P1,1,grid.second);
-                     else if (activeWeapon == 1)
+                     else if (P1.Get_ActiveWeapon() == 1)
                          shotX = B1.Grenade (E,P1,1,grid.second);
-                     else if (activeWeapon == 2)
+                     else if (P1.Get_ActiveWeapon() == 2)
                          shotX = B1.Walls (E,P1,1,grid.second);
                      shotY = P1.Get_Y();
                      shotCounter = P1.Get_Rate();
@@ -218,21 +216,21 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
                   }
                   else if (key[KEY_D])
                   {
-                     if (activeWeapon == 0)
+                     if (P1.Get_ActiveWeapon() == 0)
                          shotX = B1.Shoot (E,P1,0,grid.second);
-                     else if (activeWeapon == 1)
+                     else if (P1.Get_ActiveWeapon() == 1)
                          shotX = B1.Grenade (E,P1,0,grid.second);
-                     else if (activeWeapon == 2)
+                     else if (P1.Get_ActiveWeapon() == 2)
                          shotX = B1.Walls (E,P1,0,grid.second);
                      shotY = P1.Get_Y();
                      shotCounter = P1.Get_Rate();
                      shots++;
                   }
-                  if ((key[KEY_W]|| key[KEY_A] || key[KEY_S] || key[KEY_D])&&activeWeapon==1&&shotX > -2&&shotY>-2)
+                  if ((key[KEY_W]|| key[KEY_A] || key[KEY_S] || key[KEY_D])&&P1.Get_ActiveWeapon()==1&&shotX > -2&&shotY>-2)
                   {
                      P1.Set_Quantity (2,P1.Get_Quantity(2)-1);
                   }
-                  if (shotX > -1 && shotY > -1 && activeWeapon == 0)
+                  if (shotX > -1 && shotY > -1 && P1.Get_ActiveWeapon() == 0)
                   {
                      if (!P1.Get_Quantity(3))
                      {
@@ -247,13 +245,13 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
                      if (shots % P1.Get_ClipSize() == 0)
                         shotCounter = P1.Get_Rate()*6;
                   }
-                  else if (shotX > -1 && shotY > -1 && activeWeapon == 1)
+                  else if (shotX > -1 && shotY > -1 && P1.Get_ActiveWeapon() == 1)
                   {
                        P1.Set_Quantity(2,P1.Get_Quantity(2)-1);
                        for (int i = 0; i < E.size(); i++)
                              E[i].Shot (shotX, shotY, rand () % 10 + 1,40);
                   }
-                  else if (shotX > -1 && shotY > -1 && activeWeapon == 2)
+                  else if (shotX > -1 && shotY > -1 && P1.Get_ActiveWeapon() == 2)
                   {
                        grid.second[shotX/60][shotY/60] = 0;
                        P1.Set_Quantity(5,P1.Get_Quantity(5)-1);
@@ -279,7 +277,7 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
                  update_known (pknown, P1.Get_X()/60, P1.Get_Y()/60);
                  update_map (grid.second,P1.Get_X()/60, P1.Get_Y()/60);
               }
-              updateScreen(P1,E,B1,shotX, shotY,shot,key,activeWeapon);
+              updateScreen(P1,E,B1,shotX, shotY,shot,key);
               if (wallAnimate > 0)
               {
                  wall_animation(wallX-P1.Get_X(), wallY-P1.Get_Y(), wallX-P1.Get_X()+59, wallY-P1.Get_Y()+59,51-wallAnimate);

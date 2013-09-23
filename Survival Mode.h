@@ -26,7 +26,7 @@ void survival (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid)
      int shotCounter = 0; // to slow down shooting
      int rate=100,count=0,timing=0; // the rate that enemies will enter
      bool moved; // if player moved for update
-     updateScreen(P1,E,B1,-1,-1,false,key,0);
+     updateScreen(P1,E,B1,-1,-1,false,key);
      install_int (ticker, 25);
      int score = 0; // enemies killed
      pair <int,int[GRID_SIZE][GRID_SIZE]> Enemy_Squares;
@@ -151,7 +151,7 @@ void survival (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid)
                   update_known (pknown, P1.Get_X()/60, P1.Get_Y()/60);
                   update_map (grid.second,P1.Get_X()/60, P1.Get_Y()/60);
                }*/
-               updateScreen(P1,E,B1, shotX, shotY,shot,key,0);
+               updateScreen(P1,E,B1, shotX, shotY,shot,key);
                rectfill (screen,SCREEN_X,0,SCREEN_X+GRID_SIZE*2,GRID_SIZE*4,makecol(0,0,0));
                rectfill (screen,SCREEN_X,540,SCREEN_X+GRID_SIZE*4,560,makecol(0,0,0));
                textprintf_ex(screen, font, 605, 540, makecol(255,0,0), -1, "Enemies Killed %d", score);

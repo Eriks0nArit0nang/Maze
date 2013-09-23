@@ -5,11 +5,11 @@ const int GRID_SIZE = 40;
 #include <algorithm>
 #include <cmath>
 #include <iostream>
+#include <utility>
+#include <string>
 #include "Player.hpp"
 #include "Enemy.hpp"
 #include "Bullet.h"
-#include <utility>
-#include <string>
 #include "Allegro Functions.h"
 Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int diff, int diffMult);
 #include "Level Creator.h"

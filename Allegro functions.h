@@ -46,7 +46,7 @@ int rotate_realligned_sprite (BITMAP* screen, BITMAP* sprite, int x, int y, int 
      }
 }*/
 
-void updateScreen(Player P, vector <Enemy> E, Bullet B, int shotX, int shotY, bool shot, volatile char key[KEY_MAX], int activeWeapon)
+void updateScreen(Player P, vector <Enemy> E, Bullet B, int shotX, int shotY, bool shot, volatile char key[KEY_MAX])
 {
      draw_sprite (buffer, background, -(P.Get_X()-SCREEN_X/2), -(P.Get_Y()-SCREEN_Y/2));
      draw_sprite (buffer, map, SCREEN_X, 0);
@@ -66,7 +66,7 @@ void updateScreen(Player P, vector <Enemy> E, Bullet B, int shotX, int shotY, bo
             circlefill (buffer, SCREEN_X/2+E[i].Get_X()-P.Get_X() , SCREEN_Y/2+E[i].Get_Y()-P.Get_Y() , E[i].Get_Rad()-E[i].Get_Health()/10-1, makecol (255,0,0));
             circle (buffer, SCREEN_X/2+E[i].Get_X()-P.Get_X() , SCREEN_Y/2+E[i].Get_Y()-P.Get_Y() , E[i].Get_Rad(), makecol (255,0,0));
          }
-     if (shotX > -1 && shotY > -1 && activeWeapon == 0)
+     if (shotX > -1 && shotY > -1 && P.Get_ActiveWeapon() == 0)
      {
         if (key[KEY_W] || key[KEY_S])
            for (int i = 0; i <= P.Get_Quantity(1)*3;i++)
@@ -83,7 +83,7 @@ void updateScreen(Player P, vector <Enemy> E, Bullet B, int shotX, int shotY, bo
         if (P.Get_Quantity(3))
            circlefill (buffer, SCREEN_X/2+shotX-P.Get_X(), SCREEN_Y/2+shotY-P.Get_Y(), 30, makecol (255,0,0));
      }
-     else if (shotX > -1 && shotY > -1 && activeWeapon == 1)
+     else if (shotX > -1 && shotY > -1 && P.Get_ActiveWeapon() == 1)
      {
           circlefill (buffer, SCREEN_X/2+shotX-P.Get_X(), SCREEN_Y/2+shotY-P.Get_Y(), 40, makecol (255,0,0));
      }
@@ -120,6 +120,7 @@ void updateScreen(Player P, vector <Enemy> E, Bullet B, int shotX, int shotY, bo
      textprintf_ex(buffer, font, 500+GRID_SIZE*2, 500, makecol(255,0,0), -1, "Health: %d", P.Get_Health());
      textprintf_ex(buffer, font, 500+GRID_SIZE*2, 520, makecol(255,0,0), -1, "Enemies: %d", E.size());
      textprintf_ex(buffer, font, 500+GRID_SIZE*2, 540, makecol(255,0,0), -1, "Money: %d", P.Get_Money());
+     textprintf_ex(buffer, font, 500+GRID_SIZE*2, 560, makecol(255,0,0), -1, "Weapon:\n%s", P.Get_ActiveWeapon() == 0 ? "Gun" : ( P.Get_ActiveWeapon() == 1 ? "Grenade" : "Walls"));
      
     // textprintf_ex(buffer, font, 605, 560, makecol(255,0,0), -1, "%d %d %d %d %d %d", P.Get_Quantity (0), P.Get_Quantity (1), P.Get_Quantity (2), P.Get_Quantity (3), P.Get_Quantity (4), P.Get_Quantity (5));
         
@@ -133,10 +134,10 @@ void updateScreen(Player P, vector <Enemy> E, Bullet B, int shotX, int shotY, bo
 void draw_upgrade (Player P, Bullet B)
 {
      draw_sprite (buffer,upgradescreen,0,0);
-     textprintf_ex(buffer, font, 180, 162, makecol(255,255,255), -1, "%d", P.Get_Rate());
-     textprintf_ex(buffer, font, 180, 201, makecol(255,255,255), -1, "%d", P.Get_ClipSize());
-     textprintf_ex(buffer, font, 180, 240, makecol(255,255,255), -1, "%d", B.Get_Range());
-     textprintf_ex(buffer, font, 180, 279, makecol(255,255,255), -1, "%d", P.Get_Health());
+     textprintf_ex(buffer, font, 180, 162, makecol(255,255,255), -1, "%d Cost: %d", P.Get_Rate(), 250*(11-P.Get_Rate())*(11-P.Get_Rate()));
+     textprintf_ex(buffer, font, 180, 201, makecol(255,255,255), -1, "%d Cost: %d", P.Get_ClipSize(), 5*P.Get_ClipSize());
+     textprintf_ex(buffer, font, 180, 240, makecol(255,255,255), -1, "%d Cost: %d", B.Get_Range(), B.Get_Range()*2);
+     textprintf_ex(buffer, font, 180, 279, makecol(255,255,255), -1, "%d Cost: %d", P.Get_Health(), 100);
      textprintf_ex(buffer, font, 300, 162, makecol(255,255,255), -1, "Money: %d", P.Get_Money());
      textprintf_ex(buffer, font, 400, 355, makecol(255,255,255), -1, "N %d Cost: %d", P.Get_Quantity(0), P.Get_Cost(0));
      textprintf_ex(buffer, font, 400, 394, makecol(255,255,255), -1, "W %d Cost: %d", P.Get_Quantity(1), P.Get_Cost(1));

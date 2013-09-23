@@ -234,9 +234,17 @@ int Bullet::Walls (vector <Enemy> E, Player P, int d, int grid[GRID_SIZE][GRID_S
                y-=60;
     }
     if (d/2==0)
-       return x;
+    {
+       if (abs(GRID_SIZE/2-x/60) < GRID_SIZE/2 - 5)
+          return x;
+       return -1;
+    }
     else
-        return y;
+    {
+        if (abs(GRID_SIZE/2-y/60) < GRID_SIZE/2 - 5)
+           return y;
+        return -1;
+    }
 }
 
 void Bullet::Place_Bomb (int x, int y)
