@@ -5,6 +5,10 @@ Player multiplayer ()
        cin >> n;
        Player players[n];
        int best_level[n];
+       int diff = -1;
+       cout << "Enter the difficulty you want to play at?\n1 - Easy\n2-Medium\n3-Hard\n4-Expert\n5-Nightmare\n";
+       while (diff > 0 && diff <= 5)
+             cin >> diff;
        int winner; // will store the index of the last player to play a level
        pair <int[4],int[GRID_SIZE][GRID_SIZE]> level;
        string t;

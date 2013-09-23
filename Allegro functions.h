@@ -120,6 +120,7 @@ void updateScreen(Player P, vector <Enemy> E, Bullet B, int shotX, int shotY, bo
      textprintf_ex(buffer, font, 500+GRID_SIZE*2, 500, makecol(255,0,0), -1, "Health: %d", P.Get_Health());
      textprintf_ex(buffer, font, 500+GRID_SIZE*2, 520, makecol(255,0,0), -1, "Enemies: %d", E.size());
      textprintf_ex(buffer, font, 500+GRID_SIZE*2, 540, makecol(255,0,0), -1, "Money: %d", P.Get_Money());
+     
     // textprintf_ex(buffer, font, 605, 560, makecol(255,0,0), -1, "%d %d %d %d %d %d", P.Get_Quantity (0), P.Get_Quantity (1), P.Get_Quantity (2), P.Get_Quantity (3), P.Get_Quantity (4), P.Get_Quantity (5));
         
      scare_mouse();
@@ -137,12 +138,12 @@ void draw_upgrade (Player P, Bullet B)
      textprintf_ex(buffer, font, 180, 240, makecol(255,255,255), -1, "%d", B.Get_Range());
      textprintf_ex(buffer, font, 180, 279, makecol(255,255,255), -1, "%d", P.Get_Health());
      textprintf_ex(buffer, font, 300, 162, makecol(255,255,255), -1, "Money: %d", P.Get_Money());
-     textprintf_ex(buffer, font, 400, 355, makecol(255,255,255), -1, "N %d", P.Get_Quantity(0));
-     textprintf_ex(buffer, font, 400, 394, makecol(255,255,255), -1, "W %d", P.Get_Quantity(1));
-     textprintf_ex(buffer, font, 400, 433, makecol(255,255,255), -1, "G %d", P.Get_Quantity(2));
-     textprintf_ex(buffer, font, 400, 472, makecol(255,255,255), -1, "E %d", P.Get_Quantity(3));
-     textprintf_ex(buffer, font, 400, 511, makecol(255,255,255), -1, "M %d", P.Get_Quantity(4));
-     textprintf_ex(buffer, font, 400, 550, makecol(255,255,255), -1, "S %d", P.Get_Quantity(5));
+     textprintf_ex(buffer, font, 400, 355, makecol(255,255,255), -1, "N %d Cost: %d", P.Get_Quantity(0), P.Get_Cost(0));
+     textprintf_ex(buffer, font, 400, 394, makecol(255,255,255), -1, "W %d Cost: %d", P.Get_Quantity(1), P.Get_Cost(1));
+     textprintf_ex(buffer, font, 400, 433, makecol(255,255,255), -1, "G %d Cost: %d", P.Get_Quantity(2), P.Get_Cost(2));
+     textprintf_ex(buffer, font, 400, 472, makecol(255,255,255), -1, "E %d Cost: %d", P.Get_Quantity(3), P.Get_Cost(3));
+     textprintf_ex(buffer, font, 400, 511, makecol(255,255,255), -1, "M %d Cost: %d", P.Get_Quantity(4), P.Get_Cost(4));
+     textprintf_ex(buffer, font, 400, 550, makecol(255,255,255), -1, "S %d Cost: %d", P.Get_Quantity(5), P.Get_Cost(5));
      draw_sprite (screen,buffer,0,0);
 }
 

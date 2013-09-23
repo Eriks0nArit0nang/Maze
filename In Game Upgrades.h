@@ -92,7 +92,7 @@ vector <pair <string, int> > upgrade (Player p, Bullet b, int diff)
             b.Set_Range (b.Get_Range()+vals.second);
             while (key[KEY_R]) poll_keyboard();
          }
-         if (key[KEY_H] && p.Get_Money() >= 100 && p.Get_InitialHealth() + diff*300 - 320 > p.Get_Health())
+         if (key[KEY_H] && p.Get_Money() >= 100 && diff*200 - 20 > p.Get_Added_Health())
          {
             vals.first = "health";
             vals.second = 20;
@@ -101,57 +101,57 @@ vector <pair <string, int> > upgrade (Player p, Bullet b, int diff)
             p.Add_Health (vals.second);
             while (key[KEY_H]) poll_keyboard();
          }
-         if (key[KEY_N] && p.Get_Money() >= 10000 && !p.Max_Quantity(0))
+         if (key[KEY_N] && p.Get_Money() >= p.Get_Cost(0) && !p.Max_Quantity(0))
          {
             vals.first = "weapon";
             vals.second = 1;
             returnVals.push_back(vals);
-            p.Add_Money (-10000);
+            p.Add_Money (-p.Get_Cost(0));
             p.Set_Quantity(0,p.Get_Quantity(0)+1);
             while (key[KEY_N]) poll_keyboard();
          }
-         if (key[KEY_W] && p.Get_Money() >= 1000 && !p.Max_Quantity(1))
+         if (key[KEY_W] && p.Get_Money() >= p.Get_Cost(1) && !p.Max_Quantity(1))
          {
             vals.first = "weapon";
             vals.second = 2;
             returnVals.push_back(vals);
-            p.Add_Money (-1000);
+            p.Add_Money (-p.Get_Cost(1));
             p.Set_Quantity(1,p.Get_Quantity(1)+1);
             while (key[KEY_W]) poll_keyboard();
          }
-         if (key[KEY_G] && p.Get_Money() >= 300 && !p.Max_Quantity(2))
+         if (key[KEY_G] && p.Get_Money() >= p.Get_Cost(2) && !p.Max_Quantity(2))
          {
             vals.first = "weapon";
             vals.second = 3;
             returnVals.push_back(vals);
-            p.Add_Money (-300);
+            p.Add_Money (-p.Get_Cost(2));
             p.Set_Quantity(2,p.Get_Quantity(2)+1);
             while (key[KEY_G]) poll_keyboard();
          }
-         if (key[KEY_E] && p.Get_Money() >= 8000 && !p.Max_Quantity(3))
+         if (key[KEY_E] && p.Get_Money() >= p.Get_Cost(3) && !p.Max_Quantity(3))
          {
             vals.first = "weapon";
             vals.second = 4;
             returnVals.push_back(vals);
-            p.Add_Money (-8000);
+            p.Add_Money (-p.Get_Cost(3));
             p.Set_Quantity(3,p.Get_Quantity(3)+1);
             while (key[KEY_E]) poll_keyboard();
          }
-         if (key[KEY_M] && p.Get_Money() >= 1000 && !p.Max_Quantity(4))
+         if (key[KEY_M] && p.Get_Money() >= p.Get_Cost(4) && !p.Max_Quantity(4))
          {
             vals.first = "weapon";
             vals.second = 5;
             returnVals.push_back(vals);
-            p.Add_Money (-1000);
+            p.Add_Money (-p.Get_Cost(4));
             p.Set_Quantity(4,p.Get_Quantity(4)+1);
             while (key[KEY_T]) poll_keyboard();
          }
-         if (key[KEY_S] && p.Get_Money() >= 5000 && !p.Max_Quantity(5))
+         if (key[KEY_S] && p.Get_Money() >= p.Get_Cost(5) && !p.Max_Quantity(5))
          {
             vals.first = "weapon";
             vals.second = 6;
             returnVals.push_back(vals);
-            p.Add_Money (-5000);
+            p.Add_Money (-p.Get_Cost(5));
             p.Set_Quantity(5,p.Get_Quantity(5)+1);
             while (key[KEY_S]) poll_keyboard();
          }

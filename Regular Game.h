@@ -1,11 +1,11 @@
-Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int diff = 6)
+Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int diff = 6, int diffMult = 1)
 {
     // Player P1;
      Bullet B1;
      B1.Set_Range(P1.Get_Range());
      P1.Set_XY(grid.first[0]*60+30,grid.first[1]*60+30);
      vector <Enemy> E;
-     E.resize (GRID_SIZE*GRID_SIZE/200*diff);
+     E.resize (GRID_SIZE*GRID_SIZE/200*diff*diffMult);
      int x1,y1;
      for (int i = 0; i < E.size(); i++)
      {

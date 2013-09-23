@@ -8,13 +8,14 @@ class Player
               double xVel,yVel;
           //    int xRep,yRep;
               bool Collide (char xy, int grid[GRID_SIZE][GRID_SIZE]);
-              int health, initialHealth;
+              int health, initialHealth, addedHealth;
               int clipSize;
               int money;
               int fireRate;
               int range;
               int weaponQuantities[6];
               int maxQuantities[6];
+              int weaponCost[6];
               
       public:
            //  Bullet weapon;
@@ -30,6 +31,7 @@ class Player
              void Set_XY (int x, int y);
              void Hit (int damage);
              void Add_Health (int h);
+             int Get_Added_Health();
              int Get_Range ();
              void Set_Range(int r);
              int Get_Rate();
@@ -38,6 +40,7 @@ class Player
              bool Max_Quantity (int type);
              void Set_Quantity (int type, int value);
              int Get_Quantity (int type);
+             int Get_Cost (int type);
              
               
 };
@@ -46,6 +49,7 @@ Player::Player ()
 {
     xVel = 0;
     yVel = 0;
+    addedHealth = 0;
  //   xRep = 0;
    // yRep = 0;
    clipSize = 25;
@@ -62,6 +66,12 @@ Player::Player ()
     maxQuantities[3] = 1; // Exploding Shot
     maxQuantities[4] = 5; // Mine
     maxQuantities[5] = 3; // Wall Smasher
+    weaponCost[0] = 10000;
+    weaponCost[1] = 1000;
+    weaponCost[2] = 300;
+    weaponCost[3] = 8000;
+    weaponCost[4] = 1000;
+    weaponCost[5] = 5000;
 }
 
 void Player::Add_Money (int n)
@@ -82,6 +92,16 @@ bool Player::Collide (char xy, int grid[GRID_SIZE][GRID_SIZE])
      else if (xy == 'y' && yVel != 0)
           return grid[Get_X()/60][((int)round(yPos+yVel+yVel/abs(yVel)*5))/60] == 1;
      return false;
+}
+
+int Player::Get_Added_Health()
+{
+    return addedHealth;
+}
+
+int Player::Get_Cost(int type)
+{
+    return weaponCost[type];
 }
 
 int Player::Get_ClipSize()
@@ -167,6 +187,7 @@ void Player::Move (int xChange, int yChange, int grid[GRID_SIZE][GRID_SIZE])
 
 void Player::Add_Health (int h)
 {
+     addedHealth += h;
      health += h;
 }
 

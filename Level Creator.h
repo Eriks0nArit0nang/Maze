@@ -260,6 +260,10 @@ void play_game ()
      cout << "Enter the game you wish to play\n";
      string in,t;
      getline (cin, in);
+     int diff = -1;
+     cout << "Enter the difficulty you want to play at?\n1 - Easy\n2-Medium\n3-Hard\n4-Expert\n5-Nightmare\n";
+     while (diff > 0 && diff <= 5)
+           cin >> diff;
      pair <int[4],int[GRID_SIZE][GRID_SIZE]> level;
      Player user;
      for (int i = 0; i < 20; i++)
@@ -273,7 +277,9 @@ void play_game ()
          set_background (level.second);
          rectfill (map,0,0,GRID_SIZE*2,600,makecol(100,100,100));
          if (user.Get_Health() > 0)
-            user=play_level (level,user,i+1);
+            user=play_level (level,user,i+1,diff);
+         if (close_button_pressed || key[KEY_ESC])
+            break;
      }
      if (user.Get_Health() > 0 && !close_button_pressed)
         cout << "WINNER\n";

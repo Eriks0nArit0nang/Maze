@@ -11,7 +11,7 @@ const int GRID_SIZE = 40;
 #include <utility>
 #include <string>
 #include "Allegro Functions.h"
-Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int diff);
+Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int diff, int diffMult);
 #include "Level Creator.h"
 #include "In Game Upgrades.h"
 #include "Survival Mode.h"
