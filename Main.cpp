@@ -39,7 +39,7 @@ int main ()
        if (verify_level(level.first,level.second))// Confirm that it is a winnable level
        {
           output_level ("Level.txt",level.second,level.first);
-          P1 = play_level (level,P1,0);
+          P1 = play_level (level,P1);
           if (P1.Get_Health() > 0 && !close_button_pressed)
              cout << "WINNER\n";
        }
@@ -50,7 +50,7 @@ int main ()
        if (verify_level(level.first,level.second))// Confirm that it is a winnable level
        {
           output_level ("Level.txt",level.second,level.first);
-          P1 = play_level (level,P1,0);
+          P1 = play_level (level,P1);
           if (P1.Get_Health() > 0 && !close_button_pressed)
              cout << "WINNER\n";
        }
@@ -75,7 +75,7 @@ int main ()
     else
     {
         level = input_level ("Level.txt");
-        play_level (level,P1,0);
+        play_level (level,P1);
     }
     rest(50);
     cout << "Please Press A Key\n";

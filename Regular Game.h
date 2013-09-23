@@ -72,7 +72,7 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
                   readkey();
                if (key[KEY_U])
                {
-                  upgrades = upgrade (P1,B1);
+                  upgrades = upgrade (P1,B1,diff);
                   for (int i = 0; i < upgrades.size(); i++)
                   {
                       if (upgrades[i].first == "rate")

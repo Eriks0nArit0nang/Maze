@@ -3,7 +3,7 @@ Known Issues/Inconveniences with Maze Game
 - Create a game feature only allows you to create a game under a set name with a limited number of levels.  This also overwrites a previous game under this name.
 - Create a game fails if the name provided is not the same as an existing folder in the directory of the .exe file
 - Switching between console output and the display i required for some modes before gameplay commences
-- Closing the window while in "Play Game" mode or "Multiplayer" causes the game to iterate through each level for each person thus taking a long time to close.
+- Closing the window while in "Play Game" mode or "Multiplayer" causes the game to iterate through each level for each person thus taking a long time to close. *Fixed*
 - Update screen does not show cost of each upgrade or allow for clicking to purchase upgrades
 - Range value resets at each level in play game/multiplayer mode
 - Player shot if it misses draws the whole range even if it hits a wall first

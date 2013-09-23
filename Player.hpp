@@ -16,6 +16,7 @@ class Player
               int maxQuantities[6];
               
       public:
+           //  Bullet weapon;
              Player ();
              void Add_Money (int n);
              int Get_ClipSize();

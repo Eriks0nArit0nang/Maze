@@ -56,7 +56,7 @@ pair <int,int[GRID_SIZE][GRID_SIZE]> bfs (int grid[GRID_SIZE][GRID_SIZE], Player
      return check;
 }
 
-vector <pair <string, int> > upgrade (Player p, Bullet b)
+vector <pair <string, int> > upgrade (Player p, Bullet b, int diff)
 {
      pair <string, int> vals;
      vector <pair <string,int> > returnVals;
@@ -92,7 +92,7 @@ vector <pair <string, int> > upgrade (Player p, Bullet b)
             b.Set_Range (b.Get_Range()+vals.second);
             while (key[KEY_R]) poll_keyboard();
          }
-         if (key[KEY_H] && p.Get_Money() >= 100)
+         if (key[KEY_H] && p.Get_Money() >= 100 && p.Get_InitialHealth() + diff*300 - 320 > p.Get_Health())
          {
             vals.first = "health";
             vals.second = 20;
