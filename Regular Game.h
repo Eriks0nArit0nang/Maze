@@ -43,7 +43,7 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
     
      pair <int,int[GRID_SIZE][GRID_SIZE]> Enemy_Squares;
     
-     while (!close_button_pressed || key[KEY_ESC])
+     while (!(close_button_pressed || key[KEY_ESC]))
      {
            while (ticks > 0)
            {
@@ -291,6 +291,8 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
           if (check_win(P1, grid.first)||P1.Get_Health() < 0)
              break;
      }
+     if (close_button_pressed || key[KEY_ESC])
+        return P1;
      if (!check_win(P1, grid.first))
          cout << "PLEASE TRY AGAIN NEXT TIME\n";
      return P1;
