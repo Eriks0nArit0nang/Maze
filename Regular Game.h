@@ -2,6 +2,7 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
 {
     // Player P1;
      Bullet B1;
+     B1.Set_Range(P1.Get_Range());
      P1.Set_XY(grid.first[0]*60+30,grid.first[1]*60+30);
      vector <Enemy> E;
      E.resize (GRID_SIZE*GRID_SIZE/200*diff);
@@ -291,6 +292,7 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
           if (check_win(P1, grid.first)||P1.Get_Health() < 0)
              break;
      }
+     P1.Set_Range(B1.Get_Range());
      if (close_button_pressed || key[KEY_ESC])
         return P1;
      if (!check_win(P1, grid.first))

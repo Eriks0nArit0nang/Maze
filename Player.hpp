@@ -12,6 +12,7 @@ class Player
               int clipSize;
               int money;
               int fireRate;
+              int range;
               int weaponQuantities[6];
               int maxQuantities[6];
               
@@ -29,6 +30,8 @@ class Player
              void Set_XY (int x, int y);
              void Hit (int damage);
              void Add_Health (int h);
+             int Get_Range ();
+             void Set_Range(int r);
              int Get_Rate();
              void Set_Rate(int r);
              void Set_ClipSize(int c);
@@ -47,17 +50,18 @@ Player::Player ()
    // yRep = 0;
    clipSize = 25;
    initialHealth = 1000;
+   range = 120;
    money = 0;
     health = initialHealth;
     fireRate = 10;
     for (int i = 0; i < 6; i++)
         weaponQuantities[i] = 0;
-    maxQuantities[0] = 1;
-    maxQuantities[1] = 1;
-    maxQuantities[2] = 500;
-    maxQuantities[3] = 1;
-    maxQuantities[4] = 5;
-    maxQuantities[5] = 1;
+    maxQuantities[0] = 1; // Nuke
+    maxQuantities[1] = 1; // Wide Shot
+    maxQuantities[2] = 500; // Grenade
+    maxQuantities[3] = 1; // Exploding Shot
+    maxQuantities[4] = 5; // Mine
+    maxQuantities[5] = 3; // Wall Smasher
 }
 
 void Player::Add_Money (int n)
@@ -103,6 +107,11 @@ int Player::Get_Money()
 int Player::Get_Quantity (int type)
 {
     return weaponQuantities[type];
+}
+
+int Player::Get_Range ()
+{
+    return range;
 }
 
 int Player::Get_Rate ()
@@ -174,6 +183,11 @@ void Player::Set_Quantity (int type, int value)
 void Player::Set_Rate (int r)
 {
      fireRate = r;
+}
+
+void Player::Set_Range (int r)
+{
+     range = r;
 }
 
 void Player::Set_XY (int x1, int y1)

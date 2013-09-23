@@ -83,7 +83,7 @@ vector <pair <string, int> > upgrade (Player p, Bullet b, int diff)
             p.Set_ClipSize (p.Get_ClipSize()+vals.second);
             while (key[KEY_C]) poll_keyboard();
          }
-         if (key[KEY_R] && p.Get_Money() >= b.Get_Range()*2 && b.Get_Range() < 600)
+         if (key[KEY_R] && p.Get_Money() >= b.Get_Range()*2 && b.Get_Range() < 300)
          {
             vals.first = "range";
             vals.second = 2;

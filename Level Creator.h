@@ -241,11 +241,12 @@ void create_game ()
 {
      pair <int[4],int[GRID_SIZE][GRID_SIZE]> level;
      string t;
+     mkdir("Game_6");
      for (int i = 0; i < 20; i++)
      {
          stringstream t2;
          t2 << i+1;
-         t = "Game 6/Level_";
+         t = "Game_6/Level_";
          t += t2.str();
          t+= ".txt";
          cout << t << endl;
