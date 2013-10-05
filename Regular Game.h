@@ -73,27 +73,6 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
                if (key[KEY_U])
                {
                   upgrade (P1,B1,diff);
-               /*   for (int i = 0; i < upgrades.size(); i++)
-                  {
-                      if (upgrades[i].first == "rate")
-                         P1.Set_Rate (P1.Get_Rate()+upgrades[i].second);
-                      else if (upgrades[i].first == "clip") 
-                      {
-                           P1.Set_ClipSize (P1.Get_ClipSize()+upgrades[i].second);
-                           shots = P1.Get_ClipSize();
-                      }
-                      else if (upgrades[i].first == "range")
-                           B1.Set_Range (B1.Get_Range()+upgrades[i].second);
-                      else if (upgrades[i].first == "health")
-                           P1.Add_Health (upgrades[i].second);
-                      else if (upgrades[i].first == "weapon")
-                      {
-                           if (!P1.Max_Quantity(upgrades[i].second-1))
-                              P1.Set_Quantity (upgrades[i].second-1,P1.Get_Quantity(upgrades[i].second-1)+1);
-                      }
-                      else if (upgrades[i].first == "money")
-                           P1.Add_Money (upgrades[i].second-P1.Get_Money());
-                  }*/
                   updateScreen (P1,E,B1,shotX, shotY,shot,key);
                   while (key[KEY_U]) poll_keyboard();
                   ticks = 0;

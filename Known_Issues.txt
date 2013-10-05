@@ -4,3 +4,5 @@ Known Issues/Inconveniences with Maze Game
 - Switching between console output and the display i required for some modes before gameplay commences
 - Upgrade screen does not allow for clicking to purchase upgrades
 - Player shot if it misses draws the whole range even if it hits a wall first
+- Current Weapon Text needs to be fixed
+- upgrade function convert to pass by ref - more efficient, better use of memory
