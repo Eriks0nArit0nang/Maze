@@ -72,8 +72,8 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
                   readkey();
                if (key[KEY_U])
                {
-                  upgrades = upgrade (P1,B1,diff);
-                  for (int i = 0; i < upgrades.size(); i++)
+                  upgrade (P1,B1,diff);
+               /*   for (int i = 0; i < upgrades.size(); i++)
                   {
                       if (upgrades[i].first == "rate")
                          P1.Set_Rate (P1.Get_Rate()+upgrades[i].second);
@@ -93,7 +93,7 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
                       }
                       else if (upgrades[i].first == "money")
                            P1.Add_Money (upgrades[i].second-P1.Get_Money());
-                  }
+                  }*/
                   updateScreen (P1,E,B1,shotX, shotY,shot,key);
                   while (key[KEY_U]) poll_keyboard();
                   ticks = 0;
