@@ -279,7 +279,7 @@ void play_game ()
          set_background (level.second);
          rectfill (map,0,0,GRID_SIZE*2,600,makecol(100,100,100));
          if (user.Get_Health() > 0)
-            user=play_level (level,user,i+1,diff);
+            play_level (level,user,i+1,diff);
          if (close_button_pressed || key[KEY_ESC])
             break;
      }

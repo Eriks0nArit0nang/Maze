@@ -22,28 +22,28 @@ class Player
            //  Bullet weapon;
              Player ();
              void Add_Money (int n);
-             int Get_ClipSize();
-             int Get_Health();
-             int Get_InitialHealth();
-             int Get_Money ();
-             int Get_X ();
-             int Get_Y ();
+             int Get_ClipSize() const;
+             int Get_Health() const;
+             int Get_InitialHealth() const;
+             int Get_Money () const;
+             int Get_X () const;
+             int Get_Y () const;
              void Move (int xChange, int yChange, int grid[GRID_SIZE][GRID_SIZE]);
              void Set_XY (int x, int y);
              void Hit (int damage);
              void Add_Health (int h);
-             int Get_Added_Health();
-             int Get_Range ();
+             int Get_Added_Health() const;
+             int Get_Range () const;
              void Set_Range(int r);
-             int Get_Rate();
-             int Get_ActiveWeapon();
+             int Get_Rate() const;
+             int Get_ActiveWeapon() const;
              void Set_ActiveWeapon(int a);
              void Set_Rate(int r);
              void Set_ClipSize(int c);
              bool Max_Quantity (int type);
              void Set_Quantity (int type, int value);
-             int Get_Quantity (int type);
-             int Get_Cost (int type);
+             int Get_Quantity (int type) const;
+             int Get_Cost (int type) const;
              
               
 };
@@ -98,62 +98,62 @@ bool Player::Collide (char xy, int grid[GRID_SIZE][GRID_SIZE])
      return false;
 }
 
-int Player::Get_ActiveWeapon()
+int Player::Get_ActiveWeapon() const
 {
     return activeWeapon;
 }
 
-int Player::Get_Added_Health()
+int Player::Get_Added_Health() const
 {
     return addedHealth;
 }
 
-int Player::Get_Cost(int type)
+int Player::Get_Cost(int type) const
 {
     return weaponCost[type];
 }
 
-int Player::Get_ClipSize()
+int Player::Get_ClipSize() const
 {
     return clipSize;
 }
 
-int Player::Get_Health()
+int Player::Get_Health() const
 {
     return health;
 }
 
-int Player::Get_InitialHealth()
+int Player::Get_InitialHealth() const
 {
     return initialHealth;
 }
 
-int Player::Get_Money()
+int Player::Get_Money() const
 {
     return money;
 }
 
-int Player::Get_Quantity (int type)
+int Player::Get_Quantity (int type) const
 {
     return weaponQuantities[type];
 }
 
-int Player::Get_Range ()
+int Player::Get_Range () const
 {
     return range;
 }
 
-int Player::Get_Rate ()
+int Player::Get_Rate () const
 {
     return fireRate;
 }
 
-int Player::Get_X ()
+int Player::Get_X () const
 {
     return (int)round (xPos);
 }
 
-int Player::Get_Y ()
+int Player::Get_Y () const
 {
     return (int)round(yPos);
 }
@@ -177,21 +177,15 @@ void Player::Move (int xChange, int yChange, int grid[GRID_SIZE][GRID_SIZE])
      {
         xPos-=xVel;
         xVel/=3.0;
-      //  health -= xRep/4;
-        //xRep = 0;
      }
      yPos += yVel;
      if (Collide('y',grid))
      {
         yPos-=yVel;
         yVel/=3.0;
-       // health -= yRep/4;
-       // yRep = 0;
      }
      xVel *= .8;
      yVel *= .8;
-     //xRep = (xRep+1)*(int)abs(xChange*1.0);
-   //  yRep = (yRep+1)*(int)abs(yChange*1.0);
 }
 
 void Player::Add_Health (int h)

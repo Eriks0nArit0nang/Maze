@@ -34,7 +34,7 @@ Player multiplayer ()
                   clear_keybuf();
                   cout << "Press any key to continue player " << j+1;
                   rest(100);
-                  players[j]=play_level (level,players[j],(i+1)/2);
+                  /*players[j]=*/play_level (level,players[j],(i+1)/2);
                }
            }
            if (close_button_pressed || key[KEY_ESC])

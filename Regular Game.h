@@ -1,4 +1,4 @@
-Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int diff = 6, int diffMult = 1)
+void play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player &P1, int diff = 6, int diffMult = 1)
 {
     // Player P1;
      Bullet B1;
@@ -271,8 +271,8 @@ Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int 
      }
      P1.Set_Range(B1.Get_Range());
      if (close_button_pressed || key[KEY_ESC])
-        return P1;
+        return;
      if (!check_win(P1, grid.first))
          cout << "PLEASE TRY AGAIN NEXT TIME\n";
-     return P1;
+    // return P1;
 }

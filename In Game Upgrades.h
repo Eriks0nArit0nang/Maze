@@ -1,9 +1,9 @@
-bool check_win (Player &P, int finalpoints[4])
+bool check_win (const Player &P, int finalpoints[4])
 {
      return P.Get_X()/60==finalpoints[2] && P.Get_Y()/60==finalpoints[3];
 }
 
-pair <int,int[GRID_SIZE][GRID_SIZE]> bfs (int grid[GRID_SIZE][GRID_SIZE], Player& p)
+pair <int,int[GRID_SIZE][GRID_SIZE]> bfs (int grid[GRID_SIZE][GRID_SIZE], const Player& p)
 {
      pair <int,int[GRID_SIZE][GRID_SIZE]> check;
      pair <queue <int>,queue <int> > q;
@@ -127,7 +127,7 @@ void upgrade (Player &p, Bullet &b, int diff)
      return;
 }
 
-int next_weapon (Player &P, int active)
+int next_weapon (const Player &P, int active)
 {
     if (active == 1 && P.Get_Quantity(5))
        return 2;
@@ -138,7 +138,7 @@ int next_weapon (Player &P, int active)
     else return 0;
 }
 
-int prev_weapon (Player &P, int active)
+int prev_weapon (const Player &P, int active)
 {
     if (active == 2 && P.Get_Quantity(2))
        return 1;

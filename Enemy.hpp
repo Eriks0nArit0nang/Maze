@@ -8,11 +8,11 @@ class Enemy
              int Get_X();
              int Get_Y();
              void Set_Coords (int x, int y);
-             bool Update (Player p, int grid[GRID_SIZE][GRID_SIZE], int check[GRID_SIZE][GRID_SIZE]); // main function
+             bool Update (Player &p, int grid[GRID_SIZE][GRID_SIZE], int check[GRID_SIZE][GRID_SIZE]); // main function
              bool Shot (int bulletX, int bulletY, int damage, int width); // if it was hit
              bool Dead ();
              void Init (); // initialize values
-             bool Attack (Player p); // if able to attack player
+             bool Attack (Player &p); // if able to attack player
              int Get_Rad ();
              int Get_Health ();
              int Get_InitialHealth ();
@@ -25,12 +25,12 @@ class Enemy
               int attackRadius, attackRate, wait; // rates of attack
               int health, initialHealth, strength;
               int ra; // enemy radius of self
-              bool Dist (Player p); // within close range
-              void Move_1 (Player p, int grid[GRID_SIZE][GRID_SIZE], int check[GRID_SIZE][GRID_SIZE]);
-              void Move_2 (Player p, int grid[GRID_SIZE][GRID_SIZE], int check[GRID_SIZE][GRID_SIZE]);
-              void Move_3 (Player p);
-              void Move_4 (Player p);
-              bool Collide (Player p); // run into player
+              bool Dist (Player &p); // within close range
+              void Move_1 (Player &p, int grid[GRID_SIZE][GRID_SIZE], int check[GRID_SIZE][GRID_SIZE]);
+              void Move_2 (Player &p, int grid[GRID_SIZE][GRID_SIZE], int check[GRID_SIZE][GRID_SIZE]);
+              void Move_3 (Player &p);
+              void Move_4 (Player &p);
+              bool Collide (Player &p); // run into player
               int type;
               
 };
@@ -39,7 +39,7 @@ Enemy::Enemy ()
 {
 }
 
-bool Enemy::Attack (Player p)
+bool Enemy::Attack (Player &p)
 {
      if (wait <= 0 && sqrt(pow(Get_X()-p.Get_X(),2.0)+pow(Get_Y()-p.Get_Y(),2.0)) <= attackRadius && type <= 4)
      {
@@ -54,7 +54,7 @@ bool Enemy::Attack (Player p)
      return false;
 }
 
-bool Enemy::Collide (Player p)
+bool Enemy::Collide (Player &p)
 {
      return sqrt(pow(p.Get_X()-Get_X(),2.0)+pow(p.Get_Y()-Get_Y(),2.0)) < 10;
 }
@@ -64,7 +64,7 @@ bool Enemy::Dead ()
      return health <= 0;
 }
 
-bool Enemy::Dist (Player p)
+bool Enemy::Dist (Player &p)
 {
             return sqrt(pow(Get_X()-p.Get_X(),2.0)+pow(Get_Y()-p.Get_Y(),2.0)) < 1500;
 }
@@ -126,23 +126,8 @@ void Enemy::Init ()
      }
 }
 
-void Enemy::Move_1 (Player p, int grid[GRID_SIZE][GRID_SIZE], int check[GRID_SIZE][GRID_SIZE])
+void Enemy::Move_1 (Player &p, int grid[GRID_SIZE][GRID_SIZE], int check[GRID_SIZE][GRID_SIZE])
 {
-   /*  int check[120][120];
-     pair <queue <int>,queue <int> > q;
-     for (int i = 0; i < 120; i++)
-         for (int j = 0; j < 120; j++)
-             if (grid[i][j] == 1)
-                check[i][j] = -1;
-             else if (i == p.Get_X()/60 && j == p.Get_Y()/60)
-             {
-                  check[i][j] = 1;
-                  q.first.push(i);
-                  q.second.push(j);
-             }
-             else
-                 check[i][j] = 0;
-     int i,j;*/
      if (!(p.Get_X()/60==Get_X()/60&&p.Get_Y()/60==Get_Y()/60))
      {
         if (check[Get_X()/60][Get_Y()/60] > 0)
@@ -178,47 +163,6 @@ void Enemy::Move_1 (Player p, int grid[GRID_SIZE][GRID_SIZE], int check[GRID_SIZ
            }
         }
      }
-      /*   while (!q.second.empty())
-         {
-               i = q.first.front();
-               j = q.second.front();
-               if (i==Get_X()/60 && j==Get_Y()/60)
-               {
-                  
-                  break;
-               }
-               else if (check[i][j] == 30)
-                    break;
-               else
-               {
-                   if (check[i-1][j] == 0)
-                   {
-                      check[i-1][j] = check[i][j]+1;            
-                      q.first.push (i-1);
-                      q.second.push (j);
-                   }
-                   if (check[i+1][j] == 0)
-                   {
-                      check[i+1][j] = check[i][j]+1;
-                      q.first.push (i+1);
-                      q.second.push (j);
-                   }
-                   if (check[i][j-1] == 0)
-                   {
-                      check[i][j-1] = check[i][j]+1;
-                      q.first.push (i);
-                      q.second.push (j-1);
-                   }
-                   if (check[i][j+1] == 0)
-                   {
-                      check[i][j+1] = check[i][j]+1;
-                      q.first.push (i);
-                      q.second.push (j+1);
-                   }
-               }
-               q.first.pop();
-               q.second.pop();
-         }*/
      else
      {
          int x = -Get_X()+p.Get_X(), y = -Get_Y()+p.Get_Y();
@@ -247,7 +191,7 @@ void Enemy::Move_1 (Player p, int grid[GRID_SIZE][GRID_SIZE], int check[GRID_SIZ
      }
 }
 
-void Enemy::Move_2 (Player p, int grid[GRID_SIZE][GRID_SIZE], int check[GRID_SIZE][GRID_SIZE])
+void Enemy::Move_2 (Player &p, int grid[GRID_SIZE][GRID_SIZE], int check[GRID_SIZE][GRID_SIZE])
 {
      if (!(p.Get_X()/60==Get_X()/60&&p.Get_Y()/60==Get_Y()/60))
      {
@@ -319,7 +263,7 @@ void Enemy::Move_2 (Player p, int grid[GRID_SIZE][GRID_SIZE], int check[GRID_SIZ
      }
 }
 
-void Enemy::Move_3 (Player p)
+void Enemy::Move_3 (Player &p)
 {
      int x = -Get_X()+p.Get_X(), y = -Get_Y()+p.Get_Y();
      if (sqrt(pow(Get_X()-p.Get_X(),2.0)+pow(Get_Y()-p.Get_Y(),2.0)) < 425)
@@ -331,7 +275,7 @@ void Enemy::Move_3 (Player p)
      }
 }
 
-void Enemy::Move_4 (Player p)
+void Enemy::Move_4 (Player &p)
 {
      int x = -Get_X()+p.Get_X(), y = -Get_Y()+p.Get_Y();
      if (sqrt(pow(Get_X()-p.Get_X(),2.0)+pow(Get_Y()-p.Get_Y(),2.0)) < 425)
@@ -369,7 +313,7 @@ bool Enemy::Shot (int bulletX, int bulletY, int damage, int width)
          return false;
 }
 
-bool Enemy::Update (Player p, int grid[GRID_SIZE][GRID_SIZE], int bfs[GRID_SIZE][GRID_SIZE])
+bool Enemy::Update (Player &p, int grid[GRID_SIZE][GRID_SIZE], int bfs[GRID_SIZE][GRID_SIZE])
 {
      wait--;
      if (Dist (p))

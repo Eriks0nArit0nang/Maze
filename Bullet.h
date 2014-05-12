@@ -2,9 +2,9 @@ class Bullet
 {
       public:
              Bullet ();
-             int Shoot (vector <Enemy> E, Player P, int d, int grid[GRID_SIZE][GRID_SIZE]);
-             int Grenade (vector <Enemy> E, Player P, int d, int grid[GRID_SIZE][GRID_SIZE]);
-             int Walls (vector <Enemy> E, Player P, int d, int grid[GRID_SIZE][GRID_SIZE]);
+             int Shoot (vector <Enemy> &E, Player &P, int d, int grid[GRID_SIZE][GRID_SIZE]);
+             int Grenade (vector <Enemy> &E, Player &P, int d, int grid[GRID_SIZE][GRID_SIZE]);
+             int Walls (vector <Enemy> &E, Player &P, int d, int grid[GRID_SIZE][GRID_SIZE]);
              void Set_Range (int r);
              int Get_Range ();
              int Get_GrenadeX ();
@@ -13,7 +13,7 @@ class Bullet
              int Get_BombX (int n);
              int Get_BombY (int n);
              void Place_Bomb (int x, int y);
-             int Hit_Bomb (vector <Enemy> E);
+             int Hit_Bomb (vector <Enemy> &E);
              void Trigger_Bomb (int n);
              int Number_of_Bombs ();
              
@@ -71,7 +71,7 @@ int Bullet::Get_GrenadeY ()
     return grenadeY;
 }
 
-int Bullet::Shoot (vector <Enemy> E, Player P, int d, int grid[GRID_SIZE][GRID_SIZE])
+int Bullet::Shoot (vector <Enemy> &E, Player &P, int d, int grid[GRID_SIZE][GRID_SIZE])
 {
      vector <Enemy> comp;
      x = P.Get_X();
@@ -140,7 +140,7 @@ int Bullet::Shoot (vector <Enemy> E, Player P, int d, int grid[GRID_SIZE][GRID_S
      return -1;
 }
 
-int Bullet::Grenade (vector <Enemy> E, Player P, int d, int grid[GRID_SIZE][GRID_SIZE])
+int Bullet::Grenade (vector <Enemy> &E, Player &P, int d, int grid[GRID_SIZE][GRID_SIZE])
 {
     vector <Enemy> comp;
     x = P.Get_X();
@@ -218,7 +218,7 @@ int Bullet::Grenade (vector <Enemy> E, Player P, int d, int grid[GRID_SIZE][GRID
     return -2;
 }
 
-int Bullet::Walls (vector <Enemy> E, Player P, int d, int grid[GRID_SIZE][GRID_SIZE])
+int Bullet::Walls (vector <Enemy> &E, Player &P, int d, int grid[GRID_SIZE][GRID_SIZE])
 {
     int x = P.Get_X();
     int y = P.Get_Y();
@@ -255,7 +255,7 @@ void Bullet::Place_Bomb (int x, int y)
      bombs.push_back(n);
 }
 
-int Bullet::Hit_Bomb (vector <Enemy> E)
+int Bullet::Hit_Bomb (vector <Enemy> &E)
 {
     for (int i = 0; i < bombs.size(); i++)
         for (int j = 0; j < E.size(); j++)

@@ -11,7 +11,7 @@ const int GRID_SIZE = 40;
 #include "Enemy.hpp"
 #include "Bullet.h"
 #include "Allegro Functions.h"
-Player play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player P1, int diff, int diffMult);
+void play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player &P1, int diff, int diffMult);
 #include "Level Creator.h"
 #include "In Game Upgrades.h"
 #include "Survival Mode.h"
@@ -39,7 +39,7 @@ int main ()
        if (verify_level(level.first,level.second))// Confirm that it is a winnable level
        {
           output_level ("Level.txt",level.second,level.first);
-          P1 = play_level (level,P1);
+          /*P1 =*/ play_level (level,P1);
           if (P1.Get_Health() > 0 && !close_button_pressed)
              cout << "WINNER\n";
        }
@@ -50,7 +50,7 @@ int main ()
        if (verify_level(level.first,level.second))// Confirm that it is a winnable level
        {
           output_level ("Level.txt",level.second,level.first);
-          P1 = play_level (level,P1);
+          /*P1 =*/ play_level (level,P1);
           if (P1.Get_Health() > 0 && !close_button_pressed)
              cout << "WINNER\n";
        }
@@ -77,7 +77,7 @@ int main ()
         level = input_level ("Level.txt");
         play_level (level,P1);
     }
-    rest(50);
+    rest(2000);
     cout << "Please Press A Key\n";
     clear_keybuf();
     while (!close_button_pressed && !keypressed()){}

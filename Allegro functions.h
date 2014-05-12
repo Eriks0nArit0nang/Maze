@@ -46,7 +46,7 @@ int rotate_realligned_sprite (BITMAP* screen, BITMAP* sprite, int x, int y, int 
      }
 }*/
 
-void updateScreen(Player P, vector <Enemy> E, Bullet B, int shotX, int shotY, bool shot, volatile char key[KEY_MAX])
+void updateScreen(Player &P, vector <Enemy> &E, Bullet &B, int shotX, int shotY, bool shot, volatile char key[KEY_MAX])
 {
      draw_sprite (buffer, background, -(P.Get_X()-SCREEN_X/2), -(P.Get_Y()-SCREEN_Y/2));
      draw_sprite (buffer, map, SCREEN_X, 0);
@@ -131,7 +131,7 @@ void updateScreen(Player P, vector <Enemy> E, Bullet B, int shotX, int shotY, bo
      unscare_mouse();
 }
 
-void draw_upgrade (Player P, Bullet B)
+void draw_upgrade (Player &P, Bullet &B)
 {
      draw_sprite (buffer,upgradescreen,0,0);
      textprintf_ex(buffer, font, 180, 162, makecol(255,255,255), -1, "%d Cost: %d", P.Get_Rate(), 250*(11-P.Get_Rate())*(11-P.Get_Rate()));
@@ -192,7 +192,7 @@ void update_map (int n[GRID_SIZE][GRID_SIZE], int x, int y)
                 rectfill (map,i*2,j*2,i*2+1,j*2+1,makecol(0,255,0));
 }
 
-void zoom (int n[GRID_SIZE][GRID_SIZE], bool b[GRID_SIZE][GRID_SIZE], int x, int y, Player p, vector <Enemy> E)
+void zoom (int n[GRID_SIZE][GRID_SIZE], bool b[GRID_SIZE][GRID_SIZE], int x, int y, Player &p, vector <Enemy> &E)
 {
      rectfill (map,0,GRID_SIZE*2,GRID_SIZE*2,GRID_SIZE*4,makecol (100,100,100));
      for (int i = -(int)floor(GRID_SIZE/10); i < (int)floor(GRID_SIZE/10); i++)
