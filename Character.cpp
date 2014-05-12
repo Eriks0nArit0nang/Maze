@@ -3,18 +3,24 @@
 
 using namespace std;
 
-void Character::AddHealth (int h)
+void Character::AddHealth (unsigned int h)
 {
      health += h;
      addedHealth += h;
 }
 
-Character::Character(int health, double xPos, double yPos, WeaponType activeWeapon, WeaponProperties weaponProperties[WEAPON_TYPES]):
-                         xPos(xPos),yPos(yPos),xVel(0),yVel(0),health(health),initialHealth(health),addedHealth(0),
+Character::Character(int health, double xPos, double yPos, int radius, WeaponType activeWeapon, WeaponProperties weaponProperties[WEAPON_TYPES]):
+                         xPos(xPos),yPos(yPos),xVel(0),yVel(0),radius(radius),health(health),initialHealth(health),addedHealth(0),
 						 activeWeapon(activeWeapon)
 {
  	for (int i = 0; i < WEAPON_TYPES; i++)
  		this->weaponProperties[i] = weaponProperties[i];
+}
+
+Character::~Character()
+{
+    for (unsigned int i = 0; i < weapons.size(); i++)
+        delete weapons[i];
 }
 
 bool Character::CollideWithWall (char xy, int grid[GRID_SIZE][GRID_SIZE])
@@ -30,6 +36,11 @@ bool Character::CollideWithWall (char xy, int grid[GRID_SIZE][GRID_SIZE])
      else if (xy == 'y' && yVel != 0)
           return grid[GetX()/60][((int)round(yPos+yVel+yVel/abs(yVel)*5))/60] == 1;
      return false;
+}
+
+bool Character::Dead()
+{
+    return health <= 0;
 }
 
 WeaponType Character::GetActiveWeapon() const
@@ -70,6 +81,13 @@ int Character::GetY () const
 void Character::Hit (int damage)
 {
      health -= damage;
+     if (health < 0)
+        health = 0;
+}
+
+bool Character::InRange(int weaponX, int weaponY, int radius)
+{
+    return sqrt( pow(weaponX-xPos, 2) + pow(weaponY-yPos, 2) ) < radius + this->radius;
 }
 
 void Character::SetActiveWeapon(WeaponType activeWeapon)
@@ -90,4 +108,49 @@ void Character::SetX (int x)
 void Character::SetY (int y)
 {
      this->yPos = y;
+}
+
+void Character::Visit (AbstractGun &gun)
+{
+    if (InRange(gun.GetX(), gun.GetY(), gun.GetProperties.GetRadius())
+    {
+        Hit(gun.GetProperties().GetDamage();
+        return true;
+    }
+    return false;
+}
+
+void Character::Visit (Grenade &grenade)
+{
+    if (InRange(grenade.GetX(), grenade.GetY(), grenade.GetProperties.GetRadius())
+    {
+        Hit(grenade.GetProperties().GetDamage();
+        return true;
+    }
+    return false;
+}
+
+void Character::Visit (Bomb &bomb)
+{
+    if (InRange(bomb.GetX(), bomb.GetY(), bomb.GetProperties.GetRadius())
+    {
+        Hit(bomb.GetProperties().GetDamage();
+        return true;
+    }
+    return false;
+}
+
+bool Character::Visit (Nuke &nuke)
+{
+    if (InRange(nuke.GetX(), nuke.GetY(), nuke.GetProperties.GetRange())
+    {
+        Hit(nuke.GetProperties().GetDamage();
+    }
+    return false;
+}
+
+bool Character::Visit (WallBreaker &wallBreaker)
+{
+    return false;
+    // wall breaker doesn't affect characters
 }

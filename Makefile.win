@@ -5,13 +5,13 @@ CPP  = g++.exe
 CC   = gcc.exe
 WINDRES = windres.exe
 RES  = 
-OBJ  = Main.o Character.o $(RES)
-LINKOBJ  = Main.o Character.o $(RES)
+OBJ  = Main.o Character.o WeaponProperties.o Weapon.o Gun.o AbstractGun.o $(RES)
+LINKOBJ  = Main.o Character.o WeaponProperties.o Weapon.o Gun.o AbstractGun.o $(RES)
 LIBS =  -L"C:/Dev-Cpp/lib" ../../../../../Dev-Cpp/lib/liballeg.dll.a  
 INCS =  -I"C:/Dev-Cpp/include"  -I"C:/Users/James/Documents/Programming/Programs/allegro-5.0.3/allegro/include" 
 CXXINCS =  -I"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Dev-Cpp/include/c++/3.4.2"  -I"C:/Dev-Cpp/include"  -I"C:/Users/James/Documents/Programming/Programs/allegro-5.0.3/allegro/include" 
 BIN  = Maze.exe
-CXXFLAGS = $(CXXINCS)  
+CXXFLAGS = $(CXXINCS) -O3  
 CFLAGS = $(INCS)  
 RM = rm -f
 
@@ -31,3 +31,15 @@ Main.o: Main.cpp
 
 Character.o: Character.cpp
 	$(CPP) -c Character.cpp -o Character.o $(CXXFLAGS)
+
+WeaponProperties.o: WeaponProperties.cpp
+	$(CPP) -c WeaponProperties.cpp -o WeaponProperties.o $(CXXFLAGS)
+
+Weapon.o: Weapon.cpp
+	$(CPP) -c Weapon.cpp -o Weapon.o $(CXXFLAGS)
+
+Gun.o: Gun.cpp
+	$(CPP) -c Gun.cpp -o Gun.o $(CXXFLAGS)
+
+AbstractGun.o: AbstractGun.cpp
+	$(CPP) -c AbstractGun.cpp -o AbstractGun.o $(CXXFLAGS)

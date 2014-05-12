@@ -4,14 +4,14 @@
 const int WEAPON_TYPES = 8;
 
 enum WeaponType {
-     None,
-     Gun,
-     WideShot,
-     ExplodingShot,
-     Grenade,
-     Mine,
-     Nuke,
-     WallBreaker
+     _None,
+     _Gun,
+     _WideShot,
+     _ExplodingShot,
+     _Grenade,
+     _Mine,
+     _Nuke,
+     _WallBreaker
 };
 
 #endif
