@@ -1,4 +1,5 @@
 #include "Character.h"
+#include "WeaponProperties.h"
 #include <cmath>
 
 using namespace std;
@@ -110,31 +111,31 @@ void Character::SetY (int y)
      this->yPos = y;
 }
 
-void Character::Visit (AbstractGun &gun)
+bool Character::Visit (AbstractGun &gun)
 {
-    if (InRange(gun.GetX(), gun.GetY(), gun.GetProperties.GetRadius())
+    if (InRange(gun.GetX(), gun.GetY(), gun.GetProperties().GetRadius()))
     {
-        Hit(gun.GetProperties().GetDamage();
+        Hit(gun.GetProperties().GetDamage());
         return true;
     }
     return false;
 }
 
-void Character::Visit (Grenade &grenade)
+bool Character::Visit (Grenade &grenade)
 {
-    if (InRange(grenade.GetX(), grenade.GetY(), grenade.GetProperties.GetRadius())
+    if (InRange(grenade.GetX(), grenade.GetY(), grenade.GetProperties().GetRadius()))
     {
-        Hit(grenade.GetProperties().GetDamage();
+        Hit(grenade.GetProperties().GetDamage());
         return true;
     }
     return false;
 }
 
-void Character::Visit (Bomb &bomb)
+bool Character::Visit (Bomb &bomb)
 {
-    if (InRange(bomb.GetX(), bomb.GetY(), bomb.GetProperties.GetRadius())
+    if (InRange(bomb.GetX(), bomb.GetY(), bomb.GetProperties().GetRadius()))
     {
-        Hit(bomb.GetProperties().GetDamage();
+        Hit(bomb.GetProperties().GetDamage());
         return true;
     }
     return false;
@@ -142,9 +143,9 @@ void Character::Visit (Bomb &bomb)
 
 bool Character::Visit (Nuke &nuke)
 {
-    if (InRange(nuke.GetX(), nuke.GetY(), nuke.GetProperties.GetRange())
+    if (InRange(nuke.GetX(), nuke.GetY(), nuke.GetProperties().GetRange()))
     {
-        Hit(nuke.GetProperties().GetDamage();
+        Hit(nuke.GetProperties().GetDamage());
     }
     return false;
 }

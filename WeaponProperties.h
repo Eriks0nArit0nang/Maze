@@ -2,9 +2,15 @@
 #define __WEAPONPROPERTIES_H__ 
 
 #include "WeaponType.h"
+class AbstractGun;
+class WideShot;
+class ExplodingShot;
 
 class WeaponProperties
 {
+    friend class WideShot;
+    friend class ExplodingShot;
+    
     private:
         int weaponQuantity;
         int maxQuantity;

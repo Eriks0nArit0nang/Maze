@@ -11,6 +11,7 @@ class AbstractGunDecorator : public AbstractGun
     public:
         AbstractGunDecorator(AbstractGun * gun);
         void Update();
+        void Detonate();
 };
 
 #endif

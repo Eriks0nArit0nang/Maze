@@ -1,6 +1,7 @@
 // Maze game
 using namespace std;
 const int GRID_SIZE = 40;
+const int BOX_PIXEL_WIDTH = 60;
 #include <allegro.h>
 #include <algorithm>
 #include <cmath>

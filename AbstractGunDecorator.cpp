@@ -6,3 +6,8 @@ void AbstractGunDecorator::Update()
 {
     gun->Update();
 }
+
+void AbstractGunDecorator::Detonate()
+{
+    gun->Detonate();
+}

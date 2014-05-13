@@ -2,6 +2,7 @@
 #define __ABSTRACTGUN_H__
 
 #include "Weapon.h"
+class Character;
 
 class AbstractGun : public Weapon
 {
@@ -11,6 +12,7 @@ class AbstractGun : public Weapon
     
     public:
         AbstractGun(int xPos, int yPos, WeaponProperties weaponProperties, int direction);
+        void Action(Character * character);
 };
 
 

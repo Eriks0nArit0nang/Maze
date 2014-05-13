@@ -1,21 +1,14 @@
 #include "Weapon.h"
+#include "Character.h"
+#include <cmath>
 
-
-Weapon::Weapon(int xPos, int yPos, WeaponProperties weaponProperties):xPos(xPos),yPos(yPos),xPosOrig(xPos),yPosOrig(yPos),weaponProperties(weaponProperties){}
+Weapon::Weapon(int xPos, int yPos, WeaponProperties weaponProperties):xPos(xPos),yPos(yPos),xPosOrig(xPos),yPosOrig(yPos),properties(weaponProperties){}
 
 Weapon::~Weapon(){}
 
-void Weapon::Action( Character * character)
+WeaponProperties &Weapon::GetProperties()
 {
-    if (character.Visit(*this))
-    {
-        destroyThis = true;
-    }
-}
-
-WeaponProperties Weapon::GetProperties() const
-{
-    return weaponProperties;
+    return properties;
 }
 
 int Weapon::GetX() const

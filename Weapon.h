@@ -16,8 +16,8 @@ class Weapon
         virtual ~Weapon();
         virtual void Update() = 0; // this is the main method for a weapon.  It will be unique for each
         virtual void Detonate() = 0; // this is the actual impact method for weapons whose actions change on detonation
-        void Action( Character * character);  // see if an action needs to be taken by Enemy/Player based on Weapon.
-        WeaponProperties GetProperties() const;
+        virtual void Action( Character * character) = 0;  // see if an action needs to be taken by Enemy/Player based on Weapon.
+        WeaponProperties &GetProperties();
         int GetX() const;
         int GetY() const;
         void SetX(int x);

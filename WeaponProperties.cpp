@@ -2,7 +2,7 @@
 #include <iostream>
 
 // This method exists as array initialization.  It should not be used in any other context
-WeaponProperties::WeaponProperties():weaponQuantity(0),maxQuantity(0),type(None)
+WeaponProperties::WeaponProperties():weaponQuantity(0),maxQuantity(0),type(_None)
 {
     Initialize(type);								
 } 
@@ -116,7 +116,7 @@ void WeaponProperties::Initialize(WeaponType type)
             cost = 8000;
             range = 120;
             damage = 20;
-            radius = 1;  // Blast Radius = 20 after contact.  Implemented in separate class.
+            radius = 20; // only after contact.  Implemented in separate class.
             clipSize = 25;
             fireRate = 20;
             reloadRate = 60;
