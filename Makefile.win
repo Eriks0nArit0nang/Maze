@@ -5,8 +5,8 @@ CPP  = g++.exe
 CC   = gcc.exe
 WINDRES = windres.exe
 RES  = 
-OBJ  = Main.o Character.o WeaponProperties.o Weapon.o Gun.o AbstractGun.o AbstractGunDecorator.o WideShot.o ExplodingShot.o Grenade.o Bomb.o Nuke.o $(RES)
-LINKOBJ  = Main.o Character.o WeaponProperties.o Weapon.o Gun.o AbstractGun.o AbstractGunDecorator.o WideShot.o ExplodingShot.o Grenade.o Bomb.o Nuke.o $(RES)
+OBJ  = Main.o Character.o WeaponProperties.o Weapon.o Gun.o AbstractGun.o AbstractGunDecorator.o WideShot.o ExplodingShot.o Grenade.o Bomb.o Nuke.o WallBreaker.o Player.o StandardEnemy.o $(RES)
+LINKOBJ  = Main.o Character.o WeaponProperties.o Weapon.o Gun.o AbstractGun.o AbstractGunDecorator.o WideShot.o ExplodingShot.o Grenade.o Bomb.o Nuke.o WallBreaker.o Player.o StandardEnemy.o $(RES)
 LIBS =  -L"C:/Dev-Cpp/lib" ../../../../../Dev-Cpp/lib/liballeg.dll.a  
 INCS =  -I"C:/Dev-Cpp/include"  -I"C:/Users/James/Documents/Programming/Programs/allegro-5.0.3/allegro/include" 
 CXXINCS =  -I"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Dev-Cpp/include/c++/3.4.2"  -I"C:/Dev-Cpp/include"  -I"C:/Users/James/Documents/Programming/Programs/allegro-5.0.3/allegro/include" 
@@ -61,3 +61,12 @@ Bomb.o: Bomb.cpp
 
 Nuke.o: Nuke.cpp
 	$(CPP) -c Nuke.cpp -o Nuke.o $(CXXFLAGS)
+
+WallBreaker.o: WallBreaker.cpp
+	$(CPP) -c WallBreaker.cpp -o WallBreaker.o $(CXXFLAGS)
+
+Player.o: Player.cpp
+	$(CPP) -c Player.cpp -o Player.o $(CXXFLAGS)
+
+StandardEnemy.o: StandardEnemy.cpp
+	$(CPP) -c StandardEnemy.cpp -o StandardEnemy.o $(CXXFLAGS)

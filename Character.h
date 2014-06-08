@@ -15,9 +15,11 @@
 // TODO Once this constant is moved from main.cpp include the appropriate file and remove this.
 const int GRID_SIZE = 40;
 
+//TODO implement money in either this class or the player class
+
 class Character
 {
-      private:
+      protected:
               double xPos,yPos;
               double xVel,yVel;
               int radius;
@@ -56,38 +58,3 @@ class Character
 };
 
 #endif
-
-
-class Player
-{
-      private:
-          //    int xRep,yRep;
-             
-              int clipSize;
-              int money;
-              int fireRate;
-              int range;
-              int weaponQuantities[6];
-              int maxQuantities[6];
-              int weaponCost[6];
-              
-      public:
-           //  Bullet weapon;
-             Player ();
-             void Add_Money (int n);
-             int Get_ClipSize() const;
-             
-             int Get_Money () const;
-             
-             int Get_Range () const;
-             void Set_Range(int r);
-             int Get_Rate() const;
-             void Set_Rate(int r);
-             void Set_ClipSize(int c);
-             bool Max_Quantity (int type);
-             void Set_Quantity (int type, int value);
-             int Get_Quantity (int type) const;
-             int Get_Cost (int type) const;
-             
-              
-};

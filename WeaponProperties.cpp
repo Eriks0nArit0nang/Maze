@@ -162,6 +162,16 @@ void WeaponProperties::Initialize(WeaponType type)
             reloadRate = 0;
             active = true;
             break;
+        case _Enemy:
+            cost = 0;
+            range = 0;
+            damage = 0;
+            radius = 0;
+            clipSize = 0;
+            fireRate = 0;
+            reloadRate = 0;
+            active = false;
+            break;
         default:
             std::cerr << "The selected weapon type does not have an initializer.\n"; 
     }

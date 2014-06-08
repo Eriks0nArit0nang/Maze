@@ -11,7 +11,8 @@ enum WeaponType {
      _Grenade,
      _Mine,
      _Nuke,
-     _WallBreaker
+     _WallBreaker,
+     _Enemy
 };
 
 #endif
