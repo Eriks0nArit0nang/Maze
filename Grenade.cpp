@@ -11,11 +11,13 @@ void Grenade::Update()
     if (destroyThis)
     {
         delete this;
+        return;
     }
     
     if (std::abs(xPos-xPosOrig) > GetProperties().GetRange()|| std::abs(yPos-yPosOrig) > GetProperties().GetRange())
     {
         delete this;
+        return;
     }
     
     switch (direction)

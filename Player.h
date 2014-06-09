@@ -5,9 +5,11 @@
 
 class Player : public Character
 {
-    
+    private:
+        static const int HEALTH;
+        static const int RADIUS;
     public:
-        Player(int health, double xPos, double yPos, int radius, WeaponType activeWeapon, WeaponProperties weaponProperties[WEAPON_TYPES]);
+        Player(double xPos, double yPos, WeaponProperties weaponProperties[WEAPON_TYPES]);
         void Attack ();     
         void Move ();
 };

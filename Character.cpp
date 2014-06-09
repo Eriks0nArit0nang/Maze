@@ -24,18 +24,18 @@ Character::~Character()
         delete weapons[i];
 }
 
-bool Character::CollideWithWall (char xy, int grid[GRID_SIZE][GRID_SIZE])
+bool Character::CollideWithWall (char xy, int ** grid, int size)
 {
-     if ( abs (GetX() % 60 - 30) > 25 && abs (GetY() % 60 - 30) > 25)
+     if ( abs (GetX() % BOX_PIXEL_WIDTH - BOX_PIXEL_WIDTH/2) > BOX_PIXEL_WIDTH/2 - radius && abs (GetY() % BOX_PIXEL_WIDTH - BOX_PIXEL_WIDTH/2) > BOX_PIXEL_WIDTH/2 - radius)
      {
-        return (grid[((int)round(xPos+xVel+xVel/abs(xVel)*5))/60][GetY()/60] == 1 || 
-                grid[GetX()/60][((int)round(yPos+yVel+yVel/abs(yVel)*5))/60] == 1 ||
-                grid[((int)round(xPos+xVel+xVel/abs(xVel)*5))/60][((int)round(yPos+yVel+yVel/abs(yVel)*5))/60]==1);
+        return (grid[((int)round(xPos+xVel+xVel/abs(xVel)*radius))/BOX_PIXEL_WIDTH][GetY()/BOX_PIXEL_WIDTH] == 1 || 
+                grid[GetX()/BOX_PIXEL_WIDTH][((int)round(yPos+yVel+yVel/abs(yVel)*radius))/BOX_PIXEL_WIDTH] == 1 ||
+                grid[((int)round(xPos+xVel+xVel/abs(xVel)*radius))/BOX_PIXEL_WIDTH][((int)round(yPos+yVel+yVel/abs(yVel)*radius))/BOX_PIXEL_WIDTH]==1);
      }
      if (xy == 'x' && xVel != 0)
-        return grid[((int)round(xPos+xVel+xVel/abs(xVel)*5))/60][GetY()/60] == 1;
+        return grid[((int)round(xPos+xVel+xVel/abs(xVel)*radius))/BOX_PIXEL_WIDTH][GetY()/BOX_PIXEL_WIDTH] == 1;
      else if (xy == 'y' && yVel != 0)
-          return grid[GetX()/60][((int)round(yPos+yVel+yVel/abs(yVel)*5))/60] == 1;
+          return grid[GetX()/BOX_PIXEL_WIDTH][((int)round(yPos+yVel+yVel/abs(yVel)*radius))/BOX_PIXEL_WIDTH] == 1;
      return false;
 }
 

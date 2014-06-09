@@ -11,9 +11,7 @@
 #include "Grenade.h"
 #include "Nuke.h"
 #include "WallBreaker.h"
-
-// TODO Once this constant is moved from main.cpp include the appropriate file and remove this.
-const int GRID_SIZE = 40;
+#include "Globals.h"
 
 //TODO implement money in either this class or the player class
 
@@ -27,7 +25,7 @@ class Character
               int health, initialHealth, addedHealth;
               WeaponType activeWeapon;
               std::vector<Weapon *> weapons;
-              bool CollideWithWall (char xy, int grid[GRID_SIZE][GRID_SIZE]);
+              bool CollideWithWall (char xy, int **grid, int gridSize = GRID_SIZE);
               bool InRange (int weaponX, int weaponY, int radius);
 
       public:

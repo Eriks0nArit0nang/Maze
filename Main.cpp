@@ -1,7 +1,6 @@
 // Maze game
 using namespace std;
-const int GRID_SIZE = 40;
-const int BOX_PIXEL_WIDTH = 60;
+#include "Globals.h"
 #include <allegro.h>
 #include <algorithm>
 #include <cmath>
@@ -18,6 +17,8 @@ void play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player &P1, int d
 #include "Survival Mode.h"
 #include "Regular Game.h"
 #include "Multiplayer.h"
+
+#include "Map.h"
 
 /*
 Issues
@@ -47,8 +48,19 @@ int main ()
     }
     else if (key[KEY_A])
     {
-       level = auto_level();
-       if (verify_level(level.first,level.second))// Confirm that it is a winnable level
+       Map *map = Map::GetInstance();
+       map->CreateAuto();
+       for (int i = 0; i < GRID_SIZE; i++)
+          for (int j = 0; j < GRID_SIZE; j++)
+              level.second[i][j] = map->GetGrid()[i][j];
+       level.first[0] = map->GetStartLoc().first;
+       level.first[1] = map->GetStartLoc().second;
+       level.first[2] = map->GetEndLoc().first;
+       level.first[3] = map->GetEndLoc().second;
+       set_background (level.second);
+       Map::RemoveInstance();
+     //  level = auto_level();
+       if (true)//verify_level(level.first,level.second))// Confirm that it is a winnable level
        {
           output_level ("Level.txt",level.second,level.first);
           /*P1 =*/ play_level (level,P1);

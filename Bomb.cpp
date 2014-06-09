@@ -9,6 +9,7 @@ void Bomb::Update()
     if (destroyThis)
     {
         delete this;
+        return;
     }
     
     timer--;

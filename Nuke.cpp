@@ -19,6 +19,7 @@ void Nuke::Update()
     if (destroyThis)
     {
         delete this;
+        return;
     }
 }
 

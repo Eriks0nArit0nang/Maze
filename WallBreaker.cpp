@@ -1,15 +1,11 @@
 #include "Wallbreaker.h"
 #include "Character.h"
+#include "Globals.h"
 #include <cmath>
 #include <iostream>
 
-// TODO remove once linked properly into a global values file
-const int BOX_PIXEL_WIDTH = 60;
-
 
 const int WallBreaker::VELOCITY = BOX_PIXEL_WIDTH;
-
-        int direction;
 
 WallBreaker::WallBreaker(int xPos, int yPos, WeaponProperties weaponProperties, int direction):Weapon(xPos,yPos,weaponProperties),direction(direction){}
 
@@ -26,11 +22,13 @@ void WallBreaker::Update()
     if (destroyThis)
     {
         delete this;
+        return;
     }
     
     if (std::abs(xPos-xPosOrig) > GetProperties().GetRange() || std::abs(yPos-yPosOrig) > GetProperties().GetRange())
     {
         delete this;
+        return;
     }
     
     switch (direction)
