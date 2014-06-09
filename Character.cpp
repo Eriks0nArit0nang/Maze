@@ -91,6 +91,16 @@ bool Character::InRange(int weaponX, int weaponY, int radius)
     return sqrt( pow(weaponX-xPos, 2) + pow(weaponY-yPos, 2) ) < radius + this->radius;
 }
 
+void Character::NextWeapon()
+{
+    // TODO
+}
+
+void Character::PrevWeapon()
+{
+    // TODO
+}
+
 void Character::SetActiveWeapon(WeaponType activeWeapon)
 {
      this->activeWeapon = activeWeapon;

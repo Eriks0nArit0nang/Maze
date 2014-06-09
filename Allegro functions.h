@@ -1,3 +1,6 @@
+#include "Globals.h"
+void close_button_handler(void);
+extern volatile bool close_button_pressed;
 
 BITMAP* map;
 BITMAP* background;
@@ -6,9 +9,9 @@ BITMAP* wall;
 BITMAP* player;
 BITMAP* upgradescreen;
 volatile int ticks = 0;  // for timer
-volatile int close_button_pressed = FALSE; // for close button
-const int SCREEN_X = 600;
-const int SCREEN_Y = 600;
+//volatile int close_button_pressed = FALSE; // for close button
+//const int SCREEN_X = 600;
+//const int SCREEN_Y = 600;
 
 void ticker ()
 {
@@ -16,11 +19,11 @@ void ticker ()
 }
 END_OF_FUNCTION(ticker);
 
-void close_button_handler(void)
-{
-     close_button_pressed = TRUE;
-}
-END_OF_FUNCTION(close_button_handler)
+//void close_button_handler(void)
+//{
+//    close_button_pressed = TRUE;
+//}
+//END_OF_FUNCTION(close_button_handler)
 
 int rotate_realligned_sprite (BITMAP* screen, BITMAP* sprite, int x, int y, int angle)
 {

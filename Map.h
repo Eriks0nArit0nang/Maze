@@ -9,15 +9,15 @@ class Map
 {
     public:
         static Map *GetInstance();
-        int **GetGrid();
-        bool Fog(int x, int y);
+        int **GetGrid() const;
+        bool Fog(int x, int y) const;
         void UpdateFog(int x, int y);
-        int GetGridSize();
+        int GetGridSize() const;
         void SetGrid(int **map, int size, std::pair<int,int> startPoint, std::pair<int,int> endPoint);
         static void RemoveInstance();
         void CreateAuto();
-        std::pair<int, int> GetEndLoc();
-        std::pair<int, int> GetStartLoc();
+        std::pair<int, int> GetEndLoc() const;
+        std::pair<int, int> GetStartLoc() const;
         void Save(std::string filename);
         void Load(std::string filename);
         

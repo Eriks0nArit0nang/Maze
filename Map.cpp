@@ -41,12 +41,12 @@ Map *Map::GetInstance()
     return instance;
 }
 
-int **Map::GetGrid()
+int **Map::GetGrid() const
 {
     return map;
 }
 
-int Map::GetGridSize()
+int Map::GetGridSize() const
 {
     return size;
 }
@@ -67,12 +67,12 @@ void Map::RemoveInstance()
     delete instance;
 }
 
-std::pair<int, int> Map::GetEndLoc()
+std::pair<int, int> Map::GetEndLoc() const
 {
     return endLoc;
 }
 
-std::pair<int, int> Map::GetStartLoc()
+std::pair<int, int> Map::GetStartLoc() const
 {
     return startLoc;
 }
@@ -125,7 +125,7 @@ void Map::Load(string filename)
     in.close();
 }
 
-bool Map::Fog(int x, int y)
+bool Map::Fog(int x, int y) const
 {
     if (x < size && x >= 0 && y < size && y >= 0)
         return knownMap[x][y];
