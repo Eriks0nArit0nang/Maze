@@ -5,17 +5,19 @@
 #include "Weapon.h"
 #include "WeaponProperties.h"
 #include "WeaponType.h"
+#include "Globals.h"
 
 #include "AbstractGun.h"
 #include "Bomb.h"
 #include "Grenade.h"
 #include "Nuke.h"
 #include "WallBreaker.h"
-#include "Globals.h"
+#include "EnemyWeapon.h"
 
 class Character
 {
-    
+    private:
+        virtual void InitializeWeaponProperties() = 0;
     protected:
         double xPos,yPos;
         double xVel,yVel;
@@ -31,7 +33,7 @@ class Character
     public:
         void AddHealth (unsigned int h);
         virtual void Attack () = 0;
-        Character(int health, double xPos, double yPos, int radius, WeaponType activeWeapon, WeaponProperties weaponProperties[WEAPON_TYPES]);
+        Character(int health, double xPos, double yPos, int radius, WeaponType activeWeapon);
         virtual ~Character() = 0;
         bool Dead();
         WeaponType GetActiveWeapon() const;
@@ -55,6 +57,7 @@ class Character
         virtual bool Visit (Bomb &bomb);
         virtual bool Visit (Nuke &nuke);
         virtual bool Visit (WallBreaker &wallBreaker);
+        virtual bool Visit (EnemyWeapon &enemyWeapon);
 };
 
 #endif

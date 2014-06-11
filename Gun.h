@@ -11,6 +11,7 @@ class Gun : public AbstractGun
         Gun(int xPos, int yPos, WeaponProperties weaponProperties, int direction);
         void Update();
         void Detonate();
+        void Action(Character * character);
 };
 
 #endif

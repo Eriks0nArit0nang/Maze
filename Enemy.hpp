@@ -1,7 +1,7 @@
 #include <utility>
 #include <queue>
 
-class Enemy
+class Enemy // TODO implement all enemy types
 {
       public:
              Enemy ();

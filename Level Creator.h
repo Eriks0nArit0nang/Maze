@@ -237,7 +237,7 @@ pair <int[4],int[GRID_SIZE][GRID_SIZE]> auto_level ()
      return level;
 }
 
-void create_game ()
+void create_game () // TODO implement Create/Play game modes
 {
      pair <int[4],int[GRID_SIZE][GRID_SIZE]> level;
      string t;

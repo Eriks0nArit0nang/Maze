@@ -56,7 +56,7 @@ pair <int,int[GRID_SIZE][GRID_SIZE]> bfs (int grid[GRID_SIZE][GRID_SIZE], const 
      return check;
 }
 
-void upgrade (Player &p, Bullet &b, int diff)
+void upgrade (Player &p, Bullet &b, int diff) // TODO implement upgrade screen
 {
      while (key[KEY_U]) poll_keyboard();
      do {

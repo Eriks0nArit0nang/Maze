@@ -1,4 +1,5 @@
 #include "Gun.h"
+#include "Character.h"
 #include <iostream>
 #include <cmath>
 
@@ -40,4 +41,12 @@ void Gun::Update()
 void Gun::Detonate()
 {
     destroyThis = true;
+}
+
+void Gun::Action( Character * character)
+{
+    if (character->Visit(*this))
+    {
+        destroyThis = true;
+    }
 }

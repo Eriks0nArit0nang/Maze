@@ -2,15 +2,21 @@
 #include "allegro.h"
 #include "Globals.h"
 
-bool Interaction::initialized = false;
+int Interaction::initialized = 0;
 
 Interaction::Interaction():ticks(0)
 {
     if (!initialized)
         Initialize();
+    initialized++;
 }
 
-Interaction::~Interaction(){}
+Interaction::~Interaction()
+{
+    initialized--;
+    if (!initialized)
+        allegro_exit();
+}
 
 volatile int close_button_pressed = FALSE;
 
@@ -37,7 +43,6 @@ void Interaction::Initialize()
     set_color_depth (desktop_color_depth());
     set_gfx_mode( GFX_AUTODETECT, SCREEN_X+GRID_SIZE*2, SCREEN_Y, 0, 0); 
     set_keyboard_rate(20,0);
-    initialized = true;
 }
 
 void Interaction::ticker ()

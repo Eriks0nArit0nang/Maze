@@ -1,4 +1,4 @@
-void survival (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid)
+void survival (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid)  // TODO Implement Survival Mode in Update
 {
      Player P1;
      Bullet B1;

@@ -1,6 +1,7 @@
 #include "Character.h"
 #include "WeaponProperties.h"
 #include <cmath>
+#include <iostream>
 
 using namespace std;
 
@@ -10,13 +11,9 @@ void Character::AddHealth (unsigned int h)
      addedHealth += h;
 }
 
-Character::Character(int health, double xPos, double yPos, int radius, WeaponType activeWeapon, WeaponProperties weaponProperties[WEAPON_TYPES]):
+Character::Character(int health, double xPos, double yPos, int radius, WeaponType activeWeapon):
                          xPos(xPos),yPos(yPos),xVel(0),yVel(0),radius(radius),health(health),initialHealth(health),addedHealth(0),
-						 activeWeapon(activeWeapon)
-{
- 	for (int i = 0; i < WEAPON_TYPES; i++)
- 		this->weaponProperties[i] = weaponProperties[i];
-}
+						 activeWeapon(activeWeapon){}
 
 Character::~Character()
 {
@@ -93,12 +90,50 @@ bool Character::InRange(int weaponX, int weaponY, int radius)
 
 void Character::NextWeapon()
 {
-    // TODO
+    if (activeWeapon == _Gun && GetWeaponProperties(_Grenade).GetWeaponQuantity() != 0)
+        activeWeapon = _Grenade;
+    else if (activeWeapon == _Gun && GetWeaponProperties(_WallBreaker).GetWeaponQuantity() != 0)
+        activeWeapon = _WallBreaker;
+    else if (activeWeapon == _Gun)
+        activeWeapon = _Gun;
+    else if (activeWeapon == _Grenade && GetWeaponProperties(_WallBreaker).GetWeaponQuantity() != 0)
+        activeWeapon = _WallBreaker;
+    else if (activeWeapon == _Grenade && GetWeaponProperties(_Gun).GetWeaponQuantity() != 0)
+        activeWeapon = _Gun;
+    else if (activeWeapon == _Grenade)
+        activeWeapon = _Grenade;
+    else if (activeWeapon == _WallBreaker && GetWeaponProperties(_Gun).GetWeaponQuantity() != 0)
+        activeWeapon = _Gun;
+    else if (activeWeapon == _WallBreaker && GetWeaponProperties(_Grenade).GetWeaponQuantity() != 0)
+        activeWeapon = _Grenade;
+    else if (activeWeapon == _WallBreaker)
+        activeWeapon = _WallBreaker;
+    else
+        cerr << "Invalid active weapon set for Character::NextWeapon\n";
 }
 
 void Character::PrevWeapon()
 {
-    // TODO
+    if (activeWeapon == _Gun && GetWeaponProperties(_WallBreaker).GetWeaponQuantity() != 0)
+        activeWeapon = _WallBreaker;
+    else if (activeWeapon == _Gun && GetWeaponProperties(_Grenade).GetWeaponQuantity() != 0)
+        activeWeapon = _Grenade;
+    else if (activeWeapon == _Gun)
+        activeWeapon = _Gun;
+    else if (activeWeapon == _Grenade && GetWeaponProperties(_Gun).GetWeaponQuantity() != 0)
+        activeWeapon = _Gun;
+    else if (activeWeapon == _Grenade && GetWeaponProperties(_WallBreaker).GetWeaponQuantity() != 0)
+        activeWeapon = _WallBreaker;
+    else if (activeWeapon == _Grenade)
+        activeWeapon = _Grenade;
+    else if (activeWeapon == _WallBreaker && GetWeaponProperties(_Grenade).GetWeaponQuantity() != 0)
+        activeWeapon = _Grenade;
+    else if (activeWeapon == _WallBreaker && GetWeaponProperties(_Gun).GetWeaponQuantity() != 0)
+        activeWeapon = _Gun;
+    else if (activeWeapon == _WallBreaker)
+        activeWeapon = _WallBreaker;
+    else
+        cerr << "Invalid active weapon set for Character::NextWeapon\n";
 }
 
 void Character::SetActiveWeapon(WeaponType activeWeapon)
@@ -156,6 +191,15 @@ bool Character::Visit (Nuke &nuke)
     if (InRange(nuke.GetX(), nuke.GetY(), nuke.GetProperties().GetRange()))
     {
         Hit(nuke.GetProperties().GetDamage());
+    }
+    return false;
+}
+
+bool Character::Visit (EnemyWeapon &enemyWeapon)
+{
+    if (InRange(enemyWeapon.GetX(), enemyWeapon.GetY(), enemyWeapon.GetProperties().GetRange()))
+    {
+        Hit(enemyWeapon.GetProperties().GetDamage());
     }
     return false;
 }

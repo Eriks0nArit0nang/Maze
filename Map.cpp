@@ -10,16 +10,17 @@ using namespace std;
 
 Map *Map::instance = 0;
 
-Map::Map(int size):map(new int*[size]),size(size),knownMap(new bool*[size])
+Map::Map(int size):map(new int*[size]),size(size),knownMap(new bool*[size]),distFromPlayer(new int*[size])
 {
-    for (int i = 0; i < size; i++)
-        map[i] = new int[size];
     for (int j = 0; j < size; j++)
     {
+        map[j] = new int[size];
+        distFromPlayer[j] = new int[size];
         knownMap[j] = new bool[size];
         for (int i = 0; i < size; i++)
-        knownMap[j][i] = false;
+            knownMap[j][i] = false;
     }
+    srand(time(0));
 }
 
 Map::~Map()
@@ -28,9 +29,11 @@ Map::~Map()
     {
         delete [] map[i];
         delete [] knownMap[i];
+        delete [] distFromPlayer[i];
     }
     delete [] map;
     delete [] knownMap;
+    delete [] distFromPlayer;
     instance = 0;
 }
 
@@ -105,12 +108,26 @@ void Map::Load(string filename)
        return;
     }
     for (int i = 0; i < size; i++)
+    {
         delete [] map[i];
+        delete [] distFromPlayer[i];
+        delete [] knownMap[i];
+    }
     delete [] map;
+    delete [] distFromPlayer;
+    delete [] knownMap;
     in >> size;
     map = new int*[size];
+    distFromPlayer = new int*[size];
+    knownMap = new bool*[size];
     for (int i = 0; i < size; i++)
+    {
         map[i] = new int[size];
+        distFromPlayer[i] = new int[size];
+        knownMap[i] = new bool[size];
+        for (int j = 0; j < size; j++)
+            knownMap[i][j] = false;
+    }
         
     in >> startLoc.first;
     in >> startLoc.second;
@@ -133,6 +150,62 @@ bool Map::Fog(int x, int y) const
     return false;
 }
 
+int **Map::GetDistFromPlayer() const
+{
+    return distFromPlayer;
+}
+
+void Map::UpdateDistFromPlayer(int gridX, int gridY)
+{
+    pair <queue <int>,queue <int> > q;
+    for (int i = 0; i < size; i++)
+        for (int j = 0; j < size; j++)
+            if (map[i][j] == 1)
+               distFromPlayer[i][j] = -1;
+            else if (i == gridX && j == gridY)
+            {
+                distFromPlayer[i][j] = 1;
+                q.first.push(i);
+                q.second.push(j);
+            }
+            else
+                distFromPlayer[i][j] = 0;
+    int i,j;
+    while (!q.second.empty())
+    {
+        i = q.first.front();
+        j = q.second.front();
+        if (distFromPlayer[i][j] == 30)
+            break;
+        if (distFromPlayer[i-1][j] == 0)
+        {
+            distFromPlayer[i-1][j] = distFromPlayer[i][j]+1;            
+            q.first.push (i-1);
+            q.second.push (j);
+        }
+        if (distFromPlayer[i+1][j] == 0)
+        {
+            distFromPlayer[i+1][j] = distFromPlayer[i][j]+1;
+            q.first.push (i+1);
+            q.second.push (j);
+        }
+        if (distFromPlayer[i][j-1] == 0)
+        {
+            distFromPlayer[i][j-1] = distFromPlayer[i][j]+1;
+            q.first.push (i);
+            q.second.push (j-1);
+        }
+        if (distFromPlayer[i][j+1] == 0)
+        {
+            distFromPlayer[i][j+1] = distFromPlayer[i][j]+1;
+            q.first.push (i);
+            q.second.push (j+1);
+        }
+        q.first.pop();
+        q.second.pop();
+     }
+}
+
 struct Prim_Values
 {
        public:
@@ -152,11 +225,14 @@ bool operator()(Prim_Values x, Prim_Values y)
 void Map::CreateAuto()
 {
     for (int i = 0; i < size; i++)
+    {
         delete [] knownMap[i];
-    delete [] knownMap;
-    for (int i = 0; i < size; i++)
         delete [] map[i];
+        delete [] distFromPlayer[i];
+    }
+    delete [] knownMap;
     delete [] map;
+    delete [] distFromPlayer;
     
     pair <int[4],int[GRID_SIZE][GRID_SIZE]> level;
     bool tocheck[GRID_SIZE][GRID_SIZE];
@@ -217,19 +293,19 @@ void Map::CreateAuto()
     }
      
     size = GRID_SIZE;
-    map = new int *[GRID_SIZE];
+    map = new int *[size];
+    knownMap = new bool *[size];
+    distFromPlayer = new int *[size];
     for (int i = 0; i < size; i++)
     {
-        map[i] = new int[GRID_SIZE];
+        map[i] = new int[size];
+        knownMap[i] = new bool[size];
+        distFromPlayer[i] = new int[size];
         for (int j = 0; j < size; j++)
+        {
             map[i][j] = level.second[i][j];
-    }
-    knownMap = new bool *[GRID_SIZE];
-    for (int i = 0; i < size; i++)
-    {
-        knownMap[i] = new bool[GRID_SIZE];
-        for (int j = 0; j < size; j++)
             knownMap[i][j] = false;
+        }
     }
     startLoc.first = level.first[0];
     startLoc.second = level.first[1];
@@ -237,8 +313,6 @@ void Map::CreateAuto()
     endLoc.second = level.first[3];
     if (!VerifyLevel())
         cerr << "Error: Level created is not winnable.  Please alert the developer to this\n";
-    else
-        cerr << "Level Verified\n";
     
 }
 

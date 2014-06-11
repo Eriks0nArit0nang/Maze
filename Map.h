@@ -10,6 +10,8 @@ class Map
     public:
         static Map *GetInstance();
         int **GetGrid() const;
+        int **GetDistFromPlayer() const;
+        void UpdateDistFromPlayer(int gridX, int gridY);
         bool Fog(int x, int y) const;
         void UpdateFog(int x, int y);
         int GetGridSize() const;
@@ -28,6 +30,7 @@ class Map
         bool VerifyLevel();
         static Map *instance;
         int **map;
+        int **distFromPlayer;
         bool **knownMap;
         int size;
         std::pair<int, int> startLoc;

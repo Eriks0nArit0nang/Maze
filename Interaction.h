@@ -5,7 +5,7 @@ class Interaction
 {
     private:
         static void Initialize();
-        static bool initialized;
+        static int initialized;
     protected:
         Interaction();
         virtual ~Interaction() = 0;  

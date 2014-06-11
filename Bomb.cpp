@@ -2,7 +2,7 @@
 #include "Character.h"
 #include <iostream>
 
-Bomb::Bomb(int xPos, int yPos, WeaponProperties weaponProperties):Weapon(xPos, yPos, weaponProperties),timer(40){}
+Bomb::Bomb(int xPos, int yPos, WeaponProperties weaponProperties):Weapon(xPos, yPos, weaponProperties),timer(200){}
 
 void Bomb::Update()
 {

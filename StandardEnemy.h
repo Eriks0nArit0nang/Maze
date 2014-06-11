@@ -6,9 +6,10 @@
 
 class StandardEnemy : public Character
 {
-    
+    private:
+        void InitializeWeaponProperties();
     public:
-        StandardEnemy(int health, double xPos, double yPos, int radius, WeaponType activeWeapon, WeaponProperties weaponProperties[WEAPON_TYPES]);
+        StandardEnemy(int health, double xPos, double yPos, int radius);
         void Attack ();     
         void Move ();
 };
