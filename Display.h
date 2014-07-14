@@ -9,11 +9,11 @@ class Display : public Interaction
     public:
         static Display *GetInstance();
         static void RemoveInstance();
-        void UpdateScreen(); // TODO
+        void UpdateScreen();
         void DrawUpgrade();
         void SetBackground();
         void UpdateMiniMap(int centreX, int centreY);
-        void Zoom(int centreX, int centreY); // TODO
+        void Zoom(int centreX, int centreY);
         
     private:
         Display();

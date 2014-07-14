@@ -123,8 +123,9 @@ void updateScreen(Player &P, vector <Enemy> &E, Bullet &B, int shotX, int shotY,
      textprintf_ex(buffer, font, 500+GRID_SIZE*2, 500, makecol(255,0,0), -1, "Health: %d", P.Get_Health());
      textprintf_ex(buffer, font, 500+GRID_SIZE*2, 520, makecol(255,0,0), -1, "Enemies: %d", E.size());
      textprintf_ex(buffer, font, 500+GRID_SIZE*2, 540, makecol(255,0,0), -1, "Money: %d", P.Get_Money());
-     textprintf_ex(buffer, font, 500+GRID_SIZE*2, 560, makecol(255,0,0), -1, "Weapon:\n%s", P.Get_ActiveWeapon() == 0 ? "Gun" : ( P.Get_ActiveWeapon() == 1 ? "Grenade" : "Walls"));
-     
+     textprintf_ex(buffer, font, 500+GRID_SIZE*2, 560, makecol(255,0,0), -1, "Weapon:");
+     textprintf_ex(buffer, font, 500+GRID_SIZE*2, 580, makecol(255,0,0), -1, "%s", P.Get_ActiveWeapon() == 0 ? "Gun" : ( P.Get_ActiveWeapon() == 1 ? "Grenade" : "Walls"));
+    
     // textprintf_ex(buffer, font, 605, 560, makecol(255,0,0), -1, "%d %d %d %d %d %d", P.Get_Quantity (0), P.Get_Quantity (1), P.Get_Quantity (2), P.Get_Quantity (3), P.Get_Quantity (4), P.Get_Quantity (5));
         
      scare_mouse();

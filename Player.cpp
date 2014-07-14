@@ -145,3 +145,20 @@ int Player::GetMoney() const
 {
     return money;
 }
+
+void Player::Draw(BITMAP *buffer, int midX, int midY)
+{
+    circlefill (buffer, midX, midY, radius, makecol(0,0,255));
+    if (initialHealth-health >= 0)
+        circlefill (buffer, midX, midY, (initialHealth-health)/(initialHealth/radius), makecol(150,150,255)); 
+    
+}
+
+bool Player::Visit (EnemyWeapon &enemyWeapon)
+{
+    if (InRange(enemyWeapon.GetX(), enemyWeapon.GetY(), enemyWeapon.GetProperties().GetRange()))
+    {
+        Hit(enemyWeapon.GetProperties().GetDamage());
+    }
+    return false;
+}

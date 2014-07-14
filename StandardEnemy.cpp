@@ -2,10 +2,11 @@
 #include "Globals.h"
 #include "Player.h"
 #include "Map.h"
+#include "Game.h"
 #include <cmath>
 
-StandardEnemy::StandardEnemy(int health, double xPos, double yPos, int radius):
-    Character(health, xPos, yPos, radius, _Enemy)
+StandardEnemy::StandardEnemy(int health, double xPos, double yPos):
+    Character(health, xPos, yPos, health/10, _Enemy)
 {
     InitializeWeaponProperties();
 }
@@ -25,13 +26,18 @@ void StandardEnemy::InitializeWeaponProperties()
 
 void StandardEnemy::Attack ()
 {
+    if (weapons.size() == 1)
+    {
+        delete weapons[0];
+        weapons.pop_back();
+    }
     weapons.push_back(new EnemyWeapon(GetX(), GetY(), GetWeaponProperties(activeWeapon)));
 }     
 
 void StandardEnemy::Move ()
 {
     int **check = Map::GetInstance()->GetDistFromPlayer();
-    Player p(0,0); // TODO extract player from somewhere (Game Class)
+    Player &p = *Game::GetInstance()->GetPlayer();
     if (!(p.GetX()/BOX_PIXEL_WIDTH==GetX()/BOX_PIXEL_WIDTH&&p.GetY()/BOX_PIXEL_WIDTH==GetY()/BOX_PIXEL_WIDTH))
      {
         if (check[GetX()/BOX_PIXEL_WIDTH][GetY()/BOX_PIXEL_WIDTH] > 0)
@@ -95,3 +101,49 @@ void StandardEnemy::Move ()
      }
 }
 
+void StandardEnemy::Draw(BITMAP *buffer, int midX, int midY)
+{
+    circlefill (buffer, midX+GetX(), midY+GetY(), radius, makecol (255,255,0));
+    circlefill (buffer, midX+GetX(), midY+GetY(), radius-GetHealth()/10-1, makecol (255,0,0));
+    circle (buffer, midX+GetX(), midY+GetY(), radius, makecol (255,0,0));
+        
+}
+
+bool StandardEnemy::Visit (AbstractGun &gun)
+{
+    if (InRange(gun.GetX(), gun.GetY(), gun.GetProperties().GetRadius()))
+    {
+        Hit(gun.GetProperties().GetDamage());
+        return true;
+    }
+    return false;
+}
+
+bool StandardEnemy::Visit (Grenade &grenade)
+{
+    if (InRange(grenade.GetX(), grenade.GetY(), grenade.GetProperties().GetRadius()))
+    {
+        Hit(grenade.GetProperties().GetDamage());
+        return true;
+    }
+    return false;
+}
+
+bool StandardEnemy::Visit (Bomb &bomb)
+{
+    if (InRange(bomb.GetX(), bomb.GetY(), bomb.GetProperties().GetRadius()))
+    {
+        Hit(bomb.GetProperties().GetDamage());
+        return true;
+    }
+    return false;
+}
+
+bool StandardEnemy::Visit (Nuke &nuke)
+{
+    if (InRange(nuke.GetX(), nuke.GetY(), nuke.GetProperties().GetRange()))
+    {
+        Hit(nuke.GetProperties().GetDamage());
+    }
+    return false;
+}

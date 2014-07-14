@@ -14,6 +14,8 @@
 #include "WallBreaker.h"
 #include "EnemyWeapon.h"
 
+#include <allegro.h>
+
 class Character
 {
     private:
@@ -36,11 +38,13 @@ class Character
         Character(int health, double xPos, double yPos, int radius, WeaponType activeWeapon);
         virtual ~Character() = 0;
         bool Dead();
+        virtual void Draw(BITMAP *buffer, int midX, int midY) = 0;
         WeaponType GetActiveWeapon() const;
         int GetAddedHealth() const;
         int GetHealth() const;
         int GetInitialHealth() const;
         WeaponProperties &GetWeaponProperties(WeaponType type);
+        std::vector<Weapon *> GetWeapons();
         int GetX () const;
         int GetY () const;
         void Hit (int damage);

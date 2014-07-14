@@ -50,3 +50,13 @@ void Interaction::ticker ()
      ticks++;
 }
 END_OF_FUNCTION(ticker);
+
+int Interaction::GetTicks()
+{
+    return ticks;
+}
+
+void Interaction::ResetTicks()
+{
+    ticks = 0;
+}

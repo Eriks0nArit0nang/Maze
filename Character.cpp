@@ -66,6 +66,11 @@ WeaponProperties &Character::GetWeaponProperties(WeaponType type)
     return weaponProperties[type];
 }
 
+vector<Weapon *> Character::GetWeapons()
+{
+    return weapons;
+}
+
 int Character::GetX () const
 {
     return static_cast<int>(round(xPos));
@@ -158,49 +163,26 @@ void Character::SetY (int y)
 
 bool Character::Visit (AbstractGun &gun)
 {
-    if (InRange(gun.GetX(), gun.GetY(), gun.GetProperties().GetRadius()))
-    {
-        Hit(gun.GetProperties().GetDamage());
-        return true;
-    }
     return false;
 }
 
 bool Character::Visit (Grenade &grenade)
 {
-    if (InRange(grenade.GetX(), grenade.GetY(), grenade.GetProperties().GetRadius()))
-    {
-        Hit(grenade.GetProperties().GetDamage());
-        return true;
-    }
     return false;
 }
 
 bool Character::Visit (Bomb &bomb)
 {
-    if (InRange(bomb.GetX(), bomb.GetY(), bomb.GetProperties().GetRadius()))
-    {
-        Hit(bomb.GetProperties().GetDamage());
-        return true;
-    }
     return false;
 }
 
 bool Character::Visit (Nuke &nuke)
 {
-    if (InRange(nuke.GetX(), nuke.GetY(), nuke.GetProperties().GetRange()))
-    {
-        Hit(nuke.GetProperties().GetDamage());
-    }
     return false;
 }
 
 bool Character::Visit (EnemyWeapon &enemyWeapon)
 {
-    if (InRange(enemyWeapon.GetX(), enemyWeapon.GetY(), enemyWeapon.GetProperties().GetRange()))
-    {
-        Hit(enemyWeapon.GetProperties().GetDamage());
-    }
     return false;
 }
 

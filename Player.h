@@ -14,8 +14,10 @@ class Player : public Character
         Player(double xPos, double yPos);
         void Attack ();     
         void Move ();
+        void Draw (BITMAP *buffer, int midX, int midY);
         void AddMoney(int m);
         int GetMoney() const;
+        bool Visit (EnemyWeapon &enemyWeapon);
 };
 
 #endif

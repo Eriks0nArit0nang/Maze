@@ -11,7 +11,13 @@ class Interaction
         virtual ~Interaction() = 0;  
         volatile int ticks;  // for timer
         void ticker();
+    public:
+        int GetTicks();
+        void ResetTicks();
         
 };
+
+extern volatile int close_button_pressed;
+void close_button_handler(void);
 
 #endif
