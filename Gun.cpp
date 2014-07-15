@@ -10,7 +10,6 @@ void Gun::Update()
 {
     if (destroyThis)
     {
-        std::cout << "Gun::Update() deleted\n";
         delete this;
         return;
     }

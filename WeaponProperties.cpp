@@ -164,11 +164,11 @@ void WeaponProperties::Initialize(WeaponType type)
             break;
         case _Enemy:
             cost = 0;
-            range = 0;
-            damage = 0;
-            radius = 0;
-            clipSize = 0;
-            fireRate = 0;
+            range = 1;
+            damage = 5;
+            radius = 10;
+            clipSize = 1;
+            fireRate = 5;
             reloadRate = 0;
             active = false;
             break;

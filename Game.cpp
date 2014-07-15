@@ -151,11 +151,20 @@ void Game::PlayLevel()
             }
             for (int i = 0; i < enemies.size(); i++)
             {
-                enemies[i]->Move();
-                enemies[i]->Attack();
+                if (enemies[i]->Dead())
+                {
+                    delete enemies[i];
+                    enemies.erase(enemies.begin()+i);
+                    i--;
+                }
+                else
+                {
+                    enemies[i]->Move();
+                    enemies[i]->Attack();
                 
-                vector<Weapon *> enemyWeapon = enemies[i]->GetWeapons();
-                enemyWeapons.insert(enemyWeapons.end(),enemyWeapon.begin(), enemyWeapon.end());
+                    vector<Weapon *> enemyWeapon = enemies[i]->GetWeapons();
+                    enemyWeapons.insert(enemyWeapons.end(),enemyWeapon.begin(), enemyWeapon.end());
+                }
             }
             player->Move();
             player->Attack();
@@ -163,6 +172,10 @@ void Game::PlayLevel()
             for(vector<Weapon *>::iterator weaponIt = enemyWeapons.begin(); weaponIt != enemyWeapons.end(); ++weaponIt)
             {
                 (*weaponIt)->Action(player);
+                if ((*weaponIt)->WillDestroy())
+                {
+                    (*weaponIt)->Notify();
+                }
                 (*weaponIt)->Update();
             }
             for(vector<Weapon *>::iterator weaponIt = playerWeapons.begin(); weaponIt != playerWeapons.end(); ++weaponIt)

@@ -156,7 +156,7 @@ void Player::Draw(BITMAP *buffer, int midX, int midY)
 
 bool Player::Visit (EnemyWeapon &enemyWeapon)
 {
-    if (InRange(enemyWeapon.GetX(), enemyWeapon.GetY(), enemyWeapon.GetProperties().GetRange()))
+    if (InRange(enemyWeapon.GetX(), enemyWeapon.GetY(), enemyWeapon.GetProperties().GetRadius()))
     {
         Hit(enemyWeapon.GetProperties().GetDamage());
     }

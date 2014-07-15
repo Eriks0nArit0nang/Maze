@@ -1,8 +1,6 @@
 #include "EnemyWeapon.h"
 #include "Character.h"
 
-#include <iostream>
-
 EnemyWeapon::EnemyWeapon(int xPos, int yPos, WeaponProperties weaponProperties, Character * watcher):
     Weapon(xPos, yPos, weaponProperties, watcher){}
 
@@ -23,6 +21,8 @@ void EnemyWeapon::Update()
         delete this;
         return;
     }
+    SetX(watcher->GetX());
+    SetY(watcher->GetY());
 }
 
 void EnemyWeapon::Detonate()
