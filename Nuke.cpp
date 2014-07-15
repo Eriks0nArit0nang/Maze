@@ -1,7 +1,7 @@
 #include "Nuke.h"
 #include "Character.h"
 
-Nuke::Nuke(int xPos, int yPos, WeaponProperties weaponProperties):Weapon(xPos, yPos, weaponProperties)
+Nuke::Nuke(int xPos, int yPos, WeaponProperties weaponProperties, Character * watcher):Weapon(xPos, yPos, weaponProperties, watcher)
 {
     Detonate();
 }

@@ -25,6 +25,7 @@ Player::Player(double xPos, double yPos):
 
 void Player::InitializeWeaponProperties()
 {
+    
     weaponProperties[_None] = WeaponProperties(_None, 0);
     weaponProperties[_Gun] = WeaponProperties(_Gun, -1);
     weaponProperties[_WideShot] = WeaponProperties(_WideShot, 1);
@@ -64,7 +65,7 @@ void Player::Attack ()
                 break;
             case _Gun:
             {
-                AbstractGun *gun = new Gun(GetX(), GetY(), GetWeaponProperties(option), input.second);
+                AbstractGun *gun = new Gun(GetX(), GetY(), GetWeaponProperties(option), input.second, this);
                 if (GetWeaponProperties(_WideShot).GetWeaponQuantity() != 0) 
                     gun = new WideShot(gun);
                 if (GetWeaponProperties(_ExplodingShot).GetWeaponQuantity() != 0) 
@@ -79,28 +80,28 @@ void Player::Attack ()
             case _Grenade:
                 if (GetWeaponProperties(option).GetWeaponQuantity() != 0)
                 {
-                    weapons.push_back(new Grenade(GetX(), GetY(), GetWeaponProperties(option), input.second));
+                    weapons.push_back(new Grenade(GetX(), GetY(), GetWeaponProperties(option), input.second, this));
                     weaponProperties[option].SetWeaponQuantity(weaponProperties[option].GetWeaponQuantity()-1);
                 }
                 break;
             case _Mine:
                 if (GetWeaponProperties(option).GetWeaponQuantity() != 0)
                 {
-                    weapons.push_back(new Bomb(GetX(), GetY(), GetWeaponProperties(option)));
+                    weapons.push_back(new Bomb(GetX(), GetY(), GetWeaponProperties(option), this));
                     weaponProperties[option].SetWeaponQuantity(weaponProperties[option].GetWeaponQuantity()-1);
                 }
                 break;
             case _Nuke:
                 if (GetWeaponProperties(option).GetWeaponQuantity() != 0)
                 {
-                    weapons.push_back(new Nuke(GetX(), GetY(), GetWeaponProperties(option)));
+                    weapons.push_back(new Nuke(GetX(), GetY(), GetWeaponProperties(option), this));
                     weaponProperties[option].SetWeaponQuantity(weaponProperties[option].GetWeaponQuantity()-1);
                 }
                 break;
             case _WallBreaker:
                 if (GetWeaponProperties(option).GetWeaponQuantity() != 0)
                 {
-                    weapons.push_back(new WallBreaker(GetX(), GetY(), GetWeaponProperties(option), input.second));
+                    weapons.push_back(new WallBreaker(GetX(), GetY(), GetWeaponProperties(option), input.second, this));
                     weaponProperties[option].SetWeaponQuantity(weaponProperties[option].GetWeaponQuantity()-1);
                 }
                 break;
@@ -108,15 +109,14 @@ void Player::Attack ()
                 std::cerr << "No mapping provided for Player::Attack for given WeaponType\n";
                 break;
         }
-    
 }
 
 void Player::Move ()
 {
     int input = Input::GetInstance()->GetMovement();
     Map *map = Map::GetInstance();
-    int xChange = ((input / 1000) % 10) + ((input / 100) % 10);
-    int yChange = ((input / 10) % 10) + (input % 10);
+    int xChange = ((input / 1000) % 10) - ((input / 100) % 10);
+    int yChange = ((input / 10) % 10) - (input % 10);
     
     xVel += xChange;
     yVel += yChange;

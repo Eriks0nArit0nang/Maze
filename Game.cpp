@@ -60,16 +60,13 @@ void Game::Play(std::string gameName, int diff)
         map->Load(t);
         Display::GetInstance()->SetBackground();
         
-        cout << "All set\n";
         if (player->GetHealth() > 0)
         {
             InitLevel(i+1,diff);
-            cout << "Initialized\n";
             PlayLevel();
-            cout << "Played\n";
             ResetLevel();
         }
-         if (close_button_pressed || key[KEY_ESC])
+        if (close_button_pressed || key[KEY_ESC])
             break;
      }
      if (player->GetHealth() > 0 && !close_button_pressed && !key[KEY_ESC])
@@ -78,6 +75,7 @@ void Game::Play(std::string gameName, int diff)
 
 void Game::Create(std::string gameName)
 {
+    cout << "Creating game \"" << gameName << "\"...\n";
     Map *map = Map::GetInstance();
     string t;
     mkdir(gameName.c_str());
@@ -106,7 +104,7 @@ void Game::InitLevel(int level, int difficulty)
     int numEnemies = level * difficulty * (GRID_SIZE/5);
     for (int i = 0; i < numEnemies; i++)
     {
-        int x, y, health = (rand() % 90) + 10;
+        int x, y, health = (rand() % (MAX_ENEMY_HEALTH - 10)) + 10;
         do
         {
             x = rand() % mapInst->GetGridSize();
@@ -115,6 +113,11 @@ void Game::InitLevel(int level, int difficulty)
         
         enemies.push_back(new StandardEnemy(health, x*BOX_PIXEL_WIDTH+BOX_PIXEL_WIDTH/2, y*BOX_PIXEL_WIDTH+BOX_PIXEL_WIDTH/2));
     }
+    Display *display = display->GetInstance();
+    display->SetBackground();
+    display->UpdateMiniMap (player->GetX()/60,player->GetY()/60);
+    display->Zoom(player->GetX()/60,player->GetY()/60);
+    display->UpdateScreen();
 }
 
 void Game::ResetLevel()
@@ -131,12 +134,13 @@ void Game::PlayLevel()
     display->UpdateScreen();
     while (!(close_button_pressed || key[KEY_ESC]))
     {
-        vector<Weapon *> playerWeapons;
-        vector<Weapon *> enemyWeapons;
         while (input->GetTicks() > 0)
         {
+            vector<Weapon *> playerWeapons;
+            vector<Weapon *> enemyWeapons;
             input->ResetTicks();
             input->ReadInput();
+            Map::GetInstance()->UpdateDistFromPlayer(player->GetX()/BOX_PIXEL_WIDTH,player->GetY()/BOX_PIXEL_WIDTH);
             
             if (input->GetMovement() >= 10000) // Upgrade
             {
@@ -145,7 +149,6 @@ void Game::PlayLevel()
                 while (key[KEY_U]) poll_keyboard();
                 input->ResetTicks();
             }
-            
             for (int i = 0; i < enemies.size(); i++)
             {
                 enemies[i]->Move();
@@ -154,21 +157,23 @@ void Game::PlayLevel()
                 vector<Weapon *> enemyWeapon = enemies[i]->GetWeapons();
                 enemyWeapons.insert(enemyWeapons.end(),enemyWeapon.begin(), enemyWeapon.end());
             }
-            
             player->Move();
             player->Attack();
             playerWeapons = player->GetWeapons();
-            
             for(vector<Weapon *>::iterator weaponIt = enemyWeapons.begin(); weaponIt != enemyWeapons.end(); ++weaponIt)
             {
-                (*weaponIt)->Update();
                 (*weaponIt)->Action(player);
+                (*weaponIt)->Update();
             }
             for(vector<Weapon *>::iterator weaponIt = playerWeapons.begin(); weaponIt != playerWeapons.end(); ++weaponIt)
             {
-                (*weaponIt)->Update();
                 for (int i = 0; i < enemies.size(); i++)
                     (*weaponIt)->Action(enemies[i]);
+                if ((*weaponIt)->WillDestroy())
+                {
+                    (*weaponIt)->Notify();
+                }
+                (*weaponIt)->Update();
             }
             
             Map::GetInstance()->UpdateFog(player->GetX()/60, player->GetY()/60);
@@ -185,7 +190,8 @@ void Game::PlayLevel()
             // TODO Identify if wall/nuke animations are implemented
             
             if (GameEnd())
-                 break;
+                break;
+                
           }
           if (GameEnd())
              break;

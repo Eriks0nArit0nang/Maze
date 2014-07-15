@@ -33,7 +33,7 @@ Display::Display()
     buffer=create_bitmap(SCREEN_X+size*2,SCREEN_Y);
     miniMap = create_bitmap(size*2,600);
     rectfill (miniMap,0,0,size*2,size*4,makecol(100,100,100));
-    background=create_bitmap(size*12,size*12);
+    background=create_bitmap(SCREEN_X*12,SCREEN_Y*12);
 }
 
 Display::~Display()
@@ -53,27 +53,27 @@ int Display::RotateReallignedSprite (BITMAP* screen, BITMAP* sprite, int x, int 
 
 void Display::UpdateScreen()
 {
-    Player P(0,0);
-    vector<StandardEnemy> E;
+    Player *P = Game::GetInstance()->GetPlayer();
+    vector<StandardEnemy *> E = Game::GetInstance()->GetEnemies();
     Map *mapInst = Map::GetInstance();
     int size = mapInst->GetGridSize();
-    draw_sprite (buffer, background, -(P.GetX()-SCREEN_X/2), -(P.GetY()-SCREEN_Y/2));
+    draw_sprite (buffer, background, -(P->GetX()-SCREEN_X/2), -(P->GetY()-SCREEN_Y/2));
     draw_sprite (buffer, miniMap, SCREEN_X, 0);
-    circlefill (buffer, SCREEN_X+P.GetX()/30, P.GetY()/30, 4, makecol (150,150,255)); // Draw player icon on mini map
+    circlefill (buffer, SCREEN_X+P->GetX()/30, P->GetY()/30, 4, makecol (150,150,255)); // Draw player icon on mini map
     for (int i = 0; i < E.size(); i++)
-        if (abs (E[i].GetX () - P.GetX()) < 300 && abs (E[i].GetY() - P.GetY()) < 300)
+        if (abs (E[i]->GetX () - P->GetX()) < 300 && abs (E[i]->GetY() - P->GetY()) < 300)
         {
             // TODO Extract each individual draw call 
-            E[i].Draw(buffer, SCREEN_X/2-P.GetX(), SCREEN_Y/2-P.GetY());
+            E[i]->Draw(buffer, SCREEN_X/2-P->GetX(), SCREEN_Y/2-P->GetY());
         }
     // TODO Weapon Drawing
-    P.Draw(buffer, SCREEN_X/2, SCREEN_Y/2);
+    P->Draw(buffer, SCREEN_X/2, SCREEN_Y/2);
     // TODO Player/Enemy flashing red when hit?
-    textprintf_ex(buffer, font, 500+GRID_SIZE*2, 500, makecol(255,0,0), -1, "Health: %d", P.GetHealth());
+    textprintf_ex(buffer, font, 500+GRID_SIZE*2, 500, makecol(255,0,0), -1, "Health: %d", P->GetHealth());
     textprintf_ex(buffer, font, 500+GRID_SIZE*2, 520, makecol(255,0,0), -1, "Enemies: %d", E.size());
-    textprintf_ex(buffer, font, 500+GRID_SIZE*2, 540, makecol(255,0,0), -1, "Money: %d", P.GetMoney());
+    textprintf_ex(buffer, font, 500+GRID_SIZE*2, 540, makecol(255,0,0), -1, "Money: %d", P->GetMoney());
     textprintf_ex(buffer, font, 500+GRID_SIZE*2, 560, makecol(255,0,0), -1, "Weapon:");
-    textprintf_ex(buffer, font, 500+GRID_SIZE*2, 580, makecol(255,0,0), -1, "%s", P.GetActiveWeapon() == _Gun ? "Gun" : ( P.GetActiveWeapon() == _Grenade ? "Grenade" : "Walls"));
+    textprintf_ex(buffer, font, 500+GRID_SIZE*2, 580, makecol(255,0,0), -1, "%s", P->GetActiveWeapon() == _Gun ? "Gun" : ( P->GetActiveWeapon() == _Grenade ? "Grenade" : "Walls"));
      
     scare_mouse();
     acquire_screen();
@@ -120,11 +120,13 @@ void Display::SetBackground ()
     for (int i = 0; i < size; i++)
         for (int j = 0; j < size; j++)
             if (map[i][j] == 0)
-                rectfill (background,i*BOX_PIXEL_WIDTH,j*BOX_PIXEL_WIDTH,i*(BOX_PIXEL_WIDTH+1)-1,j*(BOX_PIXEL_WIDTH+1)-1,makecol(255,255,255));
+                rectfill (background,i*BOX_PIXEL_WIDTH,j*BOX_PIXEL_WIDTH,(i+1)*BOX_PIXEL_WIDTH-1,(j+1)*BOX_PIXEL_WIDTH-1,makecol(255,255,255));
             else if (map[i][j] == 2)
-                rectfill (background,i*BOX_PIXEL_WIDTH,j*BOX_PIXEL_WIDTH,i*(BOX_PIXEL_WIDTH+1)-1,j*(BOX_PIXEL_WIDTH+1)-1,makecol(255,0,254));
+            {
+                rectfill (background,i*BOX_PIXEL_WIDTH,j*BOX_PIXEL_WIDTH,(i+1)*BOX_PIXEL_WIDTH-1,(j+1)*BOX_PIXEL_WIDTH-1,makecol(255,0,254));
+            }
             else if (map[i][j] == 3)
-                rectfill (background,i*BOX_PIXEL_WIDTH,j*BOX_PIXEL_WIDTH,i*(BOX_PIXEL_WIDTH+1)-1,j*(BOX_PIXEL_WIDTH+1)-1,makecol(0,255,0));
+                rectfill (background,i*BOX_PIXEL_WIDTH,j*BOX_PIXEL_WIDTH,(i+1)*BOX_PIXEL_WIDTH-1,(j+1)*BOX_PIXEL_WIDTH-1,makecol(0,255,0));
     
     rectfill (miniMap,0,0,GRID_SIZE*2,600,makecol(100,100,100));
 }

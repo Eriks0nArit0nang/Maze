@@ -1,5 +1,5 @@
 // Maze game
-using namespace std;
+/*using namespace std;
 #include "Globals.h"
 #include <allegro.h>
 #include <algorithm>
@@ -25,7 +25,7 @@ Issues
 Weapons
 Upgrade store
 graphics
-*/
+/
 
 int main_old ()
 {
@@ -41,7 +41,7 @@ int main_old ()
        if (verify_level(level.first,level.second))// Confirm that it is a winnable level
        {
           output_level ("Level.txt",level.second,level.first);
-          /*P1 =*/ play_level (level,P1);
+          /*P1 =/ play_level (level,P1);
           if (P1.Get_Health() > 0 && !close_button_pressed)
              cout << "WINNER\n";
        }
@@ -63,7 +63,7 @@ int main_old ()
        if (true)//verify_level(level.first,level.second))// Confirm that it is a winnable level
        {
           output_level ("Level.txt",level.second,level.first);
-          /*P1 =*/ play_level (level,P1);
+          /*P1 =/ play_level (level,P1);
           if (P1.Get_Health() > 0 && !close_button_pressed)
              cout << "WINNER\n";
        }
@@ -98,3 +98,4 @@ int main_old ()
     close_allegro();
 }
 //END_OF_MAIN();
+*/

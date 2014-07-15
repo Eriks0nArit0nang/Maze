@@ -7,7 +7,8 @@ class Character;
 class EnemyWeapon : public Weapon
 {
     public:
-        EnemyWeapon(int xPos, int yPos, WeaponProperties weaponProperties);
+        EnemyWeapon(int xPos, int yPos, WeaponProperties weaponProperties, Character * watcher);
+        ~EnemyWeapon();
         void Update();
         void Detonate();
         void Action(Character * character);

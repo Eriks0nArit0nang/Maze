@@ -7,7 +7,8 @@
 
 const int WallBreaker::VELOCITY = BOX_PIXEL_WIDTH;
 
-WallBreaker::WallBreaker(int xPos, int yPos, WeaponProperties weaponProperties, int direction):Weapon(xPos,yPos,weaponProperties),direction(direction){}
+WallBreaker::WallBreaker(int xPos, int yPos, WeaponProperties weaponProperties, int direction, Character * watcher):
+    Weapon(xPos,yPos,weaponProperties, watcher),direction(direction){}
 
 void WallBreaker::Action(Character * character)
 {

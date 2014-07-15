@@ -3,34 +3,36 @@
 #include <iostream>
 #include <cmath>
 
-Gun::Gun(int xPos, int yPos, WeaponProperties weaponProperties, int direction):AbstractGun(xPos,yPos,weaponProperties,direction){}
+Gun::Gun(int xPos, int yPos, WeaponProperties weaponProperties, int direction, Character * watcher):
+    AbstractGun(xPos,yPos,weaponProperties,direction,watcher){}
         
 void Gun::Update()
 {
     if (destroyThis)
     {
+        std::cout << "Gun::Update() deleted\n";
         delete this;
         return;
     }
     
     if (std::abs(xPos-xPosOrig) > GetProperties().GetRange() || std::abs(yPos-yPosOrig) > GetProperties().GetRange())
     {
-        delete this;
+        destroyThis = true;
         return;
     }
     
     switch (direction)
     {
-        case 0: // x+
+        case 1000: // x+
             xPos += VELOCITY;
             break;
-        case 1: // x-
+        case 100: // x-
             xPos -= VELOCITY;
             break;
-        case 2: // y+ (this is actually down)
+        case 10: // y+ (this is actually down)
             yPos += VELOCITY;
             break;
-        case 3: // y- (this is actually up)
+        case 1: // y- (this is actually up)
             yPos -= VELOCITY;
             break;
         default:

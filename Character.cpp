@@ -66,7 +66,7 @@ WeaponProperties &Character::GetWeaponProperties(WeaponType type)
     return weaponProperties[type];
 }
 
-vector<Weapon *> Character::GetWeapons()
+vector<Weapon *> Character::GetWeapons() const
 {
     return weapons;
 }
@@ -115,6 +115,15 @@ void Character::NextWeapon()
         activeWeapon = _WallBreaker;
     else
         cerr << "Invalid active weapon set for Character::NextWeapon\n";
+}
+
+void Character::Notify(Weapon * weapon)
+{
+    for (vector<Weapon *>::iterator it = weapons.begin(); it < weapons.end(); ++it)
+    {
+        if (weapon == *it)
+            weapons.erase(it);
+    }
 }
 
 void Character::PrevWeapon()
@@ -190,4 +199,10 @@ bool Character::Visit (WallBreaker &wallBreaker)
 {
     return false;
     // wall breaker doesn't affect characters
+}
+
+bool Character::Visit (Weapon &weapon)
+{
+    cout << "Character::Visit(Weapon &weapon)\n";
+    return false;
 }

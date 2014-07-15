@@ -20,10 +20,10 @@ int main ()
     Input::GetInstance();
     Game *game = Game::GetInstance();
     
-    cout << "Press A Key\nG to create a game (20 Levels)\nAny other key to load\n";
+    cout << "Press A Key\nC to create a game (20 Levels)\nAny other key to load\n";
     readkey();
     
-    if (key[KEY_G])
+    if (key[KEY_C])
     {
          game->Create("Game 1");
     }

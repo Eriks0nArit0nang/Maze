@@ -8,16 +8,16 @@ BITMAP* buffer;
 BITMAP* wall;
 BITMAP* player;
 BITMAP* upgradescreen;
-volatile int ticks = 0;  // for timer
+//volatile int ticks = 0;  // for timer
 //volatile int close_button_pressed = FALSE; // for close button
 //const int SCREEN_X = 600;
 //const int SCREEN_Y = 600;
 
-void ticker ()
-{
-     ticks++;
-}
-END_OF_FUNCTION(ticker);
+//void ticker ()
+//{
+//     ticks++;
+//}
+//END_OF_FUNCTION(ticker);
 
 //void close_button_handler(void)
 //{

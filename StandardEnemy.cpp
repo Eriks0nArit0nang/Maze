@@ -4,11 +4,14 @@
 #include "Map.h"
 #include "Game.h"
 #include <cmath>
-
+#include <iostream> // TODO remove once done debugging
 StandardEnemy::StandardEnemy(int health, double xPos, double yPos):
     Character(health, xPos, yPos, health/10, _Enemy)
 {
     InitializeWeaponProperties();
+    weapons.push_back(new EnemyWeapon(GetX(), GetY(), GetWeaponProperties(activeWeapon), this));
+    xVel = 75.0/(1.0*health);;
+    yVel = 75.0/(1.0*health);;
 }
 
 void StandardEnemy::InitializeWeaponProperties()
@@ -26,12 +29,7 @@ void StandardEnemy::InitializeWeaponProperties()
 
 void StandardEnemy::Attack ()
 {
-    if (weapons.size() == 1)
-    {
-        delete weapons[0];
-        weapons.pop_back();
-    }
-    weapons.push_back(new EnemyWeapon(GetX(), GetY(), GetWeaponProperties(activeWeapon)));
+    // Nothing to do
 }     
 
 void StandardEnemy::Move ()
@@ -39,7 +37,7 @@ void StandardEnemy::Move ()
     int **check = Map::GetInstance()->GetDistFromPlayer();
     Player &p = *Game::GetInstance()->GetPlayer();
     if (!(p.GetX()/BOX_PIXEL_WIDTH==GetX()/BOX_PIXEL_WIDTH&&p.GetY()/BOX_PIXEL_WIDTH==GetY()/BOX_PIXEL_WIDTH))
-     {
+    {
         if (check[GetX()/BOX_PIXEL_WIDTH][GetY()/BOX_PIXEL_WIDTH] > 0)
         {
            int i = GetX()/BOX_PIXEL_WIDTH, j = GetY()/BOX_PIXEL_WIDTH;

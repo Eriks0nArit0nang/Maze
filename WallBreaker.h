@@ -11,7 +11,7 @@ class WallBreaker : public Weapon
         int direction;
         
     public:
-        WallBreaker(int xPos, int yPos, WeaponProperties weaponProperties, int direction);
+        WallBreaker(int xPos, int yPos, WeaponProperties weaponProperties, int direction, Character * watcher);
         void Action(Character * character);
         void Update();
         void Detonate();

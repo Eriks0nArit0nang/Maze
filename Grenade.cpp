@@ -3,8 +3,8 @@
 #include <iostream>
 #include <cmath>
 
-Grenade::Grenade(int xPos, int yPos, WeaponProperties weaponProperties, int direction):Weapon(xPos, yPos, weaponProperties),velocity(6),
-    direction(direction),timer(40){}
+Grenade::Grenade(int xPos, int yPos, WeaponProperties weaponProperties, int direction, Character * watcher):
+    Weapon(xPos, yPos, weaponProperties, watcher),velocity(6),direction(direction),timer(40){}
 
 void Grenade::Update()
 {

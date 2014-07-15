@@ -10,7 +10,7 @@ class Bomb : public Weapon
         int timer;
     
     public:
-        Bomb(int xPos, int yPos, WeaponProperties weaponProperties);
+        Bomb(int xPos, int yPos, WeaponProperties weaponProperties, Character * watcher);
         void Update();
         void Detonate();
         void Action(Character *character);

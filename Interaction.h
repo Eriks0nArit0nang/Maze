@@ -9,8 +9,6 @@ class Interaction
     protected:
         Interaction();
         virtual ~Interaction() = 0;  
-        volatile int ticks;  // for timer
-        void ticker();
     public:
         int GetTicks();
         void ResetTicks();
@@ -19,5 +17,7 @@ class Interaction
 
 extern volatile int close_button_pressed;
 void close_button_handler(void);
+extern volatile int ticks;
+void ticker();
 
 #endif

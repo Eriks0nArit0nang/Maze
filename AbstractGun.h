@@ -11,7 +11,7 @@ class AbstractGun : public Weapon
         int direction;
     
     public:
-        AbstractGun(int xPos, int yPos, WeaponProperties weaponProperties, int direction);
+        AbstractGun(int xPos, int yPos, WeaponProperties weaponProperties, int direction, Character * watcher);
         void Action(Character * character);
 };
 

@@ -7,7 +7,7 @@ class Character;
 class Nuke : public Weapon
 {
     public:
-        Nuke(int xPos, int yPos, WeaponProperties weaponProperties);
+        Nuke(int xPos, int yPos, WeaponProperties weaponProperties, Character * watcher);
         void Update();
         void Detonate();
         void Action(Character * character);

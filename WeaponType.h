@@ -1,7 +1,7 @@
 #ifndef __WEAPONTYPE_H__
 #define __WEAPONTYPE_H__
 
-const int WEAPON_TYPES = 8;
+const int WEAPON_TYPES = 9;
 
 enum WeaponType {
      _None,

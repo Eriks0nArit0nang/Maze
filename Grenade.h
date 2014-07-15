@@ -12,7 +12,7 @@ class Grenade : public Weapon
         int timer;
     
     public:
-        Grenade(int xPos, int yPos, WeaponProperties weaponProperties, int direction);
+        Grenade(int xPos, int yPos, WeaponProperties weaponProperties, int direction, Character * watcher);
         void Update();
         void Detonate();
         void Action(Character * character);
