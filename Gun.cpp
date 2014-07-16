@@ -1,5 +1,7 @@
 #include "Gun.h"
 #include "Character.h"
+#include "Map.h"
+#include "Globals.h"
 #include <iostream>
 #include <cmath>
 
@@ -15,6 +17,12 @@ void Gun::Update()
     }
     
     if (std::abs(xPos-xPosOrig) > GetProperties().GetRange() || std::abs(yPos-yPosOrig) > GetProperties().GetRange())
+    {
+        destroyThis = true;
+        return;
+    }
+    int **grid = Map::GetInstance()->GetGrid();
+    if (grid[GetX()/BOX_PIXEL_WIDTH][GetY()/BOX_PIXEL_WIDTH] == 1)
     {
         destroyThis = true;
         return;
@@ -50,4 +58,9 @@ void Gun::Action( Character * character)
     {
         destroyThis = true;
     }
+}
+
+void Gun::Draw(BITMAP *buffer, int midX, int midY)
+{
+    line (buffer, midX+GetX(), midY+GetY(), midX+(int)round(xPosOrig), midY+(int)round(yPosOrig), makecol (255,0,0));
 }

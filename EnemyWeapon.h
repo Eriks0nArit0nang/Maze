@@ -12,6 +12,7 @@ class EnemyWeapon : public Weapon
         void Update();
         void Detonate();
         void Action(Character * character);
+        void Draw(BITMAP *buffer, int midX, int midY);
 };
 
 #endif

@@ -67,7 +67,7 @@ void Display::UpdateScreen()
             E[i]->Draw(buffer, SCREEN_X/2-P->GetX(), SCREEN_Y/2-P->GetY());
         }
     // TODO Weapon Drawing
-    P->Draw(buffer, SCREEN_X/2, SCREEN_Y/2);
+    P->Draw(buffer, SCREEN_X/2-P->GetX(), SCREEN_Y/2-P->GetY());
     // TODO Player/Enemy flashing red when hit?
     textprintf_ex(buffer, font, 500+GRID_SIZE*2, 500, makecol(255,0,0), -1, "Health: %d", P->GetHealth());
     textprintf_ex(buffer, font, 500+GRID_SIZE*2, 520, makecol(255,0,0), -1, "Enemies: %d", E.size());

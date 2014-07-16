@@ -102,6 +102,8 @@ void StandardEnemy::Move ()
 
 void StandardEnemy::Draw(BITMAP *buffer, int midX, int midY)
 {
+    for (int i = 0; i < weapons.size(); i++)
+        weapons[i]->Draw(buffer, midX, midY);
     circlefill (buffer, midX+GetX(), midY+GetY(), radius, makecol (255,255,0));
     circlefill (buffer, midX+GetX(), midY+GetY(), radius-GetHealth()/10-1, makecol (255,0,0));
     circle (buffer, midX+GetX(), midY+GetY(), radius, makecol (255,0,0));

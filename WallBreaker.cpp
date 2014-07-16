@@ -55,3 +55,8 @@ void WallBreaker::Detonate()
 {
     destroyThis = true;
 }
+
+void WallBreaker::Draw(BITMAP *buffer, int midX, int midY)
+{
+    line (buffer, midX+GetX(), midY+GetY(), midX+round(xPosOrig), midY+round(yPosOrig), makecol (100,100,100));
+}

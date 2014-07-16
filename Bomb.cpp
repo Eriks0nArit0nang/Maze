@@ -32,3 +32,8 @@ void Bomb::Action( Character * character)
         destroyThis = true;
     }
 }
+
+void Bomb::Draw(BITMAP *buffer, int midX, int midY)
+{
+    circlefill (buffer, midX+GetX(), midY+GetY(), 2, makecol (125,0,0));
+}

@@ -1,5 +1,6 @@
 #include "Nuke.h"
 #include "Character.h"
+#include "Display.h"
 
 Nuke::Nuke(int xPos, int yPos, WeaponProperties weaponProperties, Character * watcher):Weapon(xPos, yPos, weaponProperties, watcher)
 {
@@ -26,4 +27,9 @@ void Nuke::Update()
 void Nuke::Detonate()
 {
     destroyThis = true;
+}
+
+void Nuke::Draw(BITMAP *buffer, int midX, int midY)
+{
+    Display::GetInstance()->NukeAnimation();
 }

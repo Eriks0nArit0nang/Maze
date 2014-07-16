@@ -20,7 +20,7 @@ class Game
         
     private:
         Game();
-        void InitLevel(int level, int difficulty);
+        void InitLevel(int level, int difficulty, std::string fileName = "");
         void ResetLevel();
         void PlayLevel();
         bool GameEnd();

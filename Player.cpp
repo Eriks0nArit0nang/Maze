@@ -148,7 +148,9 @@ int Player::GetMoney() const
 
 void Player::Draw(BITMAP *buffer, int midX, int midY)
 {
-    circlefill (buffer, midX, midY, radius, makecol(0,0,255));
+    for (int i = 0; i < weapons.size(); i++)
+        weapons[i]->Draw(buffer, midX, midY);
+    circlefill (buffer, midX+GetX(), midY+GetY(), radius, makecol(0,0,255));
     if (initialHealth-health >= 0)
         circlefill (buffer, midX, midY, (initialHealth-health)/(initialHealth/radius), makecol(150,150,255)); 
     

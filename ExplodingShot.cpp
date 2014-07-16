@@ -8,3 +8,9 @@ void ExplodingShot::Detonate()
     GetProperties().radius = properties.GetRadius();
     destroyThis = true;
 }
+
+void ExplodingShot::Draw(BITMAP *buffer, int midX, int midY)
+{
+    circlefill (buffer, midX+GetX(), midY+GetY(), GetProperties().radius, makecol (255,0,0));
+    gun->Draw(buffer, midX, midY);
+}

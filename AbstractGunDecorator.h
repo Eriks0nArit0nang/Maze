@@ -5,7 +5,7 @@
 
 class AbstractGunDecorator : public AbstractGun
 {
-    private:
+    protected:
         AbstractGun * gun;
         
     public:

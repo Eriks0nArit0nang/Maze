@@ -57,12 +57,10 @@ void Game::Play(std::string gameName, int diff)
         t = gameName + "/Level_";
         t += t2.str();
         t+= ".txt";
-        map->Load(t);
-        Display::GetInstance()->SetBackground();
         
         if (player->GetHealth() > 0)
         {
-            InitLevel(i+1,diff);
+            InitLevel(i+1,diff,t);
             PlayLevel();
             ResetLevel();
         }
@@ -93,11 +91,14 @@ void Game::Create(std::string gameName)
         
 Game::Game():player(0){}
 
-void Game::InitLevel(int level, int difficulty)
+void Game::InitLevel(int level, int difficulty, string fileName)
 {
     srand(time(0));
     Map * mapInst = Map::GetInstance();
-    mapInst->CreateAuto();
+    if (fileName == "")
+        mapInst->CreateAuto();
+    else
+        mapInst->Load(fileName);
     pair<int,int> startLoc = mapInst->GetStartLoc();
     player->SetX(startLoc.first*BOX_PIXEL_WIDTH+BOX_PIXEL_WIDTH/2);
     player->SetY(startLoc.second*BOX_PIXEL_WIDTH+BOX_PIXEL_WIDTH/2);
@@ -153,6 +154,7 @@ void Game::PlayLevel()
             {
                 if (enemies[i]->Dead())
                 {
+                    player->AddMoney(enemies[i]->GetInitialHealth());
                     delete enemies[i];
                     enemies.erase(enemies.begin()+i);
                     i--;

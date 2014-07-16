@@ -8,6 +8,7 @@ class ExplodingShot : public AbstractGunDecorator
     public:
         ExplodingShot(AbstractGun * gun);
         void Detonate();
+        void Draw(BITMAP *buffer, int midX, int midY);
 };
 
 #endif

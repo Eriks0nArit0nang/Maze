@@ -15,6 +15,7 @@ class WallBreaker : public Weapon
         void Action(Character * character);
         void Update();
         void Detonate();
+        void Draw(BITMAP *buffer, int midX, int midY);
 };
 
 #endif
