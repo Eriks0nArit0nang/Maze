@@ -18,6 +18,7 @@ class Player : public Character
         void AddMoney(int m);
         int GetMoney() const;
         bool Visit (EnemyWeapon &enemyWeapon);
+        bool Player::Visit (Grenade &grenade);
 };
 
 #endif

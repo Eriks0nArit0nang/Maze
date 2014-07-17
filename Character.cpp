@@ -13,7 +13,7 @@ void Character::AddHealth (unsigned int h)
 
 Character::Character(int health, double xPos, double yPos, int radius, WeaponType activeWeapon):
                          xPos(xPos),yPos(yPos),xVel(0),yVel(0),radius(radius),health(health),initialHealth(health),addedHealth(0),
-						 activeWeapon(activeWeapon){}
+						 activeWeapon(activeWeapon),attackDelay(0){}
 
 Character::~Character()
 {
@@ -103,16 +103,10 @@ void Character::NextWeapon()
         activeWeapon = _Gun;
     else if (activeWeapon == _Grenade && GetWeaponProperties(_WallBreaker).GetWeaponQuantity() != 0)
         activeWeapon = _WallBreaker;
-    else if (activeWeapon == _Grenade && GetWeaponProperties(_Gun).GetWeaponQuantity() != 0)
-        activeWeapon = _Gun;
     else if (activeWeapon == _Grenade)
-        activeWeapon = _Grenade;
-    else if (activeWeapon == _WallBreaker && GetWeaponProperties(_Gun).GetWeaponQuantity() != 0)
         activeWeapon = _Gun;
-    else if (activeWeapon == _WallBreaker && GetWeaponProperties(_Grenade).GetWeaponQuantity() != 0)
-        activeWeapon = _Grenade;
     else if (activeWeapon == _WallBreaker)
-        activeWeapon = _WallBreaker;
+        activeWeapon = _Gun;
     else
         cerr << "Invalid active weapon set for Character::NextWeapon\n";
 }
@@ -134,18 +128,12 @@ void Character::PrevWeapon()
         activeWeapon = _Grenade;
     else if (activeWeapon == _Gun)
         activeWeapon = _Gun;
-    else if (activeWeapon == _Grenade && GetWeaponProperties(_Gun).GetWeaponQuantity() != 0)
-        activeWeapon = _Gun;
-    else if (activeWeapon == _Grenade && GetWeaponProperties(_WallBreaker).GetWeaponQuantity() != 0)
-        activeWeapon = _WallBreaker;
     else if (activeWeapon == _Grenade)
-        activeWeapon = _Grenade;
+        activeWeapon = _Gun;
     else if (activeWeapon == _WallBreaker && GetWeaponProperties(_Grenade).GetWeaponQuantity() != 0)
         activeWeapon = _Grenade;
-    else if (activeWeapon == _WallBreaker && GetWeaponProperties(_Gun).GetWeaponQuantity() != 0)
-        activeWeapon = _Gun;
     else if (activeWeapon == _WallBreaker)
-        activeWeapon = _WallBreaker;
+        activeWeapon = _Gun;
     else
         cerr << "Invalid active weapon set for Character::NextWeapon\n";
 }
@@ -203,6 +191,5 @@ bool Character::Visit (WallBreaker &wallBreaker)
 
 bool Character::Visit (Weapon &weapon)
 {
-    cout << "Character::Visit(Weapon &weapon)\n";
     return false;
 }

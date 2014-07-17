@@ -19,9 +19,9 @@ class Weapon
         virtual void Action( Character * character) = 0;  // see if an action needs to be taken by Enemy/Player based on Weapon.
         virtual void Detonate() = 0; // this is the actual impact method for weapons whose actions change on detonation
         virtual void Draw(BITMAP* buffer, int midX, int midY) = 0;
-        WeaponProperties &GetProperties();
-        int GetX() const;
-        int GetY() const;
+        virtual WeaponProperties &GetProperties();
+        virtual int GetX() const;
+        virtual int GetY() const;
         void Notify();
         void SetX(int x);
         void SetY(int y);

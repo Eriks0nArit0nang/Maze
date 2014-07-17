@@ -4,7 +4,7 @@
 
 Nuke::Nuke(int xPos, int yPos, WeaponProperties weaponProperties, Character * watcher):Weapon(xPos, yPos, weaponProperties, watcher)
 {
-    Detonate();
+    
 }
 
 void Nuke::Action( Character * character)
@@ -22,6 +22,8 @@ void Nuke::Update()
         delete this;
         return;
     }
+    else
+        Detonate();
 }
 
 void Nuke::Detonate()

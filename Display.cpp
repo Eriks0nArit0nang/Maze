@@ -7,6 +7,7 @@
 #include "Map.h"
 #include <cmath>
 #include <vector>
+#include <iostream> // TODO remove
 
 using namespace std;
 
@@ -63,10 +64,8 @@ void Display::UpdateScreen()
     for (int i = 0; i < E.size(); i++)
         if (abs (E[i]->GetX () - P->GetX()) < 300 && abs (E[i]->GetY() - P->GetY()) < 300)
         {
-            // TODO Extract each individual draw call 
             E[i]->Draw(buffer, SCREEN_X/2-P->GetX(), SCREEN_Y/2-P->GetY());
         }
-    // TODO Weapon Drawing
     P->Draw(buffer, SCREEN_X/2-P->GetX(), SCREEN_Y/2-P->GetY());
     // TODO Player/Enemy flashing red when hit?
     textprintf_ex(buffer, font, 500+GRID_SIZE*2, 500, makecol(255,0,0), -1, "Health: %d", P->GetHealth());
@@ -181,6 +180,7 @@ void Display::Zoom (int centreX, int centreY)
 
 void Display::NukeAnimation ()
 {
+    std::cout << "Display::NukeAnimation()\n";
     for (int i = 1; i < 45; i++)
     {
         circlefill (buffer, SCREEN_X/2, SCREEN_Y/2, i*10, makecol(255,i*8,0));
@@ -189,7 +189,11 @@ void Display::NukeAnimation ()
     }
 }
 
-void Display::WallAnimation (int x1, int y1, int x2, int y2, int i)
+void Display::RemoveWall (int xPos, int yPos)
 {
-    rectfill (screen,x1,y1,x2,y2,makecol(i*5,i*5,i*5));
+    int x1 = xPos/BOX_PIXEL_WIDTH*BOX_PIXEL_WIDTH;
+    int x2 = (xPos/BOX_PIXEL_WIDTH+1)*BOX_PIXEL_WIDTH-1;
+    int y1 = yPos/BOX_PIXEL_WIDTH*BOX_PIXEL_WIDTH;
+    int y2 = (yPos/BOX_PIXEL_WIDTH+1)*BOX_PIXEL_WIDTH-1;
+    rectfill(background, x1, y1, x2, y2, makecol(255,255,255));
 }

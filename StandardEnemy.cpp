@@ -9,7 +9,6 @@ StandardEnemy::StandardEnemy(int health, double xPos, double yPos):
     Character(health, xPos, yPos, health/10+1, _Enemy)
 {
     InitializeWeaponProperties();
-    weapons.push_back(new EnemyWeapon(GetX(), GetY(), GetWeaponProperties(activeWeapon), this));
     xVel = std::max(1.0,75.0/(1.0*health));
     yVel = std::max(1.0,75.0/(1.0*health));
     
@@ -30,7 +29,17 @@ void StandardEnemy::InitializeWeaponProperties()
 
 void StandardEnemy::Attack ()
 {
-    // Nothing to do
+    attackDelay--;
+    if (attackDelay == GetWeaponProperties(activeWeapon).GetFireRate() - 1)
+    {
+        delete weapons[0];
+        weapons.pop_back();
+    }
+    else if (attackDelay <= 0)
+    {
+        weapons.push_back(new EnemyWeapon(GetX(), GetY(), GetWeaponProperties(activeWeapon), this));
+        attackDelay = GetWeaponProperties(activeWeapon).GetFireRate();
+    }
 }     
 
 void StandardEnemy::Move ()
@@ -122,7 +131,7 @@ bool StandardEnemy::Visit (AbstractGun &gun)
 
 bool StandardEnemy::Visit (Grenade &grenade)
 {
-    if (InRange(grenade.GetX(), grenade.GetY(), grenade.GetProperties().GetRadius()))
+    if (InRange(grenade.GetX(), grenade.GetY(), grenade.GetProperties().GetRadius()) && grenade.WillDestroy())
     {
         Hit(grenade.GetProperties().GetDamage());
         return true;

@@ -20,14 +20,17 @@ class WeaponProperties
         int damage;
         int radius;
         int clipSize;
+        int shotsTaken;
         int fireRate;
         int reloadRate;
         bool active; // Whether The selected Weapon Type is active for purchase/upgrade, use
         void Initialize(WeaponType type);
               
     public:
+        WeaponProperties(WeaponType type, int maxQuantity, int defaultQuantity); // For testing purposes
         WeaponProperties(WeaponType type, int maxQuantity);
         WeaponProperties(); // For dummy initializations. Will set to None weapon.
+        void AddShotTaken();
         bool GetActive() const;
         int GetCost() const;
         int GetClipSize() const;
@@ -37,6 +40,7 @@ class WeaponProperties
         int GetRadius() const;
         int GetRange() const;
         int GetReloadRate() const;
+        int GetShotsTaken() const;
         WeaponType GetType() const;
         int GetWeaponQuantity() const;
         void SetActive(bool active);

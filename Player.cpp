@@ -28,8 +28,8 @@ void Player::InitializeWeaponProperties()
     
     weaponProperties[_None] = WeaponProperties(_None, 0);
     weaponProperties[_Gun] = WeaponProperties(_Gun, -1);
-    weaponProperties[_WideShot] = WeaponProperties(_WideShot, 1);
-    weaponProperties[_ExplodingShot] = WeaponProperties(_ExplodingShot, 1);
+    weaponProperties[_WideShot] = WeaponProperties(_WideShot, 1, 1);
+    weaponProperties[_ExplodingShot] = WeaponProperties(_ExplodingShot, 1, 1);
     weaponProperties[_Grenade] = WeaponProperties(_Grenade, 200);
     weaponProperties[_Mine] = WeaponProperties(_Mine, 10);
     weaponProperties[_Nuke] = WeaponProperties(_Nuke, 1);
@@ -39,24 +39,34 @@ void Player::InitializeWeaponProperties()
 
 void Player::Attack ()
 {
+    attackDelay--;
     WeaponType option = activeWeapon;
     std::pair<int,int> input = Input::GetInstance()->GetWeapons();
     if (input.first / 1000 == 1)
         option = _Mine;
     else if (input.first / 100 == 1)
         option = _Nuke;
-    else if (input.first / 10 == 1)
+    else if (input.first / 10 == 1 && attackDelay <= 0)
     {
         NextWeapon();
         option = activeWeapon;
+        attackDelay = 10;
     }
-    else if (input.first / 1 == 1)
+    else if (input.first / 1 == 1 && attackDelay <= 0)
     {
         PrevWeapon();
         option = activeWeapon;
+        attackDelay = 10;
     }
     
-    if (input.first != 0 || input.second != 0)
+    if ((input.first != 0 || input.second != 0) && attackDelay <= 0 )
+    {
+        attackDelay = GetWeaponProperties(option).GetFireRate();
+        GetWeaponProperties(option).AddShotTaken();
+        if (GetWeaponProperties(option).GetShotsTaken() == GetWeaponProperties(option).GetClipSize())
+        {
+            attackDelay += GetWeaponProperties(option).GetReloadRate();
+        }
         switch (option)
         {
             case _None:
@@ -109,6 +119,7 @@ void Player::Attack ()
                 std::cerr << "No mapping provided for Player::Attack for given WeaponType\n";
                 break;
         }
+    }
 }
 
 void Player::Move ()
@@ -161,6 +172,15 @@ bool Player::Visit (EnemyWeapon &enemyWeapon)
     if (InRange(enemyWeapon.GetX(), enemyWeapon.GetY(), enemyWeapon.GetProperties().GetRadius()))
     {
         Hit(enemyWeapon.GetProperties().GetDamage());
+    }
+    return false;
+}
+
+bool Player::Visit (Grenade &grenade)
+{
+    if (InRange(grenade.GetX(), grenade.GetY(), grenade.GetProperties().GetRadius()) && grenade.WillDestroy())
+    {
+        Hit(grenade.GetProperties().GetDamage());
     }
     return false;
 }

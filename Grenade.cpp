@@ -1,5 +1,6 @@
 #include "Grenade.h"
 #include "Character.h"
+#include "Map.h"
 #include <iostream>
 #include <cmath>
 
@@ -8,6 +9,8 @@ Grenade::Grenade(int xPos, int yPos, WeaponProperties weaponProperties, int dire
 
 void Grenade::Update()
 {
+    bool changeDir = false;
+    
     if (destroyThis)
     {
         delete this;
@@ -20,30 +23,34 @@ void Grenade::Update()
         return;
     }
     
+    int **grid = Map::GetInstance()->GetGrid();
+    if (grid[GetX()/BOX_PIXEL_WIDTH][GetY()/BOX_PIXEL_WIDTH] == 1)
+    {
+        direction = (direction == 1000 || direction == 10) ? (direction / 10) : (direction * 10); // switch direction 1000-100 10-1
+        changeDir = true;
+        
+    }
+    
     switch (direction)
     {
-        case 0: // x+
+        case 1000: // x+
             xPos += velocity;
             break;
-        case 1: // x-
+        case 100: // x-
             xPos -= velocity;
             break;
-        case 2: // y+ (this is actually down)
+        case 10: // y+ (this is actually down)
             yPos += velocity;
             break;
-        case 3: // y- (this is actually up)
+        case 1: // y- (this is actually up)
             yPos -= velocity;
             break;
         default:
             std::cerr << "Invalid grenade direction set\n";
     }
-    #ifdef __MAP_H__
-    if (Map::GetInstance().IsWall(xPos, yPos))
-    {
-        direction = (direction / 2) + 1 - (direction % 2); // switch direction 1-0 2-3
+    
+    if (changeDir)
         velocity -= 2;
-    }
-    #endif
     
     timer--;
     if (timer == 0)
@@ -68,4 +75,6 @@ void Grenade::Action( Character * character)
 void Grenade::Draw(BITMAP *buffer, int midX, int midY)
 {
     circlefill (buffer, midX+GetX(), midY+GetY(), 2, makecol (0,255,0));
+    if (destroyThis)
+        circlefill (buffer, midX+GetX(), midY+GetY(), GetProperties().GetRadius(), makecol (255,0,0));
 }

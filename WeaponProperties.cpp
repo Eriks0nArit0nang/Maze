@@ -2,14 +2,26 @@
 #include <iostream>
 
 // This method exists as array initialization.  It should not be used in any other context
-WeaponProperties::WeaponProperties():weaponQuantity(0),maxQuantity(0),type(_None)
+WeaponProperties::WeaponProperties():weaponQuantity(0),maxQuantity(0),type(_None),shotsTaken(0)
 {
     Initialize(type);								
 } 
 
-WeaponProperties::WeaponProperties(WeaponType type, int maxQuantity):weaponQuantity(0),maxQuantity(maxQuantity),type(type)
+WeaponProperties::WeaponProperties(WeaponType type, int maxQuantity):weaponQuantity(0),maxQuantity(maxQuantity),type(type),shotsTaken(0)
 {
     Initialize(type);										  
+}
+
+WeaponProperties::WeaponProperties(WeaponType type, int maxQuantity, int defaultQuantity):weaponQuantity(defaultQuantity),maxQuantity(maxQuantity),type(type),shotsTaken(0)
+{
+    Initialize(type);	// Only for testing									  
+}
+
+void WeaponProperties::AddShotTaken()
+{
+    shotsTaken++;
+    if (shotsTaken > clipSize)
+        shotsTaken -= clipSize;
 }
 
 bool WeaponProperties::GetActive() const
@@ -55,6 +67,11 @@ int WeaponProperties::GetRange() const
 int WeaponProperties::GetReloadRate() const
 {
     return reloadRate;
+}
+
+int WeaponProperties::GetShotsTaken() const
+{
+    return shotsTaken;
 }
 
 WeaponType WeaponProperties::GetType() const
@@ -128,7 +145,7 @@ void WeaponProperties::Initialize(WeaponType type)
             damage = 80;
             radius = 30;
             clipSize = 1;
-            fireRate = 200;
+            fireRate = 50;
             reloadRate = 0;
             active = true;
             break;
@@ -136,9 +153,9 @@ void WeaponProperties::Initialize(WeaponType type)
             cost = 1000;
             range = 0;
             damage = 200;
-            radius = 5;
+            radius = 30;
             clipSize = 1;
-            fireRate = 200;
+            fireRate = 10;
             reloadRate = 0;
             active = true;
             break;
@@ -148,7 +165,7 @@ void WeaponProperties::Initialize(WeaponType type)
             damage = 1000; // > MAX_HEALTH of an enemy
             radius = 400;
             clipSize = 1;
-            fireRate = 10000;
+            fireRate = 100;
             reloadRate = 0;
             active = true;
             break;
@@ -158,7 +175,7 @@ void WeaponProperties::Initialize(WeaponType type)
             damage = 0;
             radius = 0;
             clipSize = 1;
-            fireRate = 200;
+            fireRate = 10;
             reloadRate = 0;
             active = true;
             break;
@@ -168,7 +185,7 @@ void WeaponProperties::Initialize(WeaponType type)
             damage = 5;
             radius = 10;
             clipSize = 1;
-            fireRate = 5;
+            fireRate = 10;
             reloadRate = 0;
             active = false;
             break;

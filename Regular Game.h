@@ -1,4 +1,4 @@
-void play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player &P1, int diff = 6, int diffMult = 1) // TODO Implement gameplay
+void play_level (pair <int[4],int[GRID_SIZE][GRID_SIZE]> grid, Player &P1, int diff = 6, int diffMult = 1)
 {
     // Player P1;
      Bullet B1;

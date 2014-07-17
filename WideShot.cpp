@@ -1,5 +1,6 @@
 #include "WideShot.h"
 #include <cmath>
+#include <iostream> // TODO remove
 
 static void thick_line(BITMAP *bmp, float x, float y, float x_, float y_,
     float thickness, int color)
@@ -36,6 +37,6 @@ WideShot::WideShot(AbstractGun *gun):AbstractGunDecorator(gun)
 
 void WideShot::Draw(BITMAP *buffer, int midX, int midY)
 {
-    thick_line (buffer, midX+GetX(), midY+GetY(), midX+round(xPosOrig), midY+round(yPosOrig), 3, makecol (255,0,0));
+    thick_line (buffer, midX+GetX(), midY+GetY(), midX+(int)round(xPosOrig), midY+(int)round(yPosOrig), 3, makecol (255,0,0));
     gun->Draw(buffer, midX, midY);
 }

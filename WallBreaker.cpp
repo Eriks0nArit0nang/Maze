@@ -1,6 +1,8 @@
 #include "Wallbreaker.h"
 #include "Character.h"
 #include "Globals.h"
+#include "Map.h"
+#include "Display.h"
 #include <cmath>
 #include <iostream>
 
@@ -25,25 +27,35 @@ void WallBreaker::Update()
         delete this;
         return;
     }
-    
+    // TODO assert that no wall that is outside the boundary can ever be removed
     if (std::abs(xPos-xPosOrig) > GetProperties().GetRange() || std::abs(yPos-yPosOrig) > GetProperties().GetRange())
     {
-        delete this;
+        destroyThis = true;
+        return;
+    }
+    
+    int **grid = Map::GetInstance()->GetGrid();
+    if (grid[GetX()/BOX_PIXEL_WIDTH][GetY()/BOX_PIXEL_WIDTH] == 1)
+    {
+        destroyThis = true;
+        if (abs(GetX()/BOX_PIXEL_WIDTH-GRID_SIZE/2) > 5 && abs(GetY()/BOX_PIXEL_WIDTH - GRID_SIZE/2) > 5)
+        grid[GetX()/BOX_PIXEL_WIDTH][GetY()/BOX_PIXEL_WIDTH] = 0;
+        Display::GetInstance()->RemoveWall(GetX(),GetY());
         return;
     }
     
     switch (direction)
     {
-        case 0: // x+
+        case 1000: // x+
             xPos += VELOCITY;
             break;
-        case 1: // x-
+        case 100: // x-
             xPos -= VELOCITY;
             break;
-        case 2: // y+ (this is actually down)
+        case 10: // y+ (this is actually down)
             yPos += VELOCITY;
             break;
-        case 3: // y- (this is actually up)
+        case 1: // y- (this is actually up)
             yPos -= VELOCITY;
             break;
         default:
@@ -58,5 +70,5 @@ void WallBreaker::Detonate()
 
 void WallBreaker::Draw(BITMAP *buffer, int midX, int midY)
 {
-    line (buffer, midX+GetX(), midY+GetY(), midX+round(xPosOrig), midY+round(yPosOrig), makecol (100,100,100));
+    
 }

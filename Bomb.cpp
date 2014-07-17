@@ -36,4 +36,6 @@ void Bomb::Action( Character * character)
 void Bomb::Draw(BITMAP *buffer, int midX, int midY)
 {
     circlefill (buffer, midX+GetX(), midY+GetY(), 2, makecol (125,0,0));
+    if (destroyThis)
+        circlefill (buffer, midX+GetX(), midY+GetY(), GetProperties().GetRadius(), makecol (255,0,0));
 }

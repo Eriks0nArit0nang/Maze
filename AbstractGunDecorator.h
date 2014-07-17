@@ -2,6 +2,7 @@
 #define __ABSTRACTGUNDECORATOR_H__
 
 #include "AbstractGun.h"
+class Character;
 
 class AbstractGunDecorator : public AbstractGun
 {
@@ -12,6 +13,10 @@ class AbstractGunDecorator : public AbstractGun
         AbstractGunDecorator(AbstractGun * gun);
         void Update();
         void Detonate();
+        void Action( Character * character);
+        int GetX() const;
+        int GetY() const;
+        WeaponProperties &GetProperties();
 };
 
 #endif

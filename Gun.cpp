@@ -21,6 +21,7 @@ void Gun::Update()
         destroyThis = true;
         return;
     }
+    
     int **grid = Map::GetInstance()->GetGrid();
     if (grid[GetX()/BOX_PIXEL_WIDTH][GetY()/BOX_PIXEL_WIDTH] == 1)
     {

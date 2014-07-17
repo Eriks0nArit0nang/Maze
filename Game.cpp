@@ -182,13 +182,35 @@ void Game::PlayLevel()
             }
             for(vector<Weapon *>::iterator weaponIt = playerWeapons.begin(); weaponIt != playerWeapons.end(); ++weaponIt)
             {
-                for (int i = 0; i < enemies.size(); i++)
-                    (*weaponIt)->Action(enemies[i]);
-                if ((*weaponIt)->WillDestroy())
+                if ((*weaponIt)->GetProperties().GetType() != _Gun)
+                {
+                    (*weaponIt)->Action(player);
+                    for (int i = 0; i < enemies.size(); i++)
+                        (*weaponIt)->Action(enemies[i]);
+                    if ((*weaponIt)->WillDestroy())
+                    {
+                        (*weaponIt)->Notify();
+                    }
+                    (*weaponIt)->Update();
+                }
+                else if ((*weaponIt)->WillDestroy())
                 {
                     (*weaponIt)->Notify();
+                    (*weaponIt)->Update();
                 }
-                (*weaponIt)->Update();
+                else
+                {
+                    while (!(*weaponIt)->WillDestroy())
+                    {
+                        for (int i = 0; i < enemies.size(); i++)
+                            (*weaponIt)->Action(enemies[i]);
+                        if ((*weaponIt)->WillDestroy())
+                            break;
+                        (*weaponIt)->Update();
+                    }
+                    for (int i = 0; i < enemies.size(); i++)
+                        (*weaponIt)->Action(enemies[i]);
+                }
             }
             
             Map::GetInstance()->UpdateFog(player->GetX()/60, player->GetY()/60);
