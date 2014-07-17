@@ -1,6 +1,5 @@
 #include "WideShot.h"
 #include <cmath>
-#include <iostream> // TODO remove
 
 static void thick_line(BITMAP *bmp, float x, float y, float x_, float y_,
     float thickness, int color)
@@ -14,17 +13,17 @@ static void thick_line(BITMAP *bmp, float x, float y, float x_, float y_,
     int v[4 * 2];
  
     /* left up */
-    v[0] = x - thickness * dy / d;
-    v[1] = y + thickness * dx / d;
+    v[0] = (int)round(x - thickness * dy / d);
+    v[1] = (int)round(y + thickness * dx / d);
     /* right up */
-    v[2] = x + thickness * dy / d;
-    v[3] = y - thickness * dx / d;
+    v[2] = (int)round(x + thickness * dy / d);
+    v[3] = (int)round(y - thickness * dx / d);
     /* right down */
-    v[4] = x_ + thickness * dy / d;
-    v[5] = y_ - thickness * dx / d;
+    v[4] = (int)round(x_ + thickness * dy / d);
+    v[5] = (int)round(y_ - thickness * dx / d);
     /* left down */
-    v[6] = x_ - thickness * dy / d;
-    v[7] = y_ + thickness * dx / d;
+    v[6] = (int)round(x_ - thickness * dy / d);
+    v[7] = (int)round(y_ + thickness * dx / d);
  
     polygon(bmp, 4, v, color);
 }

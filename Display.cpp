@@ -1,13 +1,11 @@
 #include "Display.h"
 #include "Globals.h"
 #include "Player.h"
-#include "StandardEnemy.h"
-// TODO Create enemy factory class
+#include "Enemy.h"
 #include "Game.h"
 #include "Map.h"
 #include <cmath>
 #include <vector>
-#include <iostream> // TODO remove
 
 using namespace std;
 
@@ -55,7 +53,7 @@ int Display::RotateReallignedSprite (BITMAP* screen, BITMAP* sprite, int x, int 
 void Display::UpdateScreen()
 {
     Player *P = Game::GetInstance()->GetPlayer();
-    vector<StandardEnemy *> E = Game::GetInstance()->GetEnemies();
+    vector<Enemy *> E = Game::GetInstance()->GetEnemies();
     Map *mapInst = Map::GetInstance();
     int size = mapInst->GetGridSize();
     draw_sprite (buffer, background, -(P->GetX()-SCREEN_X/2), -(P->GetY()-SCREEN_Y/2));
@@ -67,7 +65,6 @@ void Display::UpdateScreen()
             E[i]->Draw(buffer, SCREEN_X/2-P->GetX(), SCREEN_Y/2-P->GetY());
         }
     P->Draw(buffer, SCREEN_X/2-P->GetX(), SCREEN_Y/2-P->GetY());
-    // TODO Player/Enemy flashing red when hit?
     textprintf_ex(buffer, font, 500+GRID_SIZE*2, 500, makecol(255,0,0), -1, "Health: %d", P->GetHealth());
     textprintf_ex(buffer, font, 500+GRID_SIZE*2, 520, makecol(255,0,0), -1, "Enemies: %d", E.size());
     textprintf_ex(buffer, font, 500+GRID_SIZE*2, 540, makecol(255,0,0), -1, "Money: %d", P->GetMoney());
@@ -180,7 +177,6 @@ void Display::Zoom (int centreX, int centreY)
 
 void Display::NukeAnimation ()
 {
-    std::cout << "Display::NukeAnimation()\n";
     for (int i = 1; i < 45; i++)
     {
         circlefill (buffer, SCREEN_X/2, SCREEN_Y/2, i*10, makecol(255,i*8,0));

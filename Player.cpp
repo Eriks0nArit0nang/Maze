@@ -28,8 +28,8 @@ void Player::InitializeWeaponProperties()
     
     weaponProperties[_None] = WeaponProperties(_None, 0);
     weaponProperties[_Gun] = WeaponProperties(_Gun, -1);
-    weaponProperties[_WideShot] = WeaponProperties(_WideShot, 1, 1);
-    weaponProperties[_ExplodingShot] = WeaponProperties(_ExplodingShot, 1, 1);
+    weaponProperties[_WideShot] = WeaponProperties(_WideShot, 1);
+    weaponProperties[_ExplodingShot] = WeaponProperties(_ExplodingShot, 1);
     weaponProperties[_Grenade] = WeaponProperties(_Grenade, 200);
     weaponProperties[_Mine] = WeaponProperties(_Mine, 10);
     weaponProperties[_Nuke] = WeaponProperties(_Nuke, 1);

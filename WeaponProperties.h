@@ -27,7 +27,6 @@ class WeaponProperties
         void Initialize(WeaponType type);
               
     public:
-        WeaponProperties(WeaponType type, int maxQuantity, int defaultQuantity); // For testing purposes
         WeaponProperties(WeaponType type, int maxQuantity);
         WeaponProperties(); // For dummy initializations. Will set to None weapon.
         void AddShotTaken();

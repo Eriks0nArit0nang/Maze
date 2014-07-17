@@ -3,7 +3,8 @@
 #include "Display.h"
 #include "Input.h"
 #include "Player.h"
-#include "StandardEnemy.h"
+#include "Enemy.h"
+#include "EnemyFactory.h"
 #include <sstream>
 #include <iostream>
 #include <ctime>
@@ -30,7 +31,7 @@ Player *Game::GetPlayer()
     return player;
 }
 
-std::vector<StandardEnemy *> &Game::GetEnemies()
+std::vector<Enemy *> &Game::GetEnemies()
 {
     return enemies;
 }
@@ -94,6 +95,7 @@ Game::Game():player(0){}
 void Game::InitLevel(int level, int difficulty, string fileName)
 {
     srand(time(0));
+    EnemyFactory enemyFactory = EnemyFactory(difficulty);
     Map * mapInst = Map::GetInstance();
     if (fileName == "")
         mapInst->CreateAuto();
@@ -112,7 +114,7 @@ void Game::InitLevel(int level, int difficulty, string fileName)
             y = rand() % mapInst->GetGridSize();
         } while (mapInst->GetGrid()[x][y] == 1 || (x == startLoc.first && y == startLoc.second));
         
-        enemies.push_back(new StandardEnemy(health, x*BOX_PIXEL_WIDTH+BOX_PIXEL_WIDTH/2, y*BOX_PIXEL_WIDTH+BOX_PIXEL_WIDTH/2));
+        enemies.push_back(enemyFactory.Generate(health, x*BOX_PIXEL_WIDTH+BOX_PIXEL_WIDTH/2, y*BOX_PIXEL_WIDTH+BOX_PIXEL_WIDTH/2));
     }
     Display *display = display->GetInstance();
     display->SetBackground();
@@ -223,8 +225,6 @@ void Game::PlayLevel()
             display->UpdateMiniMap (player->GetX()/60,player->GetY()/60);
             
             display->UpdateScreen();
-            
-            // TODO Identify if wall/nuke animations are implemented
             
             if (GameEnd())
                 break;

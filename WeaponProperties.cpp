@@ -12,11 +12,6 @@ WeaponProperties::WeaponProperties(WeaponType type, int maxQuantity):weaponQuant
     Initialize(type);										  
 }
 
-WeaponProperties::WeaponProperties(WeaponType type, int maxQuantity, int defaultQuantity):weaponQuantity(defaultQuantity),maxQuantity(maxQuantity),type(type),shotsTaken(0)
-{
-    Initialize(type);	// Only for testing									  
-}
-
 void WeaponProperties::AddShotTaken()
 {
     shotsTaken++;

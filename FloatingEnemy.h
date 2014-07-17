@@ -1,15 +1,15 @@
-#ifndef __STANDARDENEMY_H__
-#define __STANDARDENEMY_H__
+#ifndef __FLOATINGENEMY_H__
+#define __FLOATINGENEMY_H__
 
 
 #include "Enemy.h"
 
-class StandardEnemy : public Enemy
+class FloatingEnemy : public Enemy
 {
     private:
         void InitializeWeaponProperties();
     public:
-        StandardEnemy(int health, double xPos, double yPos);
+        FloatingEnemy(int health, double xPos, double yPos);
         void Attack ();     
         void Move ();
         void Draw(BITMAP *buffer, int midX, int midY);

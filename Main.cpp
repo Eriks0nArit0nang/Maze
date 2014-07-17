@@ -29,7 +29,7 @@ int main ()
     }
     else
     {
-         game->Play("Game 1", 1);
+         game->Play("Game 1", 2);
     }
     rest(2000);
     cout << "Please Press A Key\n";

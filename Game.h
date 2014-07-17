@@ -5,7 +5,7 @@
 #include <string>
 
 class Player;
-class StandardEnemy;
+class Enemy;
 
 class Game
 {
@@ -13,7 +13,7 @@ class Game
         static Game *GetInstance();
         static void RemoveInstance();
         Player *GetPlayer();
-        std::vector<StandardEnemy *> &GetEnemies();
+        std::vector<Enemy *> &GetEnemies();
         void Play(std::string gameName, int difficulty);
         void Create(std::string gameName);
         
@@ -26,7 +26,7 @@ class Game
         bool GameEnd();
         static Game *instance;
         Player *player;
-        std::vector <StandardEnemy *>enemies;
+        std::vector <Enemy *>enemies;
         
 };
 

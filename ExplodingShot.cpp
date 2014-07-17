@@ -1,5 +1,4 @@
 #include "ExplodingShot.h"
-#include <iostream> // TODO remove
 
 ExplodingShot::ExplodingShot(AbstractGun * gun):AbstractGunDecorator(gun){}
 

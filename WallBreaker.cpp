@@ -27,7 +27,7 @@ void WallBreaker::Update()
         delete this;
         return;
     }
-    // TODO assert that no wall that is outside the boundary can ever be removed
+
     if (std::abs(xPos-xPosOrig) > GetProperties().GetRange() || std::abs(yPos-yPosOrig) > GetProperties().GetRange())
     {
         destroyThis = true;
@@ -39,7 +39,7 @@ void WallBreaker::Update()
     {
         destroyThis = true;
         if (abs(GetX()/BOX_PIXEL_WIDTH-GRID_SIZE/2) > 5 && abs(GetY()/BOX_PIXEL_WIDTH - GRID_SIZE/2) > 5)
-        grid[GetX()/BOX_PIXEL_WIDTH][GetY()/BOX_PIXEL_WIDTH] = 0;
+            grid[GetX()/BOX_PIXEL_WIDTH][GetY()/BOX_PIXEL_WIDTH] = 0;
         Display::GetInstance()->RemoveWall(GetX(),GetY());
         return;
     }

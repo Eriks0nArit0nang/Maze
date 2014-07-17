@@ -4,9 +4,9 @@
 #include "Map.h"
 #include "Game.h"
 #include <cmath>
-#include <iostream> // TODO remove once done debugging
+
 StandardEnemy::StandardEnemy(int health, double xPos, double yPos):
-    Character(health, xPos, yPos, health/10+1, _Enemy)
+    Enemy(health, xPos, yPos, health/10+1, _Enemy)
 {
     InitializeWeaponProperties();
     xVel = std::max(1.0,75.0/(1.0*health));
@@ -117,43 +117,4 @@ void StandardEnemy::Draw(BITMAP *buffer, int midX, int midY)
     circlefill (buffer, midX+GetX(), midY+GetY(), radius-GetHealth()/10-1, makecol (255,0,0));
     circle (buffer, midX+GetX(), midY+GetY(), radius, makecol (255,0,0));
         
-}
-
-bool StandardEnemy::Visit (AbstractGun &gun)
-{
-    if (InRange(gun.GetX(), gun.GetY(), gun.GetProperties().GetRadius()))
-    {
-        Hit(gun.GetProperties().GetDamage());
-        return true;
-    }
-    return false;
-}
-
-bool StandardEnemy::Visit (Grenade &grenade)
-{
-    if (InRange(grenade.GetX(), grenade.GetY(), grenade.GetProperties().GetRadius()) && grenade.WillDestroy())
-    {
-        Hit(grenade.GetProperties().GetDamage());
-        return true;
-    }
-    return false;
-}
-
-bool StandardEnemy::Visit (Bomb &bomb)
-{
-    if (InRange(bomb.GetX(), bomb.GetY(), bomb.GetProperties().GetRadius()))
-    {
-        Hit(bomb.GetProperties().GetDamage());
-        return true;
-    }
-    return false;
-}
-
-bool StandardEnemy::Visit (Nuke &nuke)
-{
-    if (InRange(nuke.GetX(), nuke.GetY(), nuke.GetProperties().GetRadius()))
-    {
-        Hit(nuke.GetProperties().GetDamage());
-    }
-    return false;
 }
