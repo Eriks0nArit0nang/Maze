@@ -26,6 +26,22 @@ void Game::RemoveInstance()
     instance = 0;
 }
 
+void Game::SetInstance(Game * game)
+{
+    if (instance)
+        delete instance;
+    instance = game;
+}
+        
+Game::Game():player(0){}
+
+Game::~Game()
+{
+    for (int i = 0; i < enemies.size(); i++)
+        delete enemies[i];
+    delete player;
+}
+
 Player *Game::GetPlayer()
 {
     return player;
@@ -62,6 +78,7 @@ void Game::Play(std::string gameName, int diff)
         if (player->GetHealth() > 0)
         {
             InitLevel(i+1,diff,t);
+            player->AddMoney(1000*i);
             PlayLevel();
             ResetLevel();
         }
@@ -89,8 +106,6 @@ void Game::Create(std::string gameName)
         map->Save(t);
     }
 }
-        
-Game::Game():player(0){}
 
 void Game::InitLevel(int level, int difficulty, string fileName)
 {
@@ -147,8 +162,7 @@ void Game::PlayLevel()
             
             if (input->GetMovement() >= 10000) // Upgrade
             {
-                display->DrawUpgrade();
-                display->UpdateScreen();;
+                Upgrade();
                 while (key[KEY_U]) poll_keyboard();
                 input->ResetTicks();
             }
@@ -175,12 +189,30 @@ void Game::PlayLevel()
             playerWeapons = player->GetWeapons();
             for(vector<Weapon *>::iterator weaponIt = enemyWeapons.begin(); weaponIt != enemyWeapons.end(); ++weaponIt)
             {
-                (*weaponIt)->Action(player);
-                if ((*weaponIt)->WillDestroy())
+                if ((*weaponIt)->GetProperties().GetType() != _Gun)
+                {
+                    (*weaponIt)->Action(player);
+                    if ((*weaponIt)->WillDestroy())
+                    {
+                        (*weaponIt)->Notify();
+                    }
+                    (*weaponIt)->Update();
+                }
+                else if ((*weaponIt)->WillDestroy())
                 {
                     (*weaponIt)->Notify();
+                    (*weaponIt)->Update();
                 }
-                (*weaponIt)->Update();
+                else
+                {
+                    while (!(*weaponIt)->WillDestroy())
+                    {
+                        (*weaponIt)->Action(player);
+                        if ((*weaponIt)->WillDestroy())
+                            break;
+                        (*weaponIt)->Update();
+                    }
+                }
             }
             for(vector<Weapon *>::iterator weaponIt = playerWeapons.begin(); weaponIt != playerWeapons.end(); ++weaponIt)
             {
@@ -210,8 +242,6 @@ void Game::PlayLevel()
                             break;
                         (*weaponIt)->Update();
                     }
-                    for (int i = 0; i < enemies.size(); i++)
-                        (*weaponIt)->Action(enemies[i]);
                 }
             }
             
@@ -233,4 +263,58 @@ void Game::PlayLevel()
           if (GameEnd())
              break;
      }
+}
+
+void Game::Upgrade()
+{
+    bool finished = false;
+    int prevVals = 1;
+    while (!finished)
+    {
+        Display::GetInstance()->DrawUpgrade();
+        Input::GetInstance()->ReadUpgrade();
+        int upgradeVals = Input::GetInstance()->GetUpgrade();
+        if (upgradeVals != prevVals && !close_button_pressed)
+        {
+            prevVals = upgradeVals;
+            switch (upgradeVals)
+            {
+                case 1:
+                    finished = true;
+                    break;
+                case 2:
+                    player->UpgradeWeapon(_Gun, "rate");
+                    break;
+                case 4:
+                    player->UpgradeWeapon(_Gun, "clip");
+                    break;
+                case 8:
+                    player->UpgradeWeapon(_Gun, "range");
+                    break;
+                case 16:
+                    player->UpgradeWeapon(_None, "health");
+                    break;
+                case 32:
+                    player->UpgradeWeapon(_Nuke, "quantity");
+                    break;
+                case 64:
+                    player->UpgradeWeapon(_WideShot, "quantity");
+                    break;
+                case 128:
+                    player->UpgradeWeapon(_Grenade, "quantity");
+                    break;
+                case 256:
+                    player->UpgradeWeapon(_ExplodingShot, "quantity");
+                    break;
+                case 512:
+                    player->UpgradeWeapon(_Mine, "quantity");
+                    break;
+                case 1024:
+                    player->UpgradeWeapon(_WallBreaker, "quantity");
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }

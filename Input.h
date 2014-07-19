@@ -9,9 +9,11 @@ class Input : public Interaction
     public:
         static Input *GetInstance();
         void ReadInput();
-        int GetMovement();
-        std::pair<int,int> GetWeapons();
-        std::pair <int,int> GetMouse();
+        void ReadUpgrade();
+        int GetMovement() const;
+        int GetUpgrade() const;
+        std::pair<int,int> GetWeapons() const;
+        std::pair <int,int> GetMouse() const;
         static void RemoveInstance();
         
         
@@ -19,6 +21,7 @@ class Input : public Interaction
         static Input *instance;
         Input();
         int movement;
+        int upgrade;
         std::pair<int,int> weapons; // special weapons, direction
         std::pair<int,int> mouse;
     

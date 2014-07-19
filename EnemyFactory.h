@@ -12,6 +12,7 @@ class EnemyFactory
         int gameType;
         Enemy *InitializeBasic(int health, int xPos, int yPos);
         Enemy *InitializeMedium(int health, int xPos, int yPos);
+        Enemy *InitializeSurvival(int health, int xPos, int yPos);
 };
 
 #endif

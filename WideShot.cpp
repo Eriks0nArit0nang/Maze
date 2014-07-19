@@ -32,6 +32,7 @@ WideShot::WideShot(AbstractGun *gun):AbstractGunDecorator(gun)
 {
     WeaponProperties properties(_WideShot, 0);
     GetProperties().radius = properties.GetRadius();
+    GetProperties().damage += properties.GetDamage();
 }
 
 void WideShot::Draw(BITMAP *buffer, int midX, int midY)

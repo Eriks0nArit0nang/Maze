@@ -117,7 +117,7 @@ void WeaponProperties::Initialize(WeaponType type)
         case _WideShot:
             cost = 1000;
             range = 120;
-            damage = 15;
+            damage = 2;
             radius = 3;
             clipSize = 25;
             fireRate = 10;
@@ -127,7 +127,7 @@ void WeaponProperties::Initialize(WeaponType type)
         case _ExplodingShot:
             cost = 8000;
             range = 120;
-            damage = 20;
+            damage = 5;
             radius = 20; // only after contact.  Implemented in separate class.
             clipSize = 25;
             fireRate = 20;
@@ -199,6 +199,10 @@ void WeaponProperties::SetClipSize(int clipSize)
     this->clipSize = clipSize;
 }
 
+void WeaponProperties::SetDamage(int damage)
+{
+    this->damage = damage;
+}
 void WeaponProperties::SetFireRate(int fireRate)
 {
     this->fireRate = fireRate;

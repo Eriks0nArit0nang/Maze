@@ -1,12 +1,13 @@
-#include "StandardEnemy.h"
+#include "ShootingEnemy.h"
 #include "Globals.h"
 #include "Player.h"
 #include "Map.h"
 #include "Game.h"
+#include "Gun.h"
 #include <cmath>
 
-StandardEnemy::StandardEnemy(int health, double xPos, double yPos):
-    Enemy(health, xPos, yPos, health/10+1, _Enemy)
+ShootingEnemy::ShootingEnemy(int health, double xPos, double yPos):
+    Enemy(health, xPos, yPos, health/10+1, _Gun)
 {
     InitializeWeaponProperties();
     xVel = std::max(1.0,75.0/(1.0*health));
@@ -14,10 +15,12 @@ StandardEnemy::StandardEnemy(int health, double xPos, double yPos):
     
 }
 
-void StandardEnemy::InitializeWeaponProperties()
+void ShootingEnemy::InitializeWeaponProperties()
 {
     weaponProperties[_None] = WeaponProperties(_None, 0);
-    weaponProperties[_Gun] = WeaponProperties(_Gun, 0);
+    weaponProperties[_Gun] = WeaponProperties(_Gun, 1);
+    weaponProperties[_Gun].SetRange(std::max(health,60));
+    weaponProperties[_Gun].SetDamage(std::min(2*(health/10+1),weaponProperties[_Gun].GetDamage()));
     weaponProperties[_WideShot] = WeaponProperties(_WideShot, 0);
     weaponProperties[_ExplodingShot] = WeaponProperties(_ExplodingShot, 0);
     weaponProperties[_Grenade] = WeaponProperties(_Grenade, 0);
@@ -25,25 +28,30 @@ void StandardEnemy::InitializeWeaponProperties()
     weaponProperties[_Nuke] = WeaponProperties(_Nuke, 0);
     weaponProperties[_WallBreaker] = WeaponProperties(_WallBreaker, 0);
     weaponProperties[_Enemy] = WeaponProperties(_Enemy, -1);
-    weaponProperties[_Enemy].SetDamage(std::min(2*(health/10+1),weaponProperties[_Enemy].GetDamage()));
 }
 
-void StandardEnemy::Attack ()
+void ShootingEnemy::Attack ()
 {
     attackDelay--;
-    if (attackDelay == GetWeaponProperties(activeWeapon).GetFireRate() - 1)
+    Player *p = Game::GetInstance()->GetPlayer();
+    if (attackDelay <= 0 && (abs(p->GetX()-GetX()) <= GetWeaponProperties(activeWeapon).GetRange() ||
+                             abs(p->GetY()-GetY()) <= GetWeaponProperties(activeWeapon).GetRange()))
     {
-        delete weapons[0];
-        weapons.pop_back();
-    }
-    else if (attackDelay <= 0)
-    {
-        weapons.push_back(new EnemyWeapon(GetX(), GetY(), GetWeaponProperties(activeWeapon), this));
+        int xDiff = p->GetX()-GetX();
+        int yDiff = p->GetY()-GetY();
+        if (xDiff <= GetWeaponProperties(activeWeapon).GetRange() && xDiff >= 0 && abs(yDiff) < 10)
+            weapons.push_back(new Gun(GetX(), GetY(), GetWeaponProperties(activeWeapon), 1000, this));
+        else if (xDiff >= -GetWeaponProperties(activeWeapon).GetRange() && xDiff < 0 && abs(yDiff) < 10)
+            weapons.push_back(new Gun(GetX(), GetY(), GetWeaponProperties(activeWeapon), 100, this));
+        else if (yDiff <= GetWeaponProperties(activeWeapon).GetRange() && yDiff >= 0 && abs(xDiff) < 10)
+            weapons.push_back(new Gun(GetX(), GetY(), GetWeaponProperties(activeWeapon), 10, this));
+        else if (yDiff >= -GetWeaponProperties(activeWeapon).GetRange() && yDiff < 0 && abs(xDiff) < 10)
+            weapons.push_back(new Gun(GetX(), GetY(), GetWeaponProperties(activeWeapon), 1, this));
         attackDelay = GetWeaponProperties(activeWeapon).GetFireRate();
     }
 }     
 
-void StandardEnemy::Move ()
+void ShootingEnemy::Move ()
 {
     int **check = Map::GetInstance()->GetDistFromPlayer();
     Player &p = *Game::GetInstance()->GetPlayer();
@@ -110,11 +118,11 @@ void StandardEnemy::Move ()
      }
 }
 
-void StandardEnemy::Draw(BITMAP *buffer, int midX, int midY)
+void ShootingEnemy::Draw(BITMAP *buffer, int midX, int midY)
 {
     for (int i = 0; i < weapons.size(); i++)
         weapons[i]->Draw(buffer, midX, midY);
-    circlefill (buffer, midX+GetX(), midY+GetY(), radius, makecol (255,255,0));
+    circlefill (buffer, midX+GetX(), midY+GetY(), radius, makecol (255,150,150));
     circlefill (buffer, midX+GetX(), midY+GetY(), radius-GetHealth()/10-1, makecol (255,0,0));
     circle (buffer, midX+GetX(), midY+GetY(), radius, makecol (255,0,0));
         

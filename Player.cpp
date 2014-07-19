@@ -5,6 +5,7 @@
 #include "Input.h"
 #include <utility>
 #include <iostream>
+#include <cmath>
 
 #include "Bomb.h"
 #include "Nuke.h"
@@ -157,6 +158,40 @@ int Player::GetMoney() const
     return money;
 }
 
+void Player::UpgradeWeapon(WeaponType type, std::string property)
+{
+    if (type == _None && property == "health" && GetMoney() >= 100)
+    {
+        AddHealth(20);
+        AddMoney(-100);
+    }
+    else if (property == "rate" && GetMoney() >= 250*(int)pow(11-GetWeaponProperties(type).GetFireRate(),2) && GetWeaponProperties(type).GetFireRate() > 2)
+    {
+        AddMoney(-250*(int)pow(11-GetWeaponProperties(type).GetFireRate(),2));
+        GetWeaponProperties(type).SetFireRate(GetWeaponProperties(type).GetFireRate()-1);
+    }
+    else if (property == "clip" && GetMoney() >= 10*GetWeaponProperties(type).GetClipSize() && GetWeaponProperties(type).GetClipSize() < 100)
+    {
+        AddMoney(-10*GetWeaponProperties(type).GetClipSize());
+        GetWeaponProperties(type).SetClipSize(GetWeaponProperties(type).GetClipSize()+1);
+    }
+    else if (property == "range" && GetMoney() >= 100*(GetWeaponProperties(type).GetRange()/BOX_PIXEL_WIDTH) && GetWeaponProperties(type).GetRange() < 300)
+    {
+        AddMoney(-100*(GetWeaponProperties(type).GetRange()/BOX_PIXEL_WIDTH));
+        GetWeaponProperties(type).SetRange(GetWeaponProperties(type).GetRange()+2);
+    }
+    else if (property == "quantity" && GetMoney() >= GetWeaponProperties(type).GetCost() && 
+            GetWeaponProperties(type).GetWeaponQuantity() < GetWeaponProperties(type).GetMaxQuantity())
+    {
+        GetWeaponProperties(type).SetWeaponQuantity(GetWeaponProperties(type).GetWeaponQuantity()+1);
+        AddMoney(-GetWeaponProperties(type).GetCost());
+    }
+    else
+    {
+        // Can't upgrade.  Do nothing for now.
+    }
+}
+
 void Player::Draw(BITMAP *buffer, int midX, int midY)
 {
     for (int i = 0; i < weapons.size(); i++)
@@ -181,6 +216,16 @@ bool Player::Visit (Grenade &grenade)
     if (InRange(grenade.GetX(), grenade.GetY(), grenade.GetProperties().GetRadius()) && grenade.WillDestroy())
     {
         Hit(grenade.GetProperties().GetDamage());
+    }
+    return false;
+}
+
+bool Player::Visit (AbstractGun &gun)
+{
+    if (InRange(gun.GetX(), gun.GetY(), gun.GetProperties().GetRadius()))
+    {
+        Hit(gun.GetProperties().GetDamage());
+        return true;
     }
     return false;
 }

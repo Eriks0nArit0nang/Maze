@@ -16,14 +16,18 @@ class Game
         std::vector<Enemy *> &GetEnemies();
         void Play(std::string gameName, int difficulty);
         void Create(std::string gameName);
-        
+    
+    protected:
+        static void SetInstance(Game * game);
+        Game();
+        virtual ~Game();
+        void Upgrade();
         
     private:
-        Game();
-        void InitLevel(int level, int difficulty, std::string fileName = "");
+        virtual void InitLevel(int level, int difficulty, std::string fileName = "");
         void ResetLevel();
-        void PlayLevel();
-        bool GameEnd();
+        virtual void PlayLevel();
+        virtual bool GameEnd();
         static Game *instance;
         Player *player;
         std::vector <Enemy *>enemies;

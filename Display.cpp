@@ -94,8 +94,8 @@ void Display::DrawUpgrade()
     WeaponProperties mine = P.GetWeaponProperties(_Mine);
     WeaponProperties wallBreaker = P.GetWeaponProperties(_WallBreaker);
     textprintf_ex(buffer, font, 180, 162, makecol(255,255,255), -1, "%d Cost: %d", rate, 250*(11-rate)*(11-rate));
-    textprintf_ex(buffer, font, 180, 201, makecol(255,255,255), -1, "%d Cost: %d", clip, 5*clip);
-    textprintf_ex(buffer, font, 180, 240, makecol(255,255,255), -1, "%d Cost: %d", range, range*2);
+    textprintf_ex(buffer, font, 180, 201, makecol(255,255,255), -1, "%d Cost: %d", clip, 10*clip);
+    textprintf_ex(buffer, font, 180, 240, makecol(255,255,255), -1, "%d Cost: %d", range, 100*(range/BOX_PIXEL_WIDTH));
     textprintf_ex(buffer, font, 180, 279, makecol(255,255,255), -1, "%d Cost: %d", health, 100);
     textprintf_ex(buffer, font, 300, 162, makecol(255,255,255), -1, "Money: %d", money);
     textprintf_ex(buffer, font, 400, 355, makecol(255,255,255), -1, "N %d Cost: %d", nuke.GetWeaponQuantity(), nuke.GetCost());

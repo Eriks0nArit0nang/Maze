@@ -17,8 +17,10 @@ class Player : public Character
         void Draw (BITMAP *buffer, int midX, int midY);
         void AddMoney(int m);
         int GetMoney() const;
+        void UpgradeWeapon(WeaponType type, std::string property);
         bool Visit (EnemyWeapon &enemyWeapon);
-        bool Player::Visit (Grenade &grenade);
+        bool Visit (Grenade &grenade);
+        bool Visit (AbstractGun &gun);
 };
 
 #endif

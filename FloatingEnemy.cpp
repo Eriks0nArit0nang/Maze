@@ -25,6 +25,7 @@ void FloatingEnemy::InitializeWeaponProperties()
     weaponProperties[_Nuke] = WeaponProperties(_Nuke, 0);
     weaponProperties[_WallBreaker] = WeaponProperties(_WallBreaker, 0);
     weaponProperties[_Enemy] = WeaponProperties(_Enemy, -1);
+    weaponProperties[_Enemy].SetDamage(std::min(2*(health/10+1),weaponProperties[_Enemy].GetDamage()));
 }
 
 void FloatingEnemy::Attack ()

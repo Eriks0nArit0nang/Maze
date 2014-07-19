@@ -1,6 +1,9 @@
 #include "ExplodingShot.h"
 
-ExplodingShot::ExplodingShot(AbstractGun * gun):AbstractGunDecorator(gun){}
+ExplodingShot::ExplodingShot(AbstractGun * gun):AbstractGunDecorator(gun)
+{
+    GetProperties().damage += properties.GetDamage();
+}
 
 void ExplodingShot::Detonate()
 {

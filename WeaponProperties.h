@@ -44,6 +44,7 @@ class WeaponProperties
         int GetWeaponQuantity() const;
         void SetActive(bool active);
         void SetClipSize(int clipSize);
+        void SetDamage(int damage);
         void SetFireRate(int fireRate);
         void SetRange(int range);
         void SetWeaponQuantity(int quantity);
