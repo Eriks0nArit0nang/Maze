@@ -4,6 +4,7 @@
 #include <vector>
 #include <ctime>
 #include <queue>
+#include <cstdlib>
 #include <fstream>
 
 using namespace std;

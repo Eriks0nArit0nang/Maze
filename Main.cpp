@@ -20,7 +20,7 @@ int main ()
     Display::GetInstance();
     Input::GetInstance();
     Game *game = Game::GetInstance();
-    
+
     cout << "Press A Key\nC to create a game (20 Levels)\nS to play in Survival Mode\nAny other key to load\n";
     readkey();
     

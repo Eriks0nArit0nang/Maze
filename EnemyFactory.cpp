@@ -4,6 +4,7 @@
 #include "ShootingEnemy.h"
 #include <iostream>
 #include <ctime>
+#include <cstdlib>
 
 static const int SURVIVAL_GAME_TYPE = 10;
 

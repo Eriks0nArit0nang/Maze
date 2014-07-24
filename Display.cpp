@@ -24,7 +24,7 @@ void Display::RemoveInstance()
     instance = 0;
 }
 
-Display::Display()
+Display::Display():Interaction()
 {
     int size = Map::GetInstance()->GetGridSize();
     show_mouse(screen);

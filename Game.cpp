@@ -9,6 +9,11 @@
 #include <iostream>
 #include <ctime>
 
+#define WINDOWS 1
+#define LINUX 2
+
+#define OS LINUX
+
 using namespace std;
 
 Game *Game::instance = 0;
@@ -94,7 +99,13 @@ void Game::Create(std::string gameName)
     cout << "Creating game \"" << gameName << "\"...\n";
     Map *map = Map::GetInstance();
     string t;
+    #if OS == WINDOWS
     mkdir(gameName.c_str());
+    #elif OS == LINUX
+    string t2 = "mkdir ";
+    system((t2 + gameName).c_str());
+    #endif
+    
     for (int i = 0; i < 20; i++)
     {
         stringstream t2;
