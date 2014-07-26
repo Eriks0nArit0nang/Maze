@@ -93,6 +93,8 @@ void Player::Attack ()
                 {
                     weapons.push_back(new Grenade(GetX(), GetY(), GetWeaponProperties(option), input.second, this));
                     weaponProperties[option].SetWeaponQuantity(weaponProperties[option].GetWeaponQuantity()-1);
+                    if (GetWeaponProperties(option).GetWeaponQuantity() == 0)
+                        activeWeapon == _Gun;
                 }
                 break;
             case _Mine:
@@ -114,6 +116,8 @@ void Player::Attack ()
                 {
                     weapons.push_back(new WallBreaker(GetX(), GetY(), GetWeaponProperties(option), input.second, this));
                     weaponProperties[option].SetWeaponQuantity(weaponProperties[option].GetWeaponQuantity()-1);
+                    if (GetWeaponProperties(option).GetWeaponQuantity() == 0)
+                        activeWeapon == _Gun;
                 }
                 break;
             default:
@@ -160,10 +164,10 @@ int Player::GetMoney() const
 
 void Player::UpgradeWeapon(WeaponType type, std::string property)
 {
-    if (type == _None && property == "health" && GetMoney() >= 100)
+    if (type == _None && property == "health" && GetMoney() >= 100+GetAddedHealth()/4 && GetAddedHealth() < 4000)
     {
+        AddMoney(-100-GetAddedHealth()/4);
         AddHealth(20);
-        AddMoney(-100);
     }
     else if (property == "rate" && GetMoney() >= 250*(int)pow(11-GetWeaponProperties(type).GetFireRate(),2) && GetWeaponProperties(type).GetFireRate() > 2)
     {

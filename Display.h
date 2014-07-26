@@ -2,6 +2,7 @@
 #define __DISPLAY_H__
 
 #include "Interaction.h"
+#include "ButtonManager.h"
 #include <allegro.h>
 
 class Display : public Interaction
@@ -15,6 +16,7 @@ class Display : public Interaction
         void SetBackground();
         void UpdateMiniMap(int centreX, int centreY);
         void UpdateScreen();
+        void DrawMainMenu();
         void Zoom(int centreX, int centreY);
         
         
@@ -22,6 +24,7 @@ class Display : public Interaction
         Display();
         ~Display();
         static Display *instance;
+        void InitMainMenu();
         void WallAnimation(int x1, int y1, int x2, int y2, int i);
         int RotateReallignedSprite(BITMAP* screen, BITMAP* sprite, int x, int y, int angle);
         BITMAP* miniMap;
@@ -30,6 +33,8 @@ class Display : public Interaction
         BITMAP* wall;
         BITMAP* player;
         BITMAP* upgradeScreen;
+        BITMAP* mainMenu;
+        ButtonManager buttonManager;
 };
 
 #endif

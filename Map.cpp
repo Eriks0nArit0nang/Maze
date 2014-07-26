@@ -69,6 +69,7 @@ void Map::SetGrid(int **map, int size, std::pair<int,int> startPoint, std::pair<
 void Map::RemoveInstance()
 {
     delete instance;
+    instance = 0;
 }
 
 std::pair<int, int> Map::GetEndLoc() const

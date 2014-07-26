@@ -12,7 +12,7 @@
 #define WINDOWS 1
 #define LINUX 2
 
-#define OS LINUX
+#define OS WINDOWS
 
 using namespace std;
 
@@ -96,7 +96,7 @@ void Game::Play(std::string gameName, int diff)
 
 void Game::Create(std::string gameName)
 {
-    cout << "Creating game \"" << gameName << "\"...\n";
+    cerr << "Creating game \"" << gameName << "\"...\n";
     Map *map = Map::GetInstance();
     string t;
     #if OS == WINDOWS
@@ -280,7 +280,7 @@ void Game::Upgrade()
 {
     bool finished = false;
     int prevVals = 1;
-    while (!finished)
+    while (!finished && !close_button_pressed)
     {
         Display::GetInstance()->DrawUpgrade();
         Input::GetInstance()->ReadUpgrade();

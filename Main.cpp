@@ -3,49 +3,42 @@ using namespace std;
 #include "Display.h"
 #include "Input.h"
 #include "Game.h"
-#include "SurvivalGame.h"
 #include "Map.h"
 
 #include <iostream>
+#include <fstream>
 
 /*
 Issues
-Weapons
+Shooting Grenades
 Upgrade store
 graphics
 */
 
-int main ()
+void cleanup()
 {
-    Display::GetInstance();
-    Input::GetInstance();
-    Game *game = Game::GetInstance();
-
-    cout << "Press A Key\nC to create a game (20 Levels)\nS to play in Survival Mode\nAny other key to load\n";
-    readkey();
-    
-    if (key[KEY_C])
-    {
-         game->Create("Game 1");
-    }
-    else if (key[KEY_S])
-    {
-        SurvivalGame::NewInstance();
-        game = Game::GetInstance();
-        game->Play("Game 1", 1);
-    }
-    else
-    {
-         game->Play("Game 1", 1);
-    }
-    rest(2000);
-    cout << "Please Press A Key\n";
-    clear_keybuf();
-    while (!close_button_pressed && !keypressed()){}
-    cout << "Thank You\n";
     Input::RemoveInstance();
     Display::RemoveInstance();
     Map::RemoveInstance();
     Game::RemoveInstance();
+}
+
+int main ()
+{
+    atexit(cleanup);
+    
+    // Set up logging
+    std::ofstream out("log.txt");
+    std::cerr.rdbuf(out.rdbuf());
+    
+    Display *display = Display::GetInstance();
+    Input::GetInstance();
+    Game *game = Game::GetInstance();
+
+    while (!close_button_pressed)
+    {
+        display->DrawMainMenu();
+        rest(1);
+    }
 }
 END_OF_MAIN();

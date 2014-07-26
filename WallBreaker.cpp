@@ -38,7 +38,7 @@ void WallBreaker::Update()
     if (grid[GetX()/BOX_PIXEL_WIDTH][GetY()/BOX_PIXEL_WIDTH] == 1)
     {
         destroyThis = true;
-        if (abs(GetX()/BOX_PIXEL_WIDTH-GRID_SIZE/2) < GRID_SIZE/2 - 5 && abs(GetY()/BOX_PIXEL_WIDTH - GRID_SIZE/2) < GRID_SIZE/2 - 5)
+        if (abs(GetX()/BOX_PIXEL_WIDTH-GRID_SIZE/2+1) < GRID_SIZE/2 - 5 && abs(GetY()/BOX_PIXEL_WIDTH - GRID_SIZE/2+1) < GRID_SIZE/2 - 5)
         {
             grid[GetX()/BOX_PIXEL_WIDTH][GetY()/BOX_PIXEL_WIDTH] = 0;
             Display::GetInstance()->RemoveWall(GetX(),GetY());

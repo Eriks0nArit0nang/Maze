@@ -215,5 +215,6 @@ void WeaponProperties::SetRange(int range)
 
 void WeaponProperties::SetWeaponQuantity(int quantity)
 {
-    weaponQuantity = quantity;
+    if (quantity <= maxQuantity)
+        weaponQuantity = quantity;
 }

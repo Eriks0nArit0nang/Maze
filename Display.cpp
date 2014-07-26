@@ -4,6 +4,9 @@
 #include "Enemy.h"
 #include "Game.h"
 #include "Map.h"
+#include "Button.h"
+#include "ButtonManager.h"
+#include "Menu.h"
 #include <cmath>
 #include <vector>
 
@@ -29,10 +32,12 @@ Display::Display():Interaction()
     int size = Map::GetInstance()->GetGridSize();
     show_mouse(screen);
     upgradeScreen = load_bmp ("Upgrade.bmp",NULL);
+    mainMenu = load_bmp ("MainMenu.bmp",NULL);
     buffer=create_bitmap(SCREEN_X+size*2,SCREEN_Y);
     miniMap = create_bitmap(size*2,600);
     rectfill (miniMap,0,0,size*2,size*4,makecol(100,100,100));
     background=create_bitmap(SCREEN_X*12,SCREEN_Y*12);
+    InitMainMenu();
 }
 
 Display::~Display()
@@ -65,6 +70,8 @@ void Display::UpdateScreen()
             E[i]->Draw(buffer, SCREEN_X/2-P->GetX(), SCREEN_Y/2-P->GetY());
         }
     P->Draw(buffer, SCREEN_X/2-P->GetX(), SCREEN_Y/2-P->GetY());
+    int clipRemaining = P->GetWeaponProperties(_Gun).GetClipSize()-P->GetWeaponProperties(_Gun).GetShotsTaken();
+    textprintf_ex(buffer, font, 500+GRID_SIZE*2, 480, makecol(255,0,0), -1, "Clip: %d", clipRemaining);
     textprintf_ex(buffer, font, 500+GRID_SIZE*2, 500, makecol(255,0,0), -1, "Health: %d", P->GetHealth());
     textprintf_ex(buffer, font, 500+GRID_SIZE*2, 520, makecol(255,0,0), -1, "Enemies: %d", E.size());
     textprintf_ex(buffer, font, 500+GRID_SIZE*2, 540, makecol(255,0,0), -1, "Money: %d", P->GetMoney());
@@ -104,6 +111,40 @@ void Display::DrawUpgrade()
     textprintf_ex(buffer, font, 400, 472, makecol(255,255,255), -1, "E %d Cost: %d", explodingShot.GetWeaponQuantity(), explodingShot.GetCost());
     textprintf_ex(buffer, font, 400, 511, makecol(255,255,255), -1, "M %d Cost: %d", mine.GetWeaponQuantity(), mine.GetCost());
     textprintf_ex(buffer, font, 400, 550, makecol(255,255,255), -1, "S %d Cost: %d", wallBreaker.GetWeaponQuantity(), wallBreaker.GetCost());
+    draw_sprite (screen,buffer,0,0);
+}
+
+void Display::InitMainMenu()
+{
+    Button *create = new Button();
+    create->SetCaption("Create Game");
+    create->SetSize(120, 40);
+    create->Create();
+    create->OnClick = Menu::Create;
+    create->SetPosition(screen, -100, -375);
+    buttonManager.AddButton(create);
+    Button *play = new Button();
+    play->SetCaption("Play Game");
+    play->SetSize(120, 40);
+    play->Create();
+    play->OnClick = Menu::Play;
+    play->SetPosition(screen, -100, -275);
+    buttonManager.AddButton(play);
+    Button *survival = new Button();
+    survival->SetCaption("Survival Game");
+    survival->SetSize(120, 40);
+    survival->Create();
+    survival->OnClick = Menu::Survival;
+    survival->SetPosition(screen, -100, -175);
+    buttonManager.AddButton(survival);
+    
+}
+
+void Display::DrawMainMenu()
+{
+    draw_sprite (buffer,mainMenu,0,0);
+    buttonManager.Update();
+    buttonManager.Render(buffer);
     draw_sprite (screen,buffer,0,0);
 }
 
@@ -149,7 +190,6 @@ void Display::Zoom (int centreX, int centreY)
     Map *mapInst = Map::GetInstance();
     int **map = mapInst->GetGrid();
     int size = mapInst->GetGridSize();
-    //int n[GRID_SIZE][GRID_SIZE], bool b[GRID_SIZE][GRID_SIZE], int x, int y, Player &p, vector <Enemy> &E
     rectfill (miniMap,0,size*2,size*2,size*4,makecol (100,100,100));
     for (int i = -(int)floor(size/10); i < (int)floor(size/10); i++)
         for (int j = -(int)floor(size/10); j < (int)floor(size/10); j++)
@@ -164,15 +204,7 @@ void Display::Zoom (int centreX, int centreY)
                         rectfill (miniMap,(i+(int)floor(size/10))*10,size*2+(j+(int)floor(size/10))*10,(i+(int)floor(size/10))*10+9,size*2+(j+(int)floor(size/10))*10+9,makecol(255,0,254));
                     else if (map[centreX+i][centreY+j] == 3)
                         rectfill (miniMap,(i+(int)floor(size/10))*10,size*2+(j+(int)floor(size/10))*10,(i+(int)floor(size/10))*10+9,size*2+(j+(int)floor(size/10))*10+9,makecol(0,255,0));
-                }
-//    for (int i = 0; i < E.size(); i++)
-//        if ((E[i].Get_Y()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10 >= 0 && (E[i].Get_Y()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10 < size*2 && mapInst->Fog(E[i].Get_X()/BOX_PIXEL_WIDTH, E[i].Get_Y()/BOX_PIXEL_WIDTH))
-//            for (int j = 0; j < 2; j++)
-//                rect (miniMap,(E[i].Get_X()/BOX_PIXEL_WIDTH-centreX+(int)floor(size/10))*10+j,size*2+(E[i].Get_Y()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10+j,(E[i].Get_X()/BOX_PIXEL_WIDTH-centreX+(int)floor(size/10))*10+9-j,size*2+(E[i].Get_Y()/60-centreY+(int)floor(size/10))*10+9-j,makecol(255,0,0));
-//    if ((p.Get_Y()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10 >= 0 && (p.Get_Y()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10 < size*2)
-//        for (int i = 0; i < 2; i++)
-//            rect (miniMap,(p.Get_X()/BOX_PIXEL_WIDTH-centreX+(int)floor(size/10))*10+i,size*2+(p.Get_Y()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10+i,(p.Get_X()/BOX_PIXEL_WIDTH-centreX+(int)floor(size/10))*10+9-i,size*2+(p.Get_Y()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10+9-i,makecol(0,0,255));
-     
+                }    
 }
 
 void Display::NukeAnimation ()
