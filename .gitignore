@@ -4,9 +4,9 @@
 
 *.o
 Maze.exe
-Maze.layout
+*.layout
 log.txt
-*\Level_*.txt
+*Level_*.txt
 
 
 
