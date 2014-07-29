@@ -54,28 +54,28 @@ void StandardEnemy::Move ()
            int i = GetX()/BOX_PIXEL_WIDTH, j = GetY()/BOX_PIXEL_WIDTH;
            if (check[i-1][j] == check[i][j]-1)
            {
-              if (abs(GetY() % BOX_PIXEL_WIDTH - BOX_PIXEL_WIDTH/2) < BOX_PIXEL_WIDTH/2 - radius)
+              if (abs(GetY() % BOX_PIXEL_WIDTH - BOX_PIXEL_WIDTH/2) < std::max(BOX_PIXEL_WIDTH/4,radius))
                  xPos-=xVel;
               else
                   yPos += (BOX_PIXEL_WIDTH/2 - GetY() % BOX_PIXEL_WIDTH)/abs (BOX_PIXEL_WIDTH/2 - GetY() % BOX_PIXEL_WIDTH)*yVel;
            }
            else if (check[i+1][j] == check[i][j]-1)
            {
-                if (abs(GetY() % BOX_PIXEL_WIDTH - BOX_PIXEL_WIDTH/2) < BOX_PIXEL_WIDTH/2-radius)
+                if (abs(GetY() % BOX_PIXEL_WIDTH - BOX_PIXEL_WIDTH/2) < std::max(BOX_PIXEL_WIDTH/4,radius))
                    xPos+=xVel;
                 else
                   yPos += (BOX_PIXEL_WIDTH/2 - GetY() % BOX_PIXEL_WIDTH)/abs (BOX_PIXEL_WIDTH/2 - GetY() % BOX_PIXEL_WIDTH)*yVel;
            }
            else if (check[i][j-1] == check[i][j]-1)
            {
-                if (abs(GetX() % BOX_PIXEL_WIDTH - BOX_PIXEL_WIDTH/2) < BOX_PIXEL_WIDTH/2-radius)
+                if (abs(GetX() % BOX_PIXEL_WIDTH - BOX_PIXEL_WIDTH/2) < std::max(BOX_PIXEL_WIDTH/4,radius))
                    yPos-=yVel;
                 else
                   xPos += (BOX_PIXEL_WIDTH/2 - GetX() % BOX_PIXEL_WIDTH)/abs (BOX_PIXEL_WIDTH/2 - GetX() % BOX_PIXEL_WIDTH)*xVel;
            }
            else if (check[i][j+1] == check[i][j]-1)
            {
-                if (abs(GetX() % BOX_PIXEL_WIDTH - BOX_PIXEL_WIDTH/2) < BOX_PIXEL_WIDTH/2-radius)
+                if (abs(GetX() % BOX_PIXEL_WIDTH - BOX_PIXEL_WIDTH/2) < std::max(BOX_PIXEL_WIDTH/4,radius))
                    yPos+=yVel;
                 else
                   xPos += (BOX_PIXEL_WIDTH/2 - GetX() % BOX_PIXEL_WIDTH)/abs (BOX_PIXEL_WIDTH/2 - GetX() % BOX_PIXEL_WIDTH)*xVel;

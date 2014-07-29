@@ -11,11 +11,10 @@ using namespace std;
 /*
 Issues
 Shooting Grenades
-Upgrade store
-graphics
+Upgrade store - use buttons
+graphics quality
 
-Enemies in middle of square, not edge
-List valid games
+List valid games - low priority
 */
 
 void cleanup(void)
