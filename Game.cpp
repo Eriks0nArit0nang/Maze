@@ -7,6 +7,7 @@
 #include "EnemyFactory.h"
 #include <sstream>
 #include <iostream>
+#include <fstream>
 #include <ctime>
 
 #define WINDOWS 1
@@ -27,6 +28,7 @@ Game *Game::GetInstance()
   
 void Game::RemoveInstance()
 {
+    cerr << "Removing game instance\n";
     delete instance;
     instance = 0;
 }
@@ -38,7 +40,17 @@ void Game::SetInstance(Game * game)
     instance = game;
 }
         
-Game::Game():player(0){}
+Game::Game():player(0)
+{
+    ifstream in;
+    in.open("valid_games.txt");
+    string name;
+    while(!in.fail())
+    {
+        getline(in, name);
+        gameNames.push_back(name);
+    }
+}
 
 Game::~Game()
 {
@@ -97,6 +109,7 @@ void Game::Play(std::string gameName, int diff)
 void Game::Create(std::string gameName)
 {
     cerr << "Creating game \"" << gameName << "\"...\n";
+    gameNames.push_back(gameName);
     Map *map = Map::GetInstance();
     string t;
     #if OS == WINDOWS
@@ -115,6 +128,15 @@ void Game::Create(std::string gameName)
         t+= ".txt";
         map->CreateAuto();
         map->Save(t);
+    }
+    
+    ofstream out;
+    out.open("valid_games.txt");
+    string name;
+    for (vector<string>::iterator it = gameNames.begin(); it < gameNames.end(); it++)
+    {
+        cerr << (*it) << endl;
+        out << (*it) << endl;
     }
 }
 
@@ -328,4 +350,12 @@ void Game::Upgrade()
             }
         }
     }
+}
+
+bool Game::Valid(std::string gameName)
+{
+    for (vector<string>::iterator it = gameNames.begin(); it < gameNames.end(); it++)
+        if (*it == gameName)
+            return true;
+    return false;
 }

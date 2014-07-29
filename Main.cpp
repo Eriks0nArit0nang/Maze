@@ -25,6 +25,7 @@ void cleanup()
 
 int main ()
 {
+    // TODO why isn't atexit working?
     atexit(cleanup);
     
     // Set up logging
@@ -40,5 +41,6 @@ int main ()
         display->DrawMainMenu();
         rest(1);
     }
+    cleanup();
 }
 END_OF_MAIN();

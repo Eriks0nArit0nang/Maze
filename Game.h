@@ -14,6 +14,7 @@ class Game
         static void RemoveInstance();
         Player *GetPlayer();
         std::vector<Enemy *> &GetEnemies();
+        bool Valid(std::string gameName);
         void Play(std::string gameName, int difficulty);
         void Create(std::string gameName);
     
@@ -31,6 +32,7 @@ class Game
         static Game *instance;
         Player *player;
         std::vector <Enemy *>enemies;
+        std::vector <std::string> gameNames;
         
 };
 

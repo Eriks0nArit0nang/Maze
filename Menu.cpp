@@ -4,6 +4,7 @@
 #include "Interaction.h"
 #include "Button.h"
 
+#include <iostream>
 #include <allegro.h>
 #include <string>
 #include "Globals.h"
@@ -112,12 +113,18 @@ void Menu::Survival(Button* object, void* data)
     SurvivalGame::NewInstance();
     game = Game::GetInstance();
     string name = read_string(object->GetY()+45);
-    game->Play(name, 1);
+    if (game->Valid(name))
+        game->Play(name, 1);
+    else
+        cerr << "Invalid game name \"" << name << "\"\n";
 }
 
 void Menu::Play(Button* object, void* data)
 {
     Game *game = Game::GetInstance();
     string name = read_string(object->GetY()+45);
-    game->Play(name, 1);
+    if (game->Valid(name))
+        game->Play(name, 1);
+    else
+        cerr << "Invalid game name \"" << name << "\"\n";
 }
