@@ -157,7 +157,7 @@ int **Map::GetDistFromPlayer() const
     return distFromPlayer;
 }
 
-void Map::UpdateDistFromPlayer(int gridX, int gridY)
+void Map::UpdateDistFromPlayer(int gridX, int gridY, int max)
 {
     pair <queue <int>,queue <int> > q;
     for (int i = 0; i < size; i++)
@@ -177,7 +177,7 @@ void Map::UpdateDistFromPlayer(int gridX, int gridY)
     {
         i = q.first.front();
         j = q.second.front();
-        if (distFromPlayer[i][j] == 30)
+        if (distFromPlayer[i][j] == max)
             break;
         if (distFromPlayer[i-1][j] == 0)
         {
@@ -236,6 +236,8 @@ void Map::CreateAuto()
     delete [] map;
     delete [] distFromPlayer;
     
+    
+    // Initialize Prim's Algorithm
     pair <int[4],int[GRID_SIZE][GRID_SIZE]> level;
     bool tocheck[GRID_SIZE][GRID_SIZE];
     for (int i = 0; i < GRID_SIZE; i++)
@@ -246,11 +248,16 @@ void Map::CreateAuto()
         }
     int t,t2;
     Prim_Values vals [(int)floor(GRID_SIZE/2)-5][(int)floor(GRID_SIZE/2)-5][4];
+    
+    // Set start and end points
     do {
         for (int i = 0; i < 4; i++)
             level.first[i] = (rand () % ((int)floor(GRID_SIZE/2)-7))*2+7;
     } while (level.first[0] == level.first[2] && level.first[1] == level.first[3]);
     priority_queue <Prim_Values,vector <Prim_Values>,comp> nums;
+    
+    // Initialize values to run Prim's
+    // Will assign duplicate weights for every path.
     for (int i = 0; i < (int)floor(GRID_SIZE/2)-5; i++)
         for (int j = 0; j < (int)floor(GRID_SIZE/2)-5; j++)
             for (int k = 0; k < 4; k++)
@@ -268,12 +275,17 @@ void Map::CreateAuto()
                     vals[i][j][k].x2 = i*2+1+k*2;
                     vals[i][j][k].y2 = j*2+5;
                 }
+                // Set central points to be on the path
                 level.second[i*2+5][j*2+5] = 0;
             }
     level.second[level.first[0]][level.first[1]] = 2;
     level.second[level.first[2]][level.first[3]] = 3;
+    tocheck[level.first[0]][level.first[1]] = true;
+    
     for (int i = 0; i < 4; i++)
         nums.push(vals[(level.first[0]-5)/2][(level.first[1]-5)/2][i]);
+        
+    // Run Prim's Algorithm
     while (!nums.empty())
     {
         if (!(tocheck[nums.top().x2][nums.top().y2]))
@@ -294,6 +306,7 @@ void Map::CreateAuto()
             nums.pop();
     }
      
+    // Initialize data from result
     size = GRID_SIZE;
     map = new int *[size];
     knownMap = new bool *[size];
@@ -315,7 +328,21 @@ void Map::CreateAuto()
     endLoc.second = level.first[3];
     if (!VerifyLevel())
         cerr << "Error: Level created is not winnable.  Please alert the developer to this\n";
-    
+    UpdateDistFromPlayer(startLoc.first, startLoc.second, 500);
+    map[endLoc.first][endLoc.second] = 0;
+    int maxV = -1, maxX = 0, maxY = 0;
+    for (int i = 0; i < size; i++)
+        for (int j = 0; j < size; j++)
+            if (distFromPlayer[i][j] > maxV)
+            {
+                maxV = distFromPlayer[i][j];
+                maxX = i;
+                maxY = j;
+            }
+            
+    endLoc.first = maxX;
+    endLoc.second = maxY;
+    map[endLoc.first][endLoc.second] = 3;
 }
 
 bool Map::VerifyLevel ()

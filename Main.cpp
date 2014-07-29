@@ -13,9 +13,12 @@ Issues
 Shooting Grenades
 Upgrade store
 graphics
+
+Enemies in middle of square, not edge
+List valid games
 */
 
-void cleanup()
+void cleanup(void)
 {
     Input::RemoveInstance();
     Display::RemoveInstance();
@@ -25,8 +28,6 @@ void cleanup()
 
 int main ()
 {
-    // TODO why isn't atexit working?
-    atexit(cleanup);
     
     // Set up logging
     std::ofstream out("log.txt");

@@ -91,7 +91,7 @@ void SurvivalGame::PlayLevel()
             std::vector<Weapon *> enemyWeapons;
             input->ResetTicks();
             input->ReadInput();
-            Map::GetInstance()->UpdateDistFromPlayer(GetPlayer()->GetX()/BOX_PIXEL_WIDTH,GetPlayer()->GetY()/BOX_PIXEL_WIDTH);
+            Map::GetInstance()->UpdateDistFromPlayer(GetPlayer()->GetX()/BOX_PIXEL_WIDTH,GetPlayer()->GetY()/BOX_PIXEL_WIDTH, 30);
             
             if (input->GetMovement() >= 10000) // Upgrade
             {

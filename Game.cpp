@@ -191,7 +191,7 @@ void Game::PlayLevel()
             vector<Weapon *> enemyWeapons;
             input->ResetTicks();
             input->ReadInput();
-            Map::GetInstance()->UpdateDistFromPlayer(player->GetX()/BOX_PIXEL_WIDTH,player->GetY()/BOX_PIXEL_WIDTH);
+            Map::GetInstance()->UpdateDistFromPlayer(player->GetX()/BOX_PIXEL_WIDTH,player->GetY()/BOX_PIXEL_WIDTH, 30);
             
             if (input->GetMovement() >= 10000) // Upgrade
             {

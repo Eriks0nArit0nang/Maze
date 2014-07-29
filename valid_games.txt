@@ -6,3 +6,9 @@ Game 5
 Game 6
 Game 6
 test
+
+newMapTest
+
+newMapTest
+
+newMapTest

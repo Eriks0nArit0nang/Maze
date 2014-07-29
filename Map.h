@@ -11,7 +11,7 @@ class Map
         static Map *GetInstance();
         int **GetGrid() const;
         int **GetDistFromPlayer() const;
-        void UpdateDistFromPlayer(int gridX, int gridY);
+        void UpdateDistFromPlayer(int gridX, int gridY, int max);
         bool Fog(int x, int y) const;
         void UpdateFog(int x, int y);
         int GetGridSize() const;
