@@ -27,6 +27,8 @@ class Display : public Interaction
         void InitMainMenu();
         void WallAnimation(int x1, int y1, int x2, int y2, int i);
         int RotateReallignedSprite(BITMAP* screen, BITMAP* sprite, int x, int y, int angle);
+        ALLEGRO_TIMER* timer;
+        ALLEGRO_DISPLAY *screen;
         ALLEGRO_BITMAP* miniMap;
         ALLEGRO_BITMAP* background;
         ALLEGRO_BITMAP* buffer;

@@ -1,5 +1,5 @@
 #include "Interaction.h"
-#include "allegro.h"
+#include "allegro5/allegro.h"
 #include "Globals.h"
 #include <iostream>
 
@@ -15,49 +15,26 @@ Interaction::Interaction()
 Interaction::~Interaction()
 {
     initialized--;
-    if (!initialized)
-        allegro_exit();
 }
-
-volatile int close_button_pressed = FALSE;
-
-void close_button_handler(void)
-{
-     close_button_pressed = TRUE;
-}
-END_OF_FUNCTION(close_button_handler)
-
-volatile int ticks = 0;  // for timer
-
-void ticker ()
-{
-     ticks++;
-}
-END_OF_FUNCTION(ticker);
 
 void Interaction::Initialize()
 {
-//allegro_init();
-    if (!allegro_init())
+    if (!al_init())
     {
         std::cerr << "Allegro not initialized correctly " << strerror(errno) << std::endl;
     }
-    install_mouse();
-    install_keyboard();
-    install_timer();
-    install_int (ticker, 25);
-    
-    LOCK_VARIABLE(ticks);
-    LOCK_FUNCTION(ticker);
-    LOCK_FUNCTION(close_button_handler);
-    set_close_button_callback(close_button_handler);
-    set_color_depth (desktop_color_depth());
-    set_gfx_mode( GFX_AUTODETECT_WINDOWED, SCREEN_X+GRID_SIZE*2, SCREEN_Y, 0, 0); 
-    set_keyboard_rate(20,0);
+    al_install_mouse();
+    al_install_keyboard();
+    // TODO set up timer - Display class - find appropriate FPS
+    // TODO reset display - Display class
+    //set_color_depth (desktop_color_depth());
+    //set_gfx_mode( GFX_AUTODETECT_WINDOWED, SCREEN_X+GRID_SIZE*2, SCREEN_Y, 0, 0); 
+    //set_keyboard_rate(20,0);
 }
 
 int Interaction::GetTicks()
 {
+// TODO modify this to handle event timer properly
     return ticks;
 }
 

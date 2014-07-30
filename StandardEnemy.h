@@ -12,7 +12,7 @@ class StandardEnemy : public Enemy
         StandardEnemy(int health, double xPos, double yPos);
         void Attack ();     
         void Move ();
-        void Draw(BITMAP *buffer, int midX, int midY);
+        void Draw(ALLEGRO_BITMAP *buffer, int midX, int midY);
 
 };
 

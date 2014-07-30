@@ -33,9 +33,10 @@ void Bomb::Action( Character * character)
     }
 }
 
-void Bomb::Draw(BITMAP *buffer, int midX, int midY)
+void Bomb::Draw(ALLEGRO_BITMAP *buffer, int midX, int midY)
 {
-    circlefill (buffer, midX+GetX(), midY+GetY(), 2, makecol (125,0,0));
+    al_set_target_bitmap(buffer);
+    al_draw_filled_circle (midX+GetX(), midY+GetY(), 2, al_map_rgb (125,0,0));
     if (destroyThis)
-        circlefill (buffer, midX+GetX(), midY+GetY(), GetProperties().GetRadius(), makecol (255,0,0));
+        al_draw_filled_circle (midX+GetX(), midY+GetY(), GetProperties().GetRadius(), al_map_rgb (255,0,0));
 }

@@ -15,7 +15,7 @@ class Player : public Character
         Player(double xPos, double yPos);
         void Attack ();     
         void Move ();
-        void Draw (BITMAP *buffer, int midX, int midY);
+        void Draw (ALLEGRO_BITMAP *buffer, int midX, int midY);
         void AddMoney(int m);
         int GetMoney() const;
         void UpgradeWeapon(WeaponType type, std::string property);

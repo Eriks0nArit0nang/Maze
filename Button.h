@@ -22,7 +22,7 @@ public:
 	void Update();
 
 	// renders the button
-	void Render(BITMAP* destination);
+	void Render(ALLEGRO_BITMAP* destination);
 
 	// callback functions
 	void (*OnMouseOver)(Button* object, void* data);
@@ -32,7 +32,7 @@ public:
 	void SetCaption(char* caption);
 	void SetSize(int width, int height);
 	void SetPosition(int x, int y);
-	void SetPosition(BITMAP* anchorBitmap, int x, int y);
+	void SetPosition(ALLEGRO_BITMAP* anchorBitmap, int x, int y);
 	void SetTextColor(int color);
 	void SetShadowColor(int color);
 	void SetBorderColor(int color);
@@ -60,7 +60,7 @@ private:
 	void* data_;
 
 	// the button image
-	BITMAP* image_;
+	ALLEGRO_BITMAP* image_;
 
 	// the text on the button
 	char* caption_;

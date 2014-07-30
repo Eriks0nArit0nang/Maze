@@ -196,13 +196,14 @@ void Player::UpgradeWeapon(WeaponType type, std::string property)
     }
 }
 
-void Player::Draw(BITMAP *buffer, int midX, int midY)
+void Player::Draw(ALLEGRO_BITMAP *buffer, int midX, int midY)
 {
     for (int i = 0; i < weapons.size(); i++)
         weapons[i]->Draw(buffer, midX, midY);
-    circlefill (buffer, midX+GetX(), midY+GetY(), radius, makecol(0,0,255));
+    al_set_target_bitmap(buffer);
+    al_draw_filled_circle (midX+GetX(), midY+GetY(), radius, al_map_rgb(0,0,255));
     if (initialHealth-health >= 0)
-        circlefill (buffer, midX, midY, (initialHealth-health)/(initialHealth/radius), makecol(150,150,255)); 
+        al_draw_filled_circle (midX, midY, (initialHealth-health)/(initialHealth/radius), al_map_rgb(150,150,255)); 
     
 }
 

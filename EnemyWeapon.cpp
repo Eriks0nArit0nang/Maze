@@ -30,6 +30,6 @@ void EnemyWeapon::Detonate()
     // Nothing to do
 }
 
-void EnemyWeapon::Draw(BITMAP *buffer, int midX, int midY)
+void EnemyWeapon::Draw(ALLEGRO_BITMAP *buffer, int midX, int midY)
 {
 }

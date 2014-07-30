@@ -15,8 +15,9 @@ void ExplodingShot::Detonate()
     gun->Detonate();
 }
 
-void ExplodingShot::Draw(BITMAP *buffer, int midX, int midY)
+void ExplodingShot::Draw(ALLEGRO_BITMAP *buffer, int midX, int midY)
 {
-    circlefill (buffer, midX+gun->GetX(), midY+gun->GetY(), GetProperties().GetRadius(), makecol (255,0,0));
+    al_set_target_bitmap(buffer);
+    al_draw_filled_circle (midX+gun->GetX(), midY+gun->GetY(), GetProperties().GetRadius(), al_map_rgb (255,0,0));
     gun->Draw(buffer, midX, midY);
 }

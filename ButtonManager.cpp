@@ -1,5 +1,5 @@
 
-#include <allegro.h>
+#include <allegro5/allegro.h>
 #include "ButtonManager.h"
 #include "Button.h"
 
@@ -30,7 +30,7 @@ void ButtonManager::Update()
 	}
 }
 
-void ButtonManager::Render(BITMAP *destination)
+void ButtonManager::Render(ALLEGRO_BITMAP *destination)
 {
 	for (unsigned int i = 0; i < buttons_.size(); i++)
 	{

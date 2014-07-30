@@ -3,6 +3,7 @@
 
 #include <utility>
 #include "Interaction.h"
+#include "allegro5/allegro.h"
 
 class Input : public Interaction
 {
@@ -20,6 +21,8 @@ class Input : public Interaction
     private:
         static Input *instance;
         Input();
+        bool key[ALLEGRO_KEY_MAX];
+        ALLEGRO_EVENT_QUEUE *event_queue;
         int movement;
         int upgrade;
         std::pair<int,int> weapons; // special weapons, direction

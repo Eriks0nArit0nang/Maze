@@ -1,5 +1,5 @@
 #include <algorithm>
-#include <allegro.h>
+#include <allegro5/allegro.h>
 #include "Button.h"
 
 PALETTE palette;
@@ -95,7 +95,7 @@ void Button::Update()
 	}
 }
 
-void Button::Render(BITMAP *destination)
+void Button::Render(ALLEGRO_BITMAP *destination)
 {
 	if (image_ == NULL) return;
 	blit(image_, destination, 0, 0, x_, y_, image_->w, image_->h);
@@ -120,7 +120,7 @@ void Button::SetPosition(int x, int y)
 	y_ = y;
 }
 
-void Button::SetPosition(BITMAP* anchorBitmap, int x, int y)
+void Button::SetPosition(ALLEGRO_BITMAP* anchorBitmap, int x, int y)
 {
 	if (x < 0)
 		x_ = anchorBitmap->w - (w_ - x);
@@ -153,7 +153,7 @@ void Button::SetFaceColor(int color)
 	faceColor_ = color;
 }
 
-void Button::CenterOn(BITMAP* surface)
+void Button::CenterOn(ALLEGRO_BITMAP* surface)
 {
 	if (surface == NULL) return; // do nothing if no surface exists
 	x_ = surface->w / 2 - w_ / 2;

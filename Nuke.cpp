@@ -31,7 +31,7 @@ void Nuke::Detonate()
     destroyThis = true;
 }
 
-void Nuke::Draw(BITMAP *buffer, int midX, int midY)
+void Nuke::Draw(ALLEGRO_BITMAP *buffer, int midX, int midY)
 {
     Display::GetInstance()->NukeAnimation();
 }
