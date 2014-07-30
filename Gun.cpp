@@ -61,7 +61,7 @@ void Gun::Action( Character * character)
     }
 }
 
-void Gun::Draw(BITMAP *buffer, int midX, int midY)
+void Gun::Draw(ALLEGRO_BITMAP *buffer, int midX, int midY)
 {
     line (buffer, midX+GetX(), midY+GetY(), midX+(int)round(xPosOrig), midY+(int)round(yPosOrig), makecol (255,0,0));
 }

@@ -13,7 +13,7 @@
 #define WINDOWS 1
 #define LINUX 2
 
-#define OS WINDOWS
+#define OS LINUX
 
 using namespace std;
 

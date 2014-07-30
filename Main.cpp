@@ -41,8 +41,6 @@ int main ()
     while (!close_button_pressed)
     {
         display->DrawMainMenu();
-        rest(1);
     }
     cleanup();
 }
-END_OF_MAIN();
