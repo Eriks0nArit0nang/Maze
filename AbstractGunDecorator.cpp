@@ -30,6 +30,8 @@ void AbstractGunDecorator::Detonate()
 void AbstractGunDecorator::Action(Character * character)
 {
     gun->Action(character);
+    if (gun->WillDestroy())
+        Detonate();
 }
 
 int AbstractGunDecorator::GetX() const

@@ -103,7 +103,7 @@ void Display::DrawUpgrade()
     textprintf_ex(buffer, font, 180, 162, makecol(255,255,255), -1, "%d Cost: %d", rate, 250*(11-rate)*(11-rate));
     textprintf_ex(buffer, font, 180, 201, makecol(255,255,255), -1, "%d Cost: %d", clip, 10*clip);
     textprintf_ex(buffer, font, 180, 240, makecol(255,255,255), -1, "%d Cost: %d", range, 100*(range/BOX_PIXEL_WIDTH));
-    textprintf_ex(buffer, font, 180, 279, makecol(255,255,255), -1, "%d Cost: %d", health, 100);
+    textprintf_ex(buffer, font, 180, 279, makecol(255,255,255), -1, "%d Cost: %d", health, 100+P.GetAddedHealth()/4);
     textprintf_ex(buffer, font, 300, 162, makecol(255,255,255), -1, "Money: %d", money);
     textprintf_ex(buffer, font, 400, 355, makecol(255,255,255), -1, "N %d Cost: %d", nuke.GetWeaponQuantity(), nuke.GetCost());
     textprintf_ex(buffer, font, 400, 394, makecol(255,255,255), -1, "W %d Cost: %d", wideShot.GetWeaponQuantity(), wideShot.GetCost());

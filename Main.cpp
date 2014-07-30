@@ -12,6 +12,8 @@ using namespace std;
 Issues
 Shooting Grenades
 Upgrade store - use buttons
+Fix exploding shots
+readjust costs
 graphics quality
 
 List valid games - low priority

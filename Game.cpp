@@ -91,11 +91,10 @@ void Game::Play(std::string gameName, int diff)
         t = gameName + "/Level_";
         t += t2.str();
         t+= ".txt";
-        
         if (player->GetHealth() > 0)
         {
             InitLevel(i+1,diff,t);
-            player->AddMoney(1000*i);
+            player->AddMoney(500*i);
             PlayLevel();
             ResetLevel();
         }
@@ -103,7 +102,7 @@ void Game::Play(std::string gameName, int diff)
             break;
      }
      if (player->GetHealth() > 0 && !close_button_pressed && !key[KEY_ESC])
-        cout << "WINNER\n";
+        cerr << "WINNER\n";
 }
 
 void Game::Create(std::string gameName)

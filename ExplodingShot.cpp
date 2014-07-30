@@ -2,6 +2,7 @@
 
 ExplodingShot::ExplodingShot(AbstractGun * gun):AbstractGunDecorator(gun)
 {
+    WeaponProperties properties(_ExplodingShot, 0);
     GetProperties().damage += properties.GetDamage();
 }
 
@@ -11,6 +12,7 @@ void ExplodingShot::Detonate()
     GetProperties().radius = properties.GetRadius();
     gun->GetProperties().radius = properties.GetRadius();
     destroyThis = true;
+    gun->Detonate();
 }
 
 void ExplodingShot::Draw(BITMAP *buffer, int midX, int midY)

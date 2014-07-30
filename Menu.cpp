@@ -128,3 +128,4 @@ void Menu::Play(Button* object, void* data)
     else
         cerr << "Invalid game name \"" << name << "\"\n";
 }
+
