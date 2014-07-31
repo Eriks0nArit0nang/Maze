@@ -17,6 +17,7 @@ class Input : public Interaction
         std::pair <int,int> GetMouse() const;
         bool IsClosed() const;
         bool IsPressed(int keyCode) const;
+        bool IsMouseClicked() const;
         static void RemoveInstance();
         
         
@@ -29,6 +30,7 @@ class Input : public Interaction
         int upgrade;
         std::pair<int,int> weapons; // special weapons, direction
         std::pair<int,int> mouse;
+        bool mouseClick;
         bool closed;
     
     

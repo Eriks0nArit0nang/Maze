@@ -185,8 +185,8 @@ void Game::PlayLevel()
     display->UpdateScreen();
     while (!(input->IsClosed() || input->IsPressed(ALLEGRO_KEY_ESCAPE)))
     {
-        while (input->GetTicks() > 0)
-        {
+       // while (input->GetTicks() > -1)
+       // {
             vector<Weapon *> playerWeapons;
             vector<Weapon *> enemyWeapons;
             input->ResetTicks();
@@ -292,9 +292,9 @@ void Game::PlayLevel()
             if (GameEnd())
                 break;
                 
-          }
-          if (GameEnd())
-             break;
+        // }
+        //  if (GameEnd())
+        //     break;
      }
 }
 

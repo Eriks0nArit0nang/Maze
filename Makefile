@@ -6,21 +6,20 @@ CC   = gcc
 
 OBJ  = Main.o Character.o WeaponProperties.o Weapon.o Gun.o AbstractGun.o AbstractGunDecorator.o WideShot.o ExplodingShot.o Grenade.o Bomb.o Nuke.o WallBreaker.o Player.o StandardEnemy.o Map.o Input.o Interaction.o EnemyWeapon.o Display.o Game.o Enemy.o EnemyFactory.o FloatingEnemy.o ShootingEnemy.o SurvivalGame.o Button.o ButtonManager.o Menu.o
 DEPENDS = ${OBJ:.o=.d}
-LIBS =  `pkg-config --libs allegro-5.0`
+LDFLAGS =  -lallegro -lallegro_primitives -lallegro_font -lallegro_image
 
 DEBUGFLAGS = -g -ggdb3
 BIN  = Maze
-CXXFLAGS = -O3 $(DEBUGFLAGS) ${LIBS}
+CXXFLAGS = -O3 $(DEBUGFLAGS)
 RM = rm -f
 
 .PHONY: all clean
 
-all: Maze
+all: ${BIN}
 
 clean:
 	${RM} $(OBJ) $(BIN)
 
 $(BIN): $(OBJ)
-	$(CPP) $(OBJ) ${CXXFLAGS} -o Maze
-
+	$(CPP) $(OBJ) ${LDFLAGS} -o ${BIN}
 

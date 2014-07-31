@@ -31,7 +31,6 @@ void Interaction::Initialize()
     al_install_mouse();
     al_install_keyboard();
     // TODO set up timer - Display class - find appropriate FPS
-    // TODO reset display - Display classl
 }
 
 static int ticks = 0;

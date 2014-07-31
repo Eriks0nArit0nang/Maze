@@ -32,6 +32,11 @@ data_(0)
 
 Button::~Button()
 {
+    if (caption_ != NULL)
+    {
+        delete caption_;
+        caption_ = NULL;
+    }
 	if (image_ != NULL)
 	{
 		al_destroy_bitmap(image_);
@@ -59,7 +64,7 @@ void Button::Create()
 
 		al_draw_textf(font, textColor_,
 			w_ / 2 - width / 2,
-			h_ / 2 - al_get_font_line_height(font) / 2, -1, caption_);
+			h_ / 2 - al_get_font_line_height(font) / 2, 0, caption_);
 	}
 }
 
@@ -84,10 +89,10 @@ void Button::Update()
 	{
 		this->OnMouseOver(this, data_);
 
-		/*if (mouse_b & 1) TODO implement method in input class for this
+		if (Input::GetInstance()->IsMouseClicked())
 		{
 			this->OnClick(this, data_);
-		}*/
+		}
 	}
 	else
 	{
@@ -100,7 +105,7 @@ void Button::Render(ALLEGRO_BITMAP* destination)
 	if (image_ == NULL) return;
 	al_set_target_bitmap(destination);
 	al_draw_bitmap_region(image_, 0, 0, al_get_bitmap_width(image_),
-	                      al_get_bitmap_height(image_), x_, y_, -1);
+	                      al_get_bitmap_height(image_), x_, y_, 0);
 }
 
 void Button::SetCaption(const char* caption)

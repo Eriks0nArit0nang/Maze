@@ -38,9 +38,12 @@ int main ()
     Input *input = Input::GetInstance();
     Game *game = Game::GetInstance();
 
+
+    display->DrawMainMenu();
     while (!input->IsClosed())
     {
-        display->DrawMainMenu();
+        display->UpdateGUI();
+        input->ReadInput();
     }
     cleanup();
 }

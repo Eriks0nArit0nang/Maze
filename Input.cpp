@@ -1,10 +1,15 @@
 #include "Input.h"
+#include "Display.h"
 
 Input *Input::instance = 0;
 
 Input::Input():Interaction(),movement(0),weapons(0,0),mouse(0,0),closed(false)
 {
     event_queue = al_create_event_queue();
+    al_register_event_source(event_queue, al_get_display_event_source(Display::GetInstance()->GetDisplay()));
+    al_register_event_source(event_queue, al_get_mouse_event_source());
+    al_register_event_source(event_queue, al_get_keyboard_event_source());
+    
     for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
         key[i] = false;
 }
@@ -45,6 +50,18 @@ void Input::ReadInput()
         {
             mouse.first = event.mouse.x;
             mouse.second = event.mouse.y;
+        }
+        else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+        {
+            mouse.first = event.mouse.x;
+            mouse.second = event.mouse.y;
+            mouseClick = true;
+        }
+        else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
+        {
+            mouse.first = event.mouse.x;
+            mouse.second = event.mouse.y;
+            mouseClick = false;
         }
         else if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
         {
@@ -158,4 +175,9 @@ bool Input::IsPressed (int keyCode) const
 bool Input::IsClosed () const
 {
     return closed;
+}
+
+bool Input::IsMouseClicked () const
+{
+    return mouseClick;
 }

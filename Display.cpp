@@ -40,20 +40,19 @@ Display::Display():Interaction()
     miniMap = al_create_bitmap(size*2,600);
     al_set_target_bitmap(miniMap);
     al_draw_filled_rectangle(0,0,size*2,size*4,al_map_rgb(100,100,100));
-    background=al_create_bitmap(SCREEN_X*12,SCREEN_Y*12);
+    background=al_create_bitmap(size*BOX_PIXEL_WIDTH,size*BOX_PIXEL_WIDTH);
     font=al_load_bitmap_font("a4_font.tga");
     InitMainMenu();
 }
 
 Display::~Display()
 {
-    al_destroy_bitmap(buffer);
+    al_destroy_display(screen);
     al_destroy_bitmap(background);
     al_destroy_bitmap(miniMap);
     al_destroy_bitmap(wall);
     al_destroy_bitmap(upgradeScreen);
     al_destroy_bitmap(mainMenu);
-    al_destroy_display(screen);
     al_destroy_timer(timer);
     al_destroy_font(font);
 }
@@ -230,4 +229,14 @@ void Display::RemoveWall (int xPos, int yPos)
     int y2 = (yPos/BOX_PIXEL_WIDTH+1)*BOX_PIXEL_WIDTH-1;
     al_set_target_bitmap(background);
     al_draw_filled_rectangle(x1, y1, x2, y2, al_map_rgb(255,255,255));
+}
+
+void Display::UpdateGUI()
+{
+    buttonManager.Update();
+}
+
+ALLEGRO_DISPLAY* Display::GetDisplay() const
+{
+    return screen;
 }
