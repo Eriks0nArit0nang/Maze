@@ -2,7 +2,7 @@
 
 Input *Input::instance = 0;
 
-Input::Input():Interaction(),movement(0),weapons(0,0),mouse(0,0)
+Input::Input():Interaction(),movement(0),weapons(0,0),mouse(0,0),closed(false)
 {
     event_queue = al_create_event_queue();
     for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
@@ -24,27 +24,31 @@ void Input::RemoveInstance()
 
 void Input::ReadInput()
 {
-    ALLEGRO_EVENT *event = 0;
+    ALLEGRO_EVENT event;
     movement = 0;
     weapons.first = 0;
     weapons.second = 0;
     mouse.first = 0;
     mouse.second = 0;
     
-    while (al_get_next_event(event_queue,event))
+    while (al_get_next_event(event_queue,&event))
     {
-        if (event->type == ALLEGRO_EVENT_KEY_DOWN )
+        if (event.type == ALLEGRO_EVENT_KEY_DOWN )
         {
-            key[event->keyboard.keycode] = true;
+            key[event.keyboard.keycode] = true;
         }
-        else if (event->type == ALLEGRO_EVENT_KEY_UP)
+        else if (event.type == ALLEGRO_EVENT_KEY_UP)
         {
-            key[event->keyboard.keycode] = false;
+            key[event.keyboard.keycode] = false;
         }
-        else if (event->type == ALLEGRO_EVENT_MOUSE_AXES)
+        else if (event.type == ALLEGRO_EVENT_MOUSE_AXES)
         {
-            mouse.first = event->mouse.x;
-            mouse.second = event->mouse.y;
+            mouse.first = event.mouse.x;
+            mouse.second = event.mouse.y;
+        }
+        else if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+        {
+            closed = true;
         }
     }
     
@@ -144,4 +148,14 @@ std::pair<int,int> Input::GetWeapons() const
 std::pair<int,int> Input::GetMouse() const
 {
     return mouse;
+}
+
+bool Input::IsPressed (int keyCode) const
+{
+    return key[keyCode];
+}
+
+bool Input::IsClosed () const
+{
+    return closed;
 }

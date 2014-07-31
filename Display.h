@@ -1,6 +1,8 @@
 #ifndef __DISPLAY_H__
 #define __DISPLAY_H__
 
+
+struct ALLEGRO_FONT;
 #include "Interaction.h"
 #include "ButtonManager.h"
 #include <allegro5/allegro.h>
@@ -26,16 +28,15 @@ class Display : public Interaction
         static Display *instance;
         void InitMainMenu();
         void WallAnimation(int x1, int y1, int x2, int y2, int i);
-        int RotateReallignedSprite(BITMAP* screen, BITMAP* sprite, int x, int y, int angle);
         ALLEGRO_TIMER* timer;
         ALLEGRO_DISPLAY *screen;
         ALLEGRO_BITMAP* miniMap;
         ALLEGRO_BITMAP* background;
         ALLEGRO_BITMAP* buffer;
         ALLEGRO_BITMAP* wall;
-        ALLEGRO_BITMAP* player;
         ALLEGRO_BITMAP* upgradeScreen;
         ALLEGRO_BITMAP* mainMenu;
+        ALLEGRO_FONT* font;
         ButtonManager buttonManager;
 };
 

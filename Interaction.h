@@ -15,9 +15,4 @@ class Interaction
         
 };
 
-extern volatile int close_button_pressed;
-void close_button_handler(void);
-extern volatile int ticks;
-void ticker();
-
 #endif

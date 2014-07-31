@@ -1,7 +1,7 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-struct BITMAP;
+#include <allegro5/allegro.h>
 
 class Button
 {
@@ -29,17 +29,17 @@ public:
 	void (*OnMouseOut)(Button* object, void* data);
 	void (*OnClick)(Button* object, void* data);
 
-	void SetCaption(char* caption);
+	void SetCaption(const char* caption);
 	void SetSize(int width, int height);
 	void SetPosition(int x, int y);
 	void SetPosition(ALLEGRO_BITMAP* anchorBitmap, int x, int y);
-	void SetTextColor(int color);
-	void SetShadowColor(int color);
-	void SetBorderColor(int color);
-	void SetFaceColor(int color);
+	void SetTextColor(ALLEGRO_COLOR color);
+	void SetShadowColor(ALLEGRO_COLOR color);
+	void SetBorderColor(ALLEGRO_COLOR color);
+	void SetFaceColor(ALLEGRO_COLOR color);
 
 	// repositions the button in the center of the surface
-	void CenterOn(BITMAP* surface);
+	void CenterOn(ALLEGRO_BITMAP* surface);
 	
 	void SetMiscData(void* data);
 	void* GetMiscData();
@@ -48,10 +48,10 @@ public:
 	int GetY();
 	int GetWidth();
 	int GetHeight();
-	int GetTextColor();
-	int GetShadowColor();
-	int GetBorderColor();
-	int GetFaceColor();
+	ALLEGRO_COLOR GetTextColor();
+	ALLEGRO_COLOR GetShadowColor();
+	ALLEGRO_COLOR GetBorderColor();
+	ALLEGRO_COLOR GetFaceColor();
 	char* GetCaption();
 
 private:
@@ -66,10 +66,10 @@ private:
 	char* caption_;
 
 	// the coloring of the button
-	int faceColor_;
-	int borderColor_;
-	int shadowColor_;
-	int textColor_;
+	ALLEGRO_COLOR faceColor_;
+	ALLEGRO_COLOR borderColor_;
+	ALLEGRO_COLOR shadowColor_;
+	ALLEGRO_COLOR textColor_;
 
 	// the dimension of the button
 	int w_;
