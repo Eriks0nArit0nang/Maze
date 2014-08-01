@@ -4,6 +4,7 @@
 #include "Map.h"
 #include "Game.h"
 #include <cmath>
+#include <allegro5/allegro_primitives.h>
 
 StandardEnemy::StandardEnemy(int health, double xPos, double yPos):
     Enemy(health, xPos, yPos, health/10+1, _Enemy)

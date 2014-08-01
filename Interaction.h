@@ -9,9 +9,8 @@ class Interaction
     protected:
         Interaction();
         virtual ~Interaction() = 0;  
+        static int FPS;
     public:
-        int GetTicks();
-        void ResetTicks();
         
 };
 

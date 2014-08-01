@@ -10,11 +10,6 @@
 #include <fstream>
 #include <ctime>
 
-#define WINDOWS 1
-#define LINUX 2
-
-#define OS LINUX
-
 using namespace std;
 
 Game *Game::instance = 0;
@@ -112,12 +107,8 @@ void Game::Create(std::string gameName)
     gameNames.push_back(gameName);
     Map *map = Map::GetInstance();
     string t;
-    #if OS == WINDOWS
-    mkdir(gameName.c_str());
-    #elif OS == LINUX
     string t2 = "mkdir ";
     system((t2 + gameName).c_str());
-    #endif
     
     for (int i = 0; i < 20; i++)
     {
@@ -185,11 +176,11 @@ void Game::PlayLevel()
     display->UpdateScreen();
     while (!(input->IsClosed() || input->IsPressed(ALLEGRO_KEY_ESCAPE)))
     {
-       // while (input->GetTicks() > -1)
-       // {
+        input->ReadInput();
+        while (input->Timer())
+        {
             vector<Weapon *> playerWeapons;
             vector<Weapon *> enemyWeapons;
-            input->ResetTicks();
             input->ReadInput();
             Map::GetInstance()->UpdateDistFromPlayer(player->GetX()/BOX_PIXEL_WIDTH,player->GetY()/BOX_PIXEL_WIDTH, 30);
             
@@ -197,7 +188,7 @@ void Game::PlayLevel()
             {
                 Upgrade();
                 while (input->IsPressed(ALLEGRO_KEY_U)) input->ReadInput();
-                input->ResetTicks();
+                input->Timer();
             }
             for (int i = 0; i < enemies.size(); i++)
             {
@@ -292,9 +283,9 @@ void Game::PlayLevel()
             if (GameEnd())
                 break;
                 
-        // }
-        //  if (GameEnd())
-        //     break;
+        }
+        if (GameEnd())
+            break;
      }
 }
 

@@ -3,6 +3,7 @@
 #include "Map.h"
 #include <iostream>
 #include <cmath>
+#include <allegro5/allegro_primitives.h>
 
 Grenade::Grenade(int xPos, int yPos, WeaponProperties weaponProperties, int direction, Character * watcher):
     Weapon(xPos, yPos, weaponProperties, watcher),velocity(6),direction(direction),timer(40){}

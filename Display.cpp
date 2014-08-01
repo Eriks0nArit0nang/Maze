@@ -10,6 +10,7 @@
 #include <cmath>
 #include <vector>
 #include <allegro5/allegro_font.h>
+#include <allegro5/allegro_primitives.h>
 
 using namespace std;
 
@@ -158,13 +159,13 @@ void Display::SetBackground ()
     for (int i = 0; i < size; i++)
         for (int j = 0; j < size; j++)
             if (map[i][j] == 0)
-                al_draw_filled_rectangle(i*BOX_PIXEL_WIDTH,j*BOX_PIXEL_WIDTH,(i+1)*BOX_PIXEL_WIDTH-1,(j+1)*BOX_PIXEL_WIDTH-1,al_map_rgb(255,255,255));
+                al_draw_filled_rectangle(i*BOX_PIXEL_WIDTH,j*BOX_PIXEL_WIDTH,(i+1)*BOX_PIXEL_WIDTH,(j+1)*BOX_PIXEL_WIDTH,al_map_rgb(255,255,255));
             else if (map[i][j] == 2)
             {
-                al_draw_filled_rectangle(i*BOX_PIXEL_WIDTH,j*BOX_PIXEL_WIDTH,(i+1)*BOX_PIXEL_WIDTH-1,(j+1)*BOX_PIXEL_WIDTH-1,al_map_rgb(255,0,254));
+                al_draw_filled_rectangle(i*BOX_PIXEL_WIDTH,j*BOX_PIXEL_WIDTH,(i+1)*BOX_PIXEL_WIDTH,(j+1)*BOX_PIXEL_WIDTH,al_map_rgb(255,0,254));
             }
             else if (map[i][j] == 3)
-                al_draw_filled_rectangle(i*BOX_PIXEL_WIDTH,j*BOX_PIXEL_WIDTH,(i+1)*BOX_PIXEL_WIDTH-1,(j+1)*BOX_PIXEL_WIDTH-1,al_map_rgb(0,255,0));
+                al_draw_filled_rectangle(i*BOX_PIXEL_WIDTH,j*BOX_PIXEL_WIDTH,(i+1)*BOX_PIXEL_WIDTH,(j+1)*BOX_PIXEL_WIDTH,al_map_rgb(0,255,0));
     
     al_set_target_bitmap(miniMap);
     al_draw_filled_rectangle(0,0,GRID_SIZE*2,600,al_map_rgb(100,100,100));
@@ -179,13 +180,13 @@ void Display::UpdateMiniMap (int centreX, int centreY)
     for (int i = centreX-5; i < centreX+5 && i >= 0 && i < size; i++)
         for (int j = centreY-5; j < centreY+5 && j >= 0 && j < size; j++)
             if (map[i][j] == 0)
-                al_draw_filled_rectangle(i*2,j*2,i*2+1,j*2+1,al_map_rgb(255,255,255));
+                al_draw_filled_rectangle(i*2,j*2,i*2+2,j*2+2,al_map_rgb(255,255,255));
             else if (map[i][j] == 1)
-                al_draw_filled_rectangle(i*2,j*2,i*2+1,j*2+1,al_map_rgb(0,0,0));
+                al_draw_filled_rectangle(i*2,j*2,i*2+2,j*2+2,al_map_rgb(0,0,0));
             else if (map[i][j] == 2)
-                al_draw_filled_rectangle(i*2,j*2,i*2+1,j*2+1,al_map_rgb(255,0,254));
+                al_draw_filled_rectangle(i*2,j*2,i*2+2,j*2+2,al_map_rgb(255,0,254));
             else if (map[i][j] == 3)
-                al_draw_filled_rectangle(i*2,j*2,i*2+1,j*2+1,al_map_rgb(0,255,0));
+                al_draw_filled_rectangle(i*2,j*2,i*2+2,j*2+2,al_map_rgb(0,255,0));
 }
 
 void Display::Zoom (int centreX, int centreY)
@@ -201,13 +202,13 @@ void Display::Zoom (int centreX, int centreY)
                 if (mapInst->Fog(centreX+i, centreY+j))
                 {
                     if (map[centreX+i][centreY+j] == 0)
-                        al_draw_filled_rectangle((i+(int)floor(size/10))*10,size*2+(j+(int)floor(size/10))*10,(i+(int)floor(size/10))*10+9,size*2+(j+(int)floor(size/10))*10+9,al_map_rgb(255,255,255));
+                        al_draw_filled_rectangle((i+(int)floor(size/10))*10,size*2+(j+(int)floor(size/10))*10,(i+(int)floor(size/10)+1)*10,size*2+(j+(int)floor(size/10)+1)*10,al_map_rgb(255,255,255));
                     else if (map[centreX+i][centreY+j] == 1)
-                        al_draw_filled_rectangle((i+(int)floor(size/10))*10,size*2+(j+(int)floor(size/10))*10,(i+(int)floor(size/10))*10+9,size*2+(j+(int)floor(size/10))*10+9,al_map_rgb(0,0,0));
+                        al_draw_filled_rectangle((i+(int)floor(size/10))*10,size*2+(j+(int)floor(size/10))*10,(i+(int)floor(size/10)+1)*10,size*2+(j+(int)floor(size/10)+1)*10+10,al_map_rgb(0,0,0));
                     else if (map[centreX+i][centreY+j] == 2)
-                        al_draw_filled_rectangle((i+(int)floor(size/10))*10,size*2+(j+(int)floor(size/10))*10,(i+(int)floor(size/10))*10+9,size*2+(j+(int)floor(size/10))*10+9,al_map_rgb(255,0,254));
+                        al_draw_filled_rectangle((i+(int)floor(size/10))*10,size*2+(j+(int)floor(size/10))*10,(i+(int)floor(size/10)+1)*10,size*2+(j+(int)floor(size/10)+1)*10,al_map_rgb(255,0,254));
                     else if (map[centreX+i][centreY+j] == 3)
-                        al_draw_filled_rectangle((i+(int)floor(size/10))*10,size*2+(j+(int)floor(size/10))*10,(i+(int)floor(size/10))*10+9,size*2+(j+(int)floor(size/10))*10+9,al_map_rgb(0,255,0));
+                        al_draw_filled_rectangle((i+(int)floor(size/10))*10,size*2+(j+(int)floor(size/10))*10,(i+(int)floor(size/10)+1)*10,size*2+(j+(int)floor(size/10)+1)*10,al_map_rgb(0,255,0));
                 }    
 }
 
@@ -218,6 +219,7 @@ void Display::NukeAnimation ()
     {
         al_draw_filled_circle (SCREEN_X/2, SCREEN_Y/2, i*10, al_map_rgb(255,i*8,0));
         al_flip_display();
+        al_rest(1);
     }
 }
 

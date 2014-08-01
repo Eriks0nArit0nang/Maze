@@ -2,8 +2,11 @@
 #include "allegro5/allegro.h"
 #include "allegro5/allegro_font.h"
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_primitives.h>
 #include "Globals.h"
 #include <iostream>
+
+int Interaction::FPS = 40;
 
 int Interaction::initialized = 0;
 
@@ -30,18 +33,4 @@ void Interaction::Initialize()
     al_init_image_addon();
     al_install_mouse();
     al_install_keyboard();
-    // TODO set up timer - Display class - find appropriate FPS
-}
-
-static int ticks = 0;
-
-int Interaction::GetTicks()
-{
-// TODO modify this to handle event timer properly
-    return ticks;
-}
-
-void Interaction::ResetTicks()
-{
-    ticks = 0;
 }

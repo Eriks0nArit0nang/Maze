@@ -6,6 +6,7 @@
 #include <utility>
 #include <iostream>
 #include <cmath>
+#include <allegro5/allegro_primitives.h>
 
 #include "Bomb.h"
 #include "Nuke.h"

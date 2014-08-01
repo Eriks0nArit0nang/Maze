@@ -18,20 +18,24 @@ class Input : public Interaction
         bool IsClosed() const;
         bool IsPressed(int keyCode) const;
         bool IsMouseClicked() const;
+        bool Timer();
         static void RemoveInstance();
         
         
     private:
         static Input *instance;
         Input();
+        ~Input();
         bool key[ALLEGRO_KEY_MAX];
         ALLEGRO_EVENT_QUEUE *event_queue;
+        ALLEGRO_TIMER *timer;
         int movement;
         int upgrade;
         std::pair<int,int> weapons; // special weapons, direction
         std::pair<int,int> mouse;
         bool mouseClick;
         bool closed;
+        bool time;
     
     
 };

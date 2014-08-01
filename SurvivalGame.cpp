@@ -72,7 +72,8 @@ void SurvivalGame::PlayLevel()
     spawn.second = spawn.second*BOX_PIXEL_WIDTH+BOX_PIXEL_WIDTH/2;
     while (!(input->IsClosed() || input->IsPressed(ALLEGRO_KEY_ESCAPE)))
     {
-        while (input->GetTicks() > 0)
+        input->ReadInput();
+        while (input->Timer())
         {
             nextEnemy--;
             if (nextEnemy <= 0 || (GetEnemies().size() <= 3 && nextEnemy <= 50) || GetEnemies().size() == 0)
@@ -89,7 +90,6 @@ void SurvivalGame::PlayLevel()
             
             std::vector<Weapon *> playerWeapons;
             std::vector<Weapon *> enemyWeapons;
-            input->ResetTicks();
             input->ReadInput();
             Map::GetInstance()->UpdateDistFromPlayer(GetPlayer()->GetX()/BOX_PIXEL_WIDTH,GetPlayer()->GetY()/BOX_PIXEL_WIDTH, 30);
             
@@ -97,7 +97,7 @@ void SurvivalGame::PlayLevel()
             {
                 Upgrade();
                 while (input->IsPressed(ALLEGRO_KEY_U)) input->ReadInput();
-                input->ResetTicks();
+                input->Timer();
             }
             for (int i = 0; i < GetEnemies().size(); i++)
             {

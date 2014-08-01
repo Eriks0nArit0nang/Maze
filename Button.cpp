@@ -5,6 +5,7 @@
 #include "Input.h"
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_primitives.h>
 
 // dummy function for callbacks
 void dummyCallbackFunction(Button* object, void* data)

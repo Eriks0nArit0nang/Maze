@@ -1,6 +1,7 @@
 #include "Bomb.h"
 #include "Character.h"
 #include <iostream>
+#include <allegro5/allegro_primitives.h>
 
 Bomb::Bomb(int xPos, int yPos, WeaponProperties weaponProperties, Character * watcher):
     Weapon(xPos, yPos, weaponProperties, watcher),timer(200){}

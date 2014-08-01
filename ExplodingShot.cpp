@@ -1,4 +1,5 @@
 #include "ExplodingShot.h"
+#include <allegro5/allegro_primitives.h>
 
 ExplodingShot::ExplodingShot(AbstractGun * gun):AbstractGunDecorator(gun)
 {

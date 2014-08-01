@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "Gun.h"
 #include <cmath>
+#include <allegro5/allegro_primitives.h>
 
 ShootingEnemy::ShootingEnemy(int health, double xPos, double yPos):
     Enemy(health, xPos, yPos, health/10+1, _Gun)
