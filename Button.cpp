@@ -79,7 +79,7 @@ void Button::Recreate()
 	this->Create();
 }
 
-void Button::Update()
+bool Button::Update()
 {
 	Input::GetInstance()->ReadInput();
 	
@@ -93,12 +93,14 @@ void Button::Update()
 		if (Input::GetInstance()->IsMouseClicked())
 		{
 			this->OnClick(this, data_);
+			return true;
 		}
 	}
 	else
 	{
 		this->OnMouseOut(this, data_);
 	}
+	return false;
 }
 
 void Button::Render(ALLEGRO_BITMAP* destination)

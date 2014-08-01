@@ -27,7 +27,7 @@ void cleanup(void)
     Game::RemoveInstance();
 }
 
-int main ()
+int main (int argc, int* argv)
 {
     
     // Set up logging
@@ -38,12 +38,17 @@ int main ()
     Input *input = Input::GetInstance();
     Game *game = Game::GetInstance();
 
-
-    display->DrawMainMenu();
     while (!input->IsClosed())
     {
-        display->UpdateGUI();
-        input->ReadInput();
+        bool action = false;
+        display->DrawMainMenu();
+        while (!action)
+        {
+            action = display->UpdateGUI();
+            input->ReadInput();
+            if (input->IsClosed())
+                action = true;
+        }
     }
     
     cleanup();

@@ -13,7 +13,7 @@ public:
 	ButtonManager();
 	~ButtonManager();
 
-	void Update();
+	bool Update();
 	void Render(ALLEGRO_BITMAP* destination);
 
 	void AddButton(Button* button);

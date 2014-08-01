@@ -238,9 +238,9 @@ void Display::RemoveWall (int xPos, int yPos)
     al_draw_filled_rectangle(x1, y1, x2, y2, al_map_rgb(255,255,255));
 }
 
-void Display::UpdateGUI()
+bool Display::UpdateGUI()
 {
-    buttonManager.Update();
+    return buttonManager.Update();
 }
 
 ALLEGRO_DISPLAY* Display::GetDisplay() const

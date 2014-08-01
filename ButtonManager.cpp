@@ -22,12 +22,15 @@ void ButtonManager::AddButton(Button *button)
 	buttons_.push_back(button);
 }
 
-void ButtonManager::Update()
+bool ButtonManager::Update()
 {
-	for (unsigned int i = 0; i < buttons_.size(); i++)
-	{
-		buttons_[i]->Update();
+    bool action = false;
+    for (unsigned int i = 0; i < buttons_.size(); i++)
+    {
+        if (buttons_[i]->Update())
+            action = true;
 	}
+	return action;
 }
 
 void ButtonManager::Render(ALLEGRO_BITMAP *destination)

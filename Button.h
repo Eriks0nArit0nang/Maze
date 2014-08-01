@@ -19,7 +19,7 @@ public:
 	void Recreate();
 
 	// updates the button
-	void Update();
+	bool Update();
 
 	// renders the button
 	void Render(ALLEGRO_BITMAP* destination);

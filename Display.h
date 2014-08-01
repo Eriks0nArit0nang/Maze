@@ -20,7 +20,7 @@ class Display : public Interaction
         void UpdateScreen();
         void DrawMainMenu();
         void Zoom(int centreX, int centreY);
-        void UpdateGUI();
+        bool UpdateGUI();
         ALLEGRO_DISPLAY* GetDisplay() const;
         
         
