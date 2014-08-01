@@ -70,9 +70,10 @@ void SurvivalGame::PlayLevel()
     std::pair<int,int> spawn = Map::GetInstance()->GetEndLoc();
     spawn.first = spawn.first*BOX_PIXEL_WIDTH+BOX_PIXEL_WIDTH/2;
     spawn.second = spawn.second*BOX_PIXEL_WIDTH+BOX_PIXEL_WIDTH/2;
-    while (!(close_button_pressed || key[KEY_ESC]))
+    while (!(input->IsClosed() || input->IsPressed(ALLEGRO_KEY_ESCAPE)))
     {
-        while (input->GetTicks() > 0)
+        input->ReadInput();
+        while (input->Timer())
         {
             nextEnemy--;
             if (nextEnemy <= 0 || (GetEnemies().size() <= 3 && nextEnemy <= 50) || GetEnemies().size() == 0)
@@ -89,15 +90,14 @@ void SurvivalGame::PlayLevel()
             
             std::vector<Weapon *> playerWeapons;
             std::vector<Weapon *> enemyWeapons;
-            input->ResetTicks();
             input->ReadInput();
             Map::GetInstance()->UpdateDistFromPlayer(GetPlayer()->GetX()/BOX_PIXEL_WIDTH,GetPlayer()->GetY()/BOX_PIXEL_WIDTH, 30);
             
             if (input->GetMovement() >= 10000) // Upgrade
             {
                 Upgrade();
-                while (key[KEY_U]) poll_keyboard();
-                input->ResetTicks();
+                while (input->IsPressed(ALLEGRO_KEY_U)) input->ReadInput();
+                input->Timer();
             }
             for (int i = 0; i < GetEnemies().size(); i++)
             {

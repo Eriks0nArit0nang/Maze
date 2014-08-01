@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include <iostream>
 #include <cmath>
+#include <allegro5/allegro_primitives.h>
 
 Gun::Gun(int xPos, int yPos, WeaponProperties weaponProperties, int direction, Character * watcher):
     AbstractGun(xPos,yPos,weaponProperties,direction,watcher){}
@@ -61,7 +62,8 @@ void Gun::Action( Character * character)
     }
 }
 
-void Gun::Draw(BITMAP *buffer, int midX, int midY)
+void Gun::Draw(ALLEGRO_BITMAP *buffer, int midX, int midY)
 {
-    line (buffer, midX+GetX(), midY+GetY(), midX+(int)round(xPosOrig), midY+(int)round(yPosOrig), makecol (255,0,0));
+    al_set_target_bitmap(buffer);
+    al_draw_line (midX+GetX(), midY+GetY(), midX+(int)round(xPosOrig), midY+(int)round(yPosOrig), al_map_rgb (255,0,0), 0);
 }

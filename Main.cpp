@@ -35,14 +35,15 @@ int main ()
     std::cerr.rdbuf(out.rdbuf());
     
     Display *display = Display::GetInstance();
-    Input::GetInstance();
+    Input *input = Input::GetInstance();
     Game *game = Game::GetInstance();
 
-    while (!close_button_pressed)
+
+    display->DrawMainMenu();
+    while (!input->IsClosed())
     {
-        display->DrawMainMenu();
-        rest(1);
+        display->UpdateGUI();
+        input->ReadInput();
     }
     cleanup();
 }
-END_OF_MAIN();

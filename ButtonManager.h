@@ -2,7 +2,7 @@
 #ifndef BUTTONMANAGER_H
 #define BUTTONMANAGER_H
 
-struct BITMAP;
+struct ALLEGRO_BITMAP;
 class Button;
 
 #include <vector>
@@ -14,7 +14,7 @@ public:
 	~ButtonManager();
 
 	void Update();
-	void Render(BITMAP* destination);
+	void Render(ALLEGRO_BITMAP* destination);
 
 	void AddButton(Button* button);
 

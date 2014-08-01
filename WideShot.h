@@ -7,7 +7,7 @@ class WideShot : public AbstractGunDecorator
 {
     public:
         WideShot(AbstractGun * gun);
-        void Draw(BITMAP *buffer, int midX, int midY);
+        void Draw(ALLEGRO_BITMAP *buffer, int midX, int midY);
 };
 
 #endif

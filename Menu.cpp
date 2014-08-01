@@ -5,7 +5,7 @@
 #include "Button.h"
 
 #include <iostream>
-#include <allegro.h>
+#include <allegro5/allegro.h>
 #include <string>
 #include "Globals.h"
 
@@ -15,9 +15,9 @@ using namespace std;
  
 static string read_string(int yCoord)
 {
-    BITMAP *buffer = create_bitmap(270,40);
-    string  edittext;                         // an empty string for editting
-    string::iterator iter = edittext.begin(); // string iterator
+    ALLEGRO_BITMAP *buffer = al_create_bitmap(270,40);
+    string  edittext = "Game 1";                         // an empty string for editting
+   /* string::iterator iter = edittext.begin(); // string iterator
     int caret  = 0;                       // tracks the text caret
     bool insert = true;                    // true of should text be inserted
  
@@ -94,8 +94,8 @@ static string read_string(int yCoord)
         // blit to screen
         draw_sprite(screen, buffer, 420, yCoord);
     }while(!key[KEY_ESC] && !key[KEY_ENTER] && !close_button_pressed); // end of game loop
-    
-    destroy_bitmap(buffer);
+  */  
+    al_destroy_bitmap(buffer);
     
     return edittext;
 }

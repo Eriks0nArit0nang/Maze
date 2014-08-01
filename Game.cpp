@@ -10,11 +10,6 @@
 #include <fstream>
 #include <ctime>
 
-#define WINDOWS 1
-#define LINUX 2
-
-#define OS WINDOWS
-
 using namespace std;
 
 Game *Game::instance = 0;
@@ -82,6 +77,7 @@ bool Game::GameEnd()
 void Game::Play(std::string gameName, int diff)
 {
     Map *map = Map::GetInstance();
+    Input *input = Input::GetInstance();
     player = new Player(0,0);
     string t;
     for (int i = 0; i < 20; i++)
@@ -98,10 +94,10 @@ void Game::Play(std::string gameName, int diff)
             PlayLevel();
             ResetLevel();
         }
-        if (close_button_pressed || key[KEY_ESC])
+        if (input->IsClosed() || input->IsPressed(ALLEGRO_KEY_ESCAPE))
             break;
      }
-     if (player->GetHealth() > 0 && !close_button_pressed && !key[KEY_ESC])
+     if (player->GetHealth() > 0 && !input->IsClosed() && !input->IsPressed(ALLEGRO_KEY_ESCAPE))
         cerr << "WINNER\n";
 }
 
@@ -111,12 +107,8 @@ void Game::Create(std::string gameName)
     gameNames.push_back(gameName);
     Map *map = Map::GetInstance();
     string t;
-    #if OS == WINDOWS
-    mkdir(gameName.c_str());
-    #elif OS == LINUX
     string t2 = "mkdir ";
     system((t2 + gameName).c_str());
-    #endif
     
     for (int i = 0; i < 20; i++)
     {
@@ -182,21 +174,21 @@ void Game::PlayLevel()
     Input * input = Input::GetInstance();
     Display * display = Display::GetInstance();
     display->UpdateScreen();
-    while (!(close_button_pressed || key[KEY_ESC]))
+    while (!(input->IsClosed() || input->IsPressed(ALLEGRO_KEY_ESCAPE)))
     {
-        while (input->GetTicks() > 0)
+        input->ReadInput();
+        while (input->Timer())
         {
             vector<Weapon *> playerWeapons;
             vector<Weapon *> enemyWeapons;
-            input->ResetTicks();
             input->ReadInput();
             Map::GetInstance()->UpdateDistFromPlayer(player->GetX()/BOX_PIXEL_WIDTH,player->GetY()/BOX_PIXEL_WIDTH, 30);
             
             if (input->GetMovement() >= 10000) // Upgrade
             {
                 Upgrade();
-                while (key[KEY_U]) poll_keyboard();
-                input->ResetTicks();
+                while (input->IsPressed(ALLEGRO_KEY_U)) input->ReadInput();
+                input->Timer();
             }
             for (int i = 0; i < enemies.size(); i++)
             {
@@ -291,9 +283,9 @@ void Game::PlayLevel()
             if (GameEnd())
                 break;
                 
-          }
-          if (GameEnd())
-             break;
+        }
+        if (GameEnd())
+            break;
      }
 }
 
@@ -301,12 +293,12 @@ void Game::Upgrade()
 {
     bool finished = false;
     int prevVals = 1;
-    while (!finished && !close_button_pressed)
+    while (!finished && !Input::GetInstance()->IsClosed())
     {
         Display::GetInstance()->DrawUpgrade();
         Input::GetInstance()->ReadUpgrade();
         int upgradeVals = Input::GetInstance()->GetUpgrade();
-        if (upgradeVals != prevVals && !close_button_pressed)
+        if (upgradeVals != prevVals && !Input::GetInstance()->IsClosed())
         {
             prevVals = upgradeVals;
             switch (upgradeVals)

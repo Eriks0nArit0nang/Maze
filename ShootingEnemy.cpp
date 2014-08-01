@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "Gun.h"
 #include <cmath>
+#include <allegro5/allegro_primitives.h>
 
 ShootingEnemy::ShootingEnemy(int health, double xPos, double yPos):
     Enemy(health, xPos, yPos, health/10+1, _Gun)
@@ -118,12 +119,13 @@ void ShootingEnemy::Move ()
      }
 }
 
-void ShootingEnemy::Draw(BITMAP *buffer, int midX, int midY)
+void ShootingEnemy::Draw(ALLEGRO_BITMAP *buffer, int midX, int midY)
 {
     for (int i = 0; i < weapons.size(); i++)
         weapons[i]->Draw(buffer, midX, midY);
-    circlefill (buffer, midX+GetX(), midY+GetY(), radius, makecol (255,150,150));
-    circlefill (buffer, midX+GetX(), midY+GetY(), radius-GetHealth()/10-1, makecol (255,0,0));
-    circle (buffer, midX+GetX(), midY+GetY(), radius, makecol (255,0,0));
+    al_set_target_bitmap(buffer);
+    al_draw_filled_circle (midX+GetX(), midY+GetY(), radius, al_map_rgb (255,150,150));
+    al_draw_filled_circle (midX+GetX(), midY+GetY(), radius-GetHealth()/10-1, al_map_rgb (255,0,0));
+    al_draw_circle (midX+GetX(), midY+GetY(), radius, al_map_rgb (255,0,0), 0);
         
 }

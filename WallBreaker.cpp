@@ -70,7 +70,7 @@ void WallBreaker::Detonate()
     destroyThis = true;
 }
 
-void WallBreaker::Draw(BITMAP *buffer, int midX, int midY)
+void WallBreaker::Draw(ALLEGRO_BITMAP *buffer, int midX, int midY)
 {
     
 }

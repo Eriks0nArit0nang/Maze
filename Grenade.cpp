@@ -3,6 +3,7 @@
 #include "Map.h"
 #include <iostream>
 #include <cmath>
+#include <allegro5/allegro_primitives.h>
 
 Grenade::Grenade(int xPos, int yPos, WeaponProperties weaponProperties, int direction, Character * watcher):
     Weapon(xPos, yPos, weaponProperties, watcher),velocity(6),direction(direction),timer(40){}
@@ -72,9 +73,10 @@ void Grenade::Action( Character * character)
     }
 }
 
-void Grenade::Draw(BITMAP *buffer, int midX, int midY)
+void Grenade::Draw(ALLEGRO_BITMAP *buffer, int midX, int midY)
 {
-    circlefill (buffer, midX+GetX(), midY+GetY(), 2, makecol (0,255,0));
+    al_set_target_bitmap(buffer);
+    al_draw_filled_circle (midX+GetX(), midY+GetY(), 2, al_map_rgb (0,255,0));
     if (destroyThis)
-        circlefill (buffer, midX+GetX(), midY+GetY(), GetProperties().GetRadius(), makecol (255,0,0));
+        al_draw_filled_circle (midX+GetX(), midY+GetY(), GetProperties().GetRadius(), al_map_rgb (255,0,0));
 }

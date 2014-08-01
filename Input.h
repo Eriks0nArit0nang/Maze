@@ -3,6 +3,7 @@
 
 #include <utility>
 #include "Interaction.h"
+#include "allegro5/allegro.h"
 
 class Input : public Interaction
 {
@@ -14,16 +15,27 @@ class Input : public Interaction
         int GetUpgrade() const;
         std::pair<int,int> GetWeapons() const;
         std::pair <int,int> GetMouse() const;
+        bool IsClosed() const;
+        bool IsPressed(int keyCode) const;
+        bool IsMouseClicked() const;
+        bool Timer();
         static void RemoveInstance();
         
         
     private:
         static Input *instance;
         Input();
+        ~Input();
+        bool key[ALLEGRO_KEY_MAX];
+        ALLEGRO_EVENT_QUEUE *event_queue;
+        ALLEGRO_TIMER *timer;
         int movement;
         int upgrade;
         std::pair<int,int> weapons; // special weapons, direction
         std::pair<int,int> mouse;
+        bool mouseClick;
+        bool closed;
+        bool time;
     
     
 };
