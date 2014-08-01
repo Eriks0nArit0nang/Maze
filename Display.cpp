@@ -38,22 +38,27 @@ Display::Display():Interaction()
     upgradeScreen = al_load_bitmap ("Upgrade.bmp");
     mainMenu = al_load_bitmap ("MainMenu.bmp");
     buffer=al_get_backbuffer(screen);
+    al_set_target_bitmap(buffer);
+    al_clear_to_color(al_map_rgb(0,0,0));
+    al_flip_display();
     miniMap = al_create_bitmap(size*2,600);
     al_set_target_bitmap(miniMap);
+    al_clear_to_color(al_map_rgb(0,0,0));
     al_draw_filled_rectangle(0,0,size*2,size*4,al_map_rgb(100,100,100));
     background=al_create_bitmap(size*BOX_PIXEL_WIDTH,size*BOX_PIXEL_WIDTH);
+    al_set_target_bitmap(background);
+    al_clear_to_color(al_map_rgb(0,0,0));
     font=al_load_bitmap_font("a4_font.tga");
     InitMainMenu();
 }
 
 Display::~Display()
 {
-    al_destroy_display(screen);
     al_destroy_bitmap(background);
     al_destroy_bitmap(miniMap);
-    al_destroy_bitmap(wall);
     al_destroy_bitmap(upgradeScreen);
     al_destroy_bitmap(mainMenu);
+    al_destroy_display(screen);
     al_destroy_timer(timer);
     al_destroy_font(font);
 }
@@ -75,12 +80,12 @@ void Display::UpdateScreen()
         }
     P->Draw(buffer, SCREEN_X/2-P->GetX(), SCREEN_Y/2-P->GetY());
     int clipRemaining = P->GetWeaponProperties(_Gun).GetClipSize()-P->GetWeaponProperties(_Gun).GetShotsTaken();
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 480, -1, "Clip: %d", clipRemaining); 
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 500, -1, "Health: %d", P->GetHealth());
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 520, -1, "Enemies: %d", E.size());
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 540, -1, "Money: %d", P->GetMoney());
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 560, -1, "Weapon:");
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 580, -1, "%s", P->GetActiveWeapon() == _Gun ? "Gun" : ( P->GetActiveWeapon() == _Grenade ? "Grenade" : "Walls"));
+    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 480, 0, "Clip: %d", clipRemaining); 
+    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 500, 0, "Health: %d", P->GetHealth());
+    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 520, 0, "Enemies: %d", E.size());
+    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 540, 0, "Money: %d", P->GetMoney());
+    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 560, 0, "Weapon:");
+    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 580, 0, "%s", P->GetActiveWeapon() == _Gun ? "Gun" : ( P->GetActiveWeapon() == _Grenade ? "Grenade" : "Walls"));
      al_flip_display();
 }
 
@@ -100,17 +105,17 @@ void Display::DrawUpgrade()
     WeaponProperties explodingShot = P.GetWeaponProperties(_ExplodingShot);
     WeaponProperties mine = P.GetWeaponProperties(_Mine);
     WeaponProperties wallBreaker = P.GetWeaponProperties(_WallBreaker);
-    al_draw_textf(font, al_map_rgb(255,255,255), 180, 162, -1, "%d Cost: %d", rate, 250*(11-rate)*(11-rate));
-    al_draw_textf(font, al_map_rgb(255,255,255), 180, 201, -1, "%d Cost: %d", clip, 10*clip);
-    al_draw_textf(font, al_map_rgb(255,255,255), 180, 240, -1, "%d Cost: %d", range, 100*(range/BOX_PIXEL_WIDTH));
-    al_draw_textf(font, al_map_rgb(255,255,255), 180, 279, -1, "%d Cost: %d", health, 100+P.GetAddedHealth()/4);
-    al_draw_textf(font, al_map_rgb(255,255,255), 300, 162, -1, "Money: %d", money);
-    al_draw_textf(font, al_map_rgb(255,255,255), 400, 355, -1, "N %d Cost: %d", nuke.GetWeaponQuantity(), nuke.GetCost());
-    al_draw_textf(font, al_map_rgb(255,255,255), 400, 394, -1, "W %d Cost: %d", wideShot.GetWeaponQuantity(), wideShot.GetCost());
-    al_draw_textf(font, al_map_rgb(255,255,255), 400, 433, -1, "G %d Cost: %d", grenade.GetWeaponQuantity(), grenade.GetCost());
-    al_draw_textf(font, al_map_rgb(255,255,255), 400, 472, -1, "E %d Cost: %d", explodingShot.GetWeaponQuantity(), explodingShot.GetCost());
-    al_draw_textf(font, al_map_rgb(255,255,255), 400, 511, -1, "M %d Cost: %d", mine.GetWeaponQuantity(), mine.GetCost());
-    al_draw_textf(font, al_map_rgb(255,255,255), 400, 550, -1, "S %d Cost: %d", wallBreaker.GetWeaponQuantity(), wallBreaker.GetCost());
+    al_draw_textf(font, al_map_rgb(255,255,255), 180, 162, 0, "%d Cost: %d", rate, 250*(11-rate)*(11-rate));
+    al_draw_textf(font, al_map_rgb(255,255,255), 180, 201, 0, "%d Cost: %d", clip, 10*clip);
+    al_draw_textf(font, al_map_rgb(255,255,255), 180, 240, 0, "%d Cost: %d", range, 100*(range/BOX_PIXEL_WIDTH));
+    al_draw_textf(font, al_map_rgb(255,255,255), 180, 279, 0, "%d Cost: %d", health, 100+P.GetAddedHealth()/4);
+    al_draw_textf(font, al_map_rgb(255,255,255), 300, 162, 0, "Money: %d", money);
+    al_draw_textf(font, al_map_rgb(255,255,255), 400, 355, 0, "N %d Cost: %d", nuke.GetWeaponQuantity(), nuke.GetCost());
+    al_draw_textf(font, al_map_rgb(255,255,255), 400, 394, 0, "W %d Cost: %d", wideShot.GetWeaponQuantity(), wideShot.GetCost());
+    al_draw_textf(font, al_map_rgb(255,255,255), 400, 433, 0, "G %d Cost: %d", grenade.GetWeaponQuantity(), grenade.GetCost());
+    al_draw_textf(font, al_map_rgb(255,255,255), 400, 472, 0, "E %d Cost: %d", explodingShot.GetWeaponQuantity(), explodingShot.GetCost());
+    al_draw_textf(font, al_map_rgb(255,255,255), 400, 511, 0, "M %d Cost: %d", mine.GetWeaponQuantity(), mine.GetCost());
+    al_draw_textf(font, al_map_rgb(255,255,255), 400, 550, 0, "S %d Cost: %d", wallBreaker.GetWeaponQuantity(), wallBreaker.GetCost());
      al_flip_display();
 }
 

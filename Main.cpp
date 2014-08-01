@@ -45,5 +45,7 @@ int main ()
         display->UpdateGUI();
         input->ReadInput();
     }
+    
     cleanup();
+    out.close();
 }

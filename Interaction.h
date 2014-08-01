@@ -5,6 +5,7 @@ class Interaction
 {
     private:
         static void Initialize();
+        static void UnInitialize();
         static int initialized;
     protected:
         Interaction();

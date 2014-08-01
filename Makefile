@@ -21,5 +21,5 @@ clean:
 	${RM} $(OBJ) $(BIN)
 
 $(BIN): $(OBJ)
-	$(CPP) $(OBJ) ${LDFLAGS} -o ${BIN}
+	$(CPP) $(OBJ) ${CXXFLAGS} ${LDFLAGS} -o ${BIN}
 

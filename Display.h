@@ -35,7 +35,6 @@ class Display : public Interaction
         ALLEGRO_BITMAP* miniMap;
         ALLEGRO_BITMAP* background;
         ALLEGRO_BITMAP* buffer;
-        ALLEGRO_BITMAP* wall;
         ALLEGRO_BITMAP* upgradeScreen;
         ALLEGRO_BITMAP* mainMenu;
         ALLEGRO_FONT* font;

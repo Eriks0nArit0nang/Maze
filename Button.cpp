@@ -35,7 +35,7 @@ Button::~Button()
 {
     if (caption_ != NULL)
     {
-        delete caption_;
+        delete [] caption_;
         caption_ = NULL;
     }
 	if (image_ != NULL)
