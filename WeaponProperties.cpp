@@ -135,7 +135,7 @@ void WeaponProperties::Initialize(WeaponType type)
             active = true;
             break;
         case _Grenade:
-            cost = 300;
+            cost = 60;
             range = 240;
             damage = 80;
             radius = 30;

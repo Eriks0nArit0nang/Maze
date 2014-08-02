@@ -80,9 +80,7 @@ void Button::Recreate()
 }
 
 bool Button::Update()
-{
-	Input::GetInstance()->ReadInput();
-	
+{	
 	std::pair<int,int> mouse = Input::GetInstance()->GetMouse();
 
 	if (mouse.first >= x_ && mouse.first <= x_ + w_ &&

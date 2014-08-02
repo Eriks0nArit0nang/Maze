@@ -170,9 +170,9 @@ void Player::UpgradeWeapon(WeaponType type, std::string property)
         AddMoney(-100-GetAddedHealth()/4);
         AddHealth(20);
     }
-    else if (property == "rate" && GetMoney() >= 250*(int)pow(11-GetWeaponProperties(type).GetFireRate(),2) && GetWeaponProperties(type).GetFireRate() > 2)
+    else if (property == "rate" && GetMoney() >= 500*(int)pow(11-GetWeaponProperties(type).GetFireRate(),2) && GetWeaponProperties(type).GetFireRate() > 2)
     {
-        AddMoney(-250*(int)pow(11-GetWeaponProperties(type).GetFireRate(),2));
+        AddMoney(-500*(int)pow(11-GetWeaponProperties(type).GetFireRate(),2));
         GetWeaponProperties(type).SetFireRate(GetWeaponProperties(type).GetFireRate()-1);
     }
     else if (property == "clip" && GetMoney() >= 10*GetWeaponProperties(type).GetClipSize() && GetWeaponProperties(type).GetClipSize() < 100)

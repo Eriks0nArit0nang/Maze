@@ -23,17 +23,28 @@ Character::~Character()
 
 bool Character::CollideWithWall (char xy, int ** grid, int size)
 {
-     if ( abs (GetX() % BOX_PIXEL_WIDTH - BOX_PIXEL_WIDTH/2) > BOX_PIXEL_WIDTH/2 - radius && abs (GetY() % BOX_PIXEL_WIDTH - BOX_PIXEL_WIDTH/2) > BOX_PIXEL_WIDTH/2 - radius)
-     {
-        return (grid[((int)round(xPos+xVel+xVel/abs(xVel)*radius))/BOX_PIXEL_WIDTH][GetY()/BOX_PIXEL_WIDTH] == 1 || 
-                grid[GetX()/BOX_PIXEL_WIDTH][((int)round(yPos+yVel+yVel/abs(yVel)*radius))/BOX_PIXEL_WIDTH] == 1 ||
-                grid[((int)round(xPos+xVel+xVel/abs(xVel)*radius))/BOX_PIXEL_WIDTH][((int)round(yPos+yVel+yVel/abs(yVel)*radius))/BOX_PIXEL_WIDTH]==1);
-     }
-     if (xy == 'x' && xVel != 0)
-        return grid[((int)round(xPos+xVel+xVel/abs(xVel)*radius))/BOX_PIXEL_WIDTH][GetY()/BOX_PIXEL_WIDTH] == 1;
-     else if (xy == 'y' && yVel != 0)
-          return grid[GetX()/BOX_PIXEL_WIDTH][((int)round(yPos+yVel+yVel/abs(yVel)*radius))/BOX_PIXEL_WIDTH] == 1;
-     return false;
+    if (xy == 'x' && xVel != 0)
+    {
+        if (abs (GetY() % BOX_PIXEL_WIDTH - BOX_PIXEL_WIDTH/2) > BOX_PIXEL_WIDTH/2 - radius)
+        {
+            return grid[((int)round(xPos+xVel+xVel/abs(xVel)*radius))/BOX_PIXEL_WIDTH][GetY()/BOX_PIXEL_WIDTH] == 1 ||
+                   grid[((int)round(xPos+xVel+xVel/abs(xVel)*radius))/BOX_PIXEL_WIDTH][GetY()/BOX_PIXEL_WIDTH+GetY()/abs(GetY())] == 1;
+            
+        }
+        else
+            return grid[((int)round(xPos+xVel+xVel/abs(xVel)*radius))/BOX_PIXEL_WIDTH][GetY()/BOX_PIXEL_WIDTH] == 1;
+    }
+    else if (xy == 'y' && yVel != 0)
+    {
+        if (abs (GetX() % BOX_PIXEL_WIDTH - BOX_PIXEL_WIDTH/2) > BOX_PIXEL_WIDTH/2 - radius)
+        {
+            return grid[GetX()/BOX_PIXEL_WIDTH][((int)round(yPos+yVel+yVel/abs(yVel)*radius))/BOX_PIXEL_WIDTH] == 1 ||
+                   grid[GetX()/BOX_PIXEL_WIDTH+GetX()/abs(GetX())][((int)round(yPos+yVel+yVel/abs(yVel)*radius))/BOX_PIXEL_WIDTH] == 1;
+        }
+        else
+            return grid[GetX()/BOX_PIXEL_WIDTH][((int)round(yPos+yVel+yVel/abs(yVel)*radius))/BOX_PIXEL_WIDTH] == 1;
+    }
+    return false;
 }
 
 bool Character::Dead()

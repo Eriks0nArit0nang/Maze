@@ -1,5 +1,6 @@
 #include "Input.h"
 #include "Display.h"
+#include <iostream>
 
 Input *Input::instance = 0;
 
@@ -43,9 +44,10 @@ void Input::ReadInput()
     weapons.second = 0;
     mouse.first = 0;
     mouse.second = 0;
-    
+    std::cerr << "Input::ReadInput\n";
     while (al_get_next_event(event_queue,&event))
     {
+        std::cerr << "  Event found " << event.type << std::endl;
         if (event.type == ALLEGRO_EVENT_KEY_DOWN )
         {
             key[event.keyboard.keycode] = true;

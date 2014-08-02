@@ -105,7 +105,7 @@ void Display::DrawUpgrade()
     WeaponProperties explodingShot = P.GetWeaponProperties(_ExplodingShot);
     WeaponProperties mine = P.GetWeaponProperties(_Mine);
     WeaponProperties wallBreaker = P.GetWeaponProperties(_WallBreaker);
-    al_draw_textf(font, al_map_rgb(255,255,255), 180, 162, 0, "%d Cost: %d", rate, 250*(11-rate)*(11-rate));
+    al_draw_textf(font, al_map_rgb(255,255,255), 180, 162, 0, "%d Cost: %d", rate, 500*(11-rate)*(11-rate));
     al_draw_textf(font, al_map_rgb(255,255,255), 180, 201, 0, "%d Cost: %d", clip, 10*clip);
     al_draw_textf(font, al_map_rgb(255,255,255), 180, 240, 0, "%d Cost: %d", range, 100*(range/BOX_PIXEL_WIDTH));
     al_draw_textf(font, al_map_rgb(255,255,255), 180, 279, 0, "%d Cost: %d", health, 100+P.GetAddedHealth()/4);
