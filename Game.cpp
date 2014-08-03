@@ -43,7 +43,8 @@ Game::Game():player(0)
     while(!in.fail())
     {
         getline(in, name);
-        gameNames.push_back(name);
+        if (!in.fail())
+            gameNames.push_back(name);
     }
 }
 
@@ -104,7 +105,8 @@ void Game::Play(std::string gameName, int diff)
 void Game::Create(std::string gameName)
 {
     cerr << "Creating game \"" << gameName << "\"...\n";
-    gameNames.push_back(gameName);
+    if (!Valid(gameName))
+        gameNames.push_back(gameName);
     Map *map = Map::GetInstance();
     string t;
     string t2 = "mkdir ";
@@ -349,4 +351,9 @@ bool Game::Valid(std::string gameName)
         if (*it == gameName)
             return true;
     return false;
+}
+
+vector <string> Game::GetGameNames() const
+{
+    return gameNames;
 }

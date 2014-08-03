@@ -13,8 +13,6 @@ Issues
 Wall breakers - switch active weapon?
 Upgrade store - use buttons
 graphics quality
-
-List valid games - low priority
 */
 
 void cleanup(void)

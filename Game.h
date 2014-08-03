@@ -17,6 +17,7 @@ class Game
         bool Valid(std::string gameName);
         void Play(std::string gameName, int difficulty);
         void Create(std::string gameName);
+        std::vector <std::string> GetGameNames() const;
     
     protected:
         static void SetInstance(Game * game);

@@ -9,6 +9,7 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>
 #include <string>
+#include <vector>
 #include "Globals.h"
 
 using namespace std;
@@ -30,7 +31,20 @@ static string read_string(int yCoord)
     ALLEGRO_FONT* font=al_load_bitmap_font("a4_font.tga");
     ALLEGRO_EVENT event;
     bool exit = false;
- 
+    vector <string> gameNames = Game::GetInstance()->GetGameNames();
+    ALLEGRO_DISPLAY *display = al_create_display(200,gameNames.size()*15+30);
+    al_set_window_title(display, "");
+    int x, y;
+    al_get_window_position(Display::GetInstance()->GetDisplay(), &x, &y);
+    al_set_window_position(display,x,y+(SCREEN_Y-gameNames.size()*15-30)/2);
+    al_set_target_bitmap(al_get_backbuffer(display));
+    al_clear_to_color(al_map_rgb(0,0,0));
+    al_draw_text(font, WHITE, 1, 10, 0, "Valid Games");
+    for (int i = 0; i < gameNames.size(); i++)
+        al_draw_textf(font, WHITE, 1, 30+i*15, 0, "%s", gameNames[i].c_str());
+    al_flip_display();
+   // al_set_active_display(Display::GetInstance()->GetDisplay());
+    
     // the game loop
     do
     {
@@ -123,6 +137,7 @@ static string read_string(int yCoord)
     al_destroy_bitmap(buffer);
     al_destroy_event_queue(queue);
     al_destroy_font(font);
+    al_destroy_display(display);
     
     return edittext;
 }
