@@ -39,6 +39,17 @@ void Player::InitializeWeaponProperties()
     weaponProperties[_Enemy] = WeaponProperties(_Enemy, 0);
 }
 
+static bool contains (int num, int digit)
+{
+    while (num != 0)
+    {
+        if (num % 10 == digit)
+            return true;
+        num /= 10;
+    }
+    return false;
+}
+
 void Player::Attack ()
 {
     attackDelay--;
@@ -60,7 +71,16 @@ void Player::Attack ()
         option = activeWeapon;
         attackDelay = 10;
     }
+    if (contains(input.second,2))
+    {
+        input.second/=2;
+        option = _Grenade;
+    }
     
+    if (GetWeaponProperties(option).GetShotsTaken() == GetWeaponProperties(option).GetClipSize() && attackDelay == 0)
+    {
+        GetWeaponProperties(option).ResetShotsTaken();
+    }
     if ((input.first != 0 || input.second != 0) && attackDelay <= 0 )
     {
         attackDelay = GetWeaponProperties(option).GetFireRate();

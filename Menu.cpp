@@ -1,33 +1,51 @@
 #include "Menu.h"
 #include "Game.h"
 #include "SurvivalGame.h"
-#include "Interaction.h"
+#include "Display.h"
 #include "Button.h"
 
 #include <iostream>
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_primitives.h>
 #include <string>
 #include "Globals.h"
 
 using namespace std;
  
-#define WHITE makecol(255, 255, 255)
+#define WHITE al_map_rgb(255, 255, 255)
  
 static string read_string(int yCoord)
 {
     ALLEGRO_BITMAP *buffer = al_create_bitmap(270,40);
-    string  edittext = "Game 1";                         // an empty string for editting
-   /* string::iterator iter = edittext.begin(); // string iterator
+    string  edittext = "";                         // an empty string for editting
+    string::iterator iter = edittext.begin(); // string iterator
     int caret  = 0;                       // tracks the text caret
     bool insert = true;                    // true of should text be inserted
+    ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
+    al_register_event_source(queue, al_get_mouse_event_source());
+    al_register_event_source(queue, al_get_keyboard_event_source());
+    al_register_event_source(queue, al_get_display_event_source(Display::GetInstance()->GetDisplay()));
+    
+    ALLEGRO_FONT* font=al_load_bitmap_font("a4_font.tga");
+    ALLEGRO_EVENT event;
+    bool exit = false;
  
     // the game loop
     do
     {
-        while(keypressed())
+        while(al_get_next_event(queue,&event))
         {
-            int  newkey = readkey();
-            readkey();
+            int  newkey, keycode;
+            if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+                exit = true;
+            else if (event.type == ALLEGRO_EVENT_KEY_CHAR)
+            {
+                newkey = event.keyboard.unichar;
+                keycode = event.keyboard.keycode;
+            }
+            else
+                break;
             char ASCII = newkey & 0xff;
             char scancode = newkey >> 8;
      
@@ -47,13 +65,13 @@ static string read_string(int yCoord)
             // some other, "special" key was pressed; handle it here
             else
             {
-                switch(scancode)
+                switch(keycode)
                 {
-                    case KEY_DEL:
+                    case ALLEGRO_KEY_DELETE:
                         if(iter != edittext.end()) iter = edittext.erase(iter);
                         break;
      
-                    case KEY_BACKSPACE:
+                    case ALLEGRO_KEY_BACKSPACE:
                         if(iter != edittext.begin())
                         {
                             caret--;
@@ -62,40 +80,49 @@ static string read_string(int yCoord)
                         }
                         break;
      
-                    case KEY_RIGHT:
+                    case ALLEGRO_KEY_RIGHT:
                         if(iter != edittext.end())   caret++, iter++;
                         break;
      
-                    case KEY_LEFT:
+                    case ALLEGRO_KEY_LEFT:
                         if(iter != edittext.begin()) caret--, iter--;
                         break;
      
-                    case KEY_INSERT:
+                    case ALLEGRO_KEY_INSERT:
                         if(insert) insert = 0; else insert = 1;
                         break;
-     
+                        
+                    case ALLEGRO_KEY_ENTER:
+                    case ALLEGRO_KEY_ESCAPE:
+                        exit = true;
+                        break;
+                        
                     default:
      
                         break;
                 }
             }
         }
-        clear_keybuf();
         // clear screen
-        clear(buffer);
+        al_set_target_bitmap(buffer);
+        al_clear_to_color(al_map_rgb(0,0,0));
  
         // output the string to the screen
-        textprintf_ex(buffer, font, 0, 10, WHITE, -1, "Enter the game name");
-        textprintf_ex(buffer, font, 0, 30, WHITE, -1, edittext.c_str());
+        al_draw_textf(font, WHITE, 1, 10, 0, "Enter the game name");
+        al_draw_textf(font, WHITE, 1, 30, 0, "%s", edittext.c_str());
      
         // draw the caret
-        vline(buffer, caret * 8, 28, 38, WHITE);
+        al_draw_line(caret * 8 + 1, 28, caret * 8 + 1, 38, WHITE, 0);
      
         // blit to screen
-        draw_sprite(screen, buffer, 420, yCoord);
-    }while(!key[KEY_ESC] && !key[KEY_ENTER] && !close_button_pressed); // end of game loop
-  */  
+        al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
+        al_draw_bitmap(buffer, 420, yCoord, 0);
+        al_flip_display();
+    }while(!exit); // end of game loop
+      
     al_destroy_bitmap(buffer);
+    al_destroy_event_queue(queue);
+    al_destroy_font(font);
     
     return edittext;
 }

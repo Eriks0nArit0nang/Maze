@@ -32,6 +32,7 @@ void Display::RemoveInstance()
 Display::Display():Interaction()
 {
     al_init_font_addon();
+    al_set_new_display_option(ALLEGRO_VSYNC, 1, ALLEGRO_SUGGEST);
     screen = al_create_display(SCREEN_X+GRID_SIZE*2, SCREEN_Y);
     timer = al_create_timer(25);
     int size = Map::GetInstance()->GetGridSize();

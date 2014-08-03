@@ -103,6 +103,9 @@ void Input::ReadInput()
         weapons.second=10;
     else if (key[ALLEGRO_KEY_W])
         weapons.second=1;
+    
+    if (key[ALLEGRO_KEY_LCTRL] || key[ALLEGRO_KEY_RCTRL])
+        weapons.second*=2;
         
     if (key[ALLEGRO_KEY_C])
         weapons.first += 1000;

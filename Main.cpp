@@ -10,10 +10,8 @@ using namespace std;
 
 /*
 Issues
-Shooting Grenades
+Wall breakers - switch active weapon?
 Upgrade store - use buttons
-Fix exploding shots
-readjust costs
 graphics quality
 
 List valid games - low priority

@@ -15,8 +15,6 @@ WeaponProperties::WeaponProperties(WeaponType type, int maxQuantity):weaponQuant
 void WeaponProperties::AddShotTaken()
 {
     shotsTaken++;
-    if (shotsTaken > clipSize)
-        shotsTaken -= clipSize;
 }
 
 bool WeaponProperties::GetActive() const
@@ -187,6 +185,11 @@ void WeaponProperties::Initialize(WeaponType type)
         default:
             std::cerr << "The selected weapon type does not have an initializer.\n"; 
     }
+}
+
+void WeaponProperties::ResetShotsTaken()
+{
+    shotsTaken = 0;
 }
 
 void WeaponProperties::SetActive(bool active)
