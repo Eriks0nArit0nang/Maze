@@ -38,7 +38,7 @@ int main (int argc, int* argv)
         display->DrawMainMenu();
         while (!action)
         {
-            action = display->UpdateGUI();
+            action = display->UpdateMainMenuGUI();
             input->ReadInput();
             if (input->IsClosed())
                 action = true;

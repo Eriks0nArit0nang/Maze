@@ -75,9 +75,9 @@ void Player::Attack ()
         option = _WallBreaker;
     }
     
-    if (GetWeaponProperties(option).GetShotsTaken() == GetWeaponProperties(option).GetClipSize() && attackDelay == 0)
+    if (GetWeaponProperties(activeWeapon).GetShotsTaken() == GetWeaponProperties(activeWeapon).GetClipSize() && attackDelay == 0)
     {
-        GetWeaponProperties(option).ResetShotsTaken();
+        GetWeaponProperties(activeWeapon).ResetShotsTaken();
     }
     if ((input.first != 0 || input.second != 0) && attackDelay <= 0 )
     {

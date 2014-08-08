@@ -16,7 +16,57 @@ using namespace std;
  
 #define WHITE al_map_rgb(255, 255, 255)
  
-static string read_string(int yCoord)
+MainMenu::MainMenu(ALLEGRO_BITMAP *buffer)
+{
+    mainMenu = al_load_bitmap ("MainMenu.bmp");
+    Init(buffer);
+}
+
+MainMenu::~MainMenu()
+{
+    al_destroy_bitmap(mainMenu);
+}
+ 
+void MainMenu::Draw(ALLEGRO_BITMAP *buffer)
+{
+    al_set_target_bitmap(buffer);
+    al_draw_bitmap(mainMenu,0,0,0);
+    buttonManager.Update();
+    buttonManager.Render(buffer);
+    al_flip_display();
+}
+
+void MainMenu::Init(ALLEGRO_BITMAP *buffer)
+{
+    Button *create = new Button();
+    create->SetCaption("Create Game");
+    create->SetSize(120, 40);
+    create->Create();
+    create->OnClick = MainMenu::Create;
+    create->SetPosition(buffer, -100, -375);
+    buttonManager.AddButton(create);
+    Button *play = new Button();
+    play->SetCaption("Play Game");
+    play->SetSize(120, 40);
+    play->Create();
+    play->OnClick = MainMenu::Play;
+    play->SetPosition(buffer, -100, -275);
+    buttonManager.AddButton(play);
+    Button *survival = new Button();
+    survival->SetCaption("Survival Game");
+    survival->SetSize(120, 40);
+    survival->Create();
+    survival->OnClick = MainMenu::Survival;
+    survival->SetPosition(buffer, -100, -175);
+    buttonManager.AddButton(survival);
+}
+
+ButtonManager &MainMenu::GetButtonManager()
+{
+    return buttonManager;
+}
+
+string MainMenu::ReadString(int yCoord)
 {
     ALLEGRO_BITMAP *buffer = al_create_bitmap(270,40);
     string  edittext = "";                         // an empty string for editting
@@ -145,7 +195,7 @@ static string read_string(int yCoord)
 void MainMenu::Create(Button* object, void* data)
 {
     Game *game = Game::GetInstance();
-    string name = read_string(object->GetY()+45);
+    string name = ReadString(object->GetY()+45);
     game->Create(name);
 }
 
@@ -154,7 +204,7 @@ void MainMenu::Survival(Button* object, void* data)
     Game *game = Game::GetInstance();
     SurvivalGame::NewInstance();
     game = Game::GetInstance();
-    string name = read_string(object->GetY()+45);
+    string name = ReadString(object->GetY()+45);
     if (game->Valid(name))
         game->Play(name, 1);
     else
@@ -164,7 +214,7 @@ void MainMenu::Survival(Button* object, void* data)
 void MainMenu::Play(Button* object, void* data)
 {
     Game *game = Game::GetInstance();
-    string name = read_string(object->GetY()+45);
+    string name = ReadString(object->GetY()+45);
     if (game->Valid(name))
         game->Play(name, 1);
     else

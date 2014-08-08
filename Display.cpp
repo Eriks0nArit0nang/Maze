@@ -37,7 +37,6 @@ Display::Display():Interaction()
     timer = al_create_timer(25);
     int size = Map::GetInstance()->GetGridSize();
     upgradeScreen = al_load_bitmap ("Upgrade.bmp");
-    mainMenu = al_load_bitmap ("MainMenu.bmp");
     buffer=al_get_backbuffer(screen);
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0,0,0));
@@ -50,7 +49,7 @@ Display::Display():Interaction()
     al_set_target_bitmap(background);
     al_clear_to_color(al_map_rgb(0,0,0));
     font=al_load_bitmap_font("a4_font.tga");
-    InitMainMenu();
+    InitMainMenu(buffer);
 }
 
 Display::~Display()
@@ -58,7 +57,6 @@ Display::~Display()
     al_destroy_bitmap(background);
     al_destroy_bitmap(miniMap);
     al_destroy_bitmap(upgradeScreen);
-    al_destroy_bitmap(mainMenu);
     al_destroy_display(screen);
     al_destroy_timer(timer);
     al_destroy_font(font);
@@ -81,13 +79,11 @@ void Display::UpdateScreen()
         }
     P->Draw(buffer, SCREEN_X/2-P->GetX(), SCREEN_Y/2-P->GetY());
     int clipRemaining = P->GetWeaponProperties(_Gun).GetClipSize()-P->GetWeaponProperties(_Gun).GetShotsTaken();
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 480, 0, "Clip: %d", clipRemaining); 
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 500, 0, "Health: %d", P->GetHealth());
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 520, 0, "Enemies: %d", E.size());
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 540, 0, "Money: %d", P->GetMoney());
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 560, 0, "Weapon:");
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 580, 0, "%s", P->GetActiveWeapon() == _Gun ? "Gun" : ( P->GetActiveWeapon() == _Grenade ? "Grenade" : "Walls"));
-     al_flip_display();
+    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 520, 0, "Clip: %d", clipRemaining); 
+    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 540, 0, "Health: %d", P->GetHealth());
+    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 560, 0, "Enemies: %d", E.size());
+    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 580, 0, "Money: %d", P->GetMoney());
+    al_flip_display();
 }
 
 void Display::DrawUpgrade()
@@ -120,39 +116,14 @@ void Display::DrawUpgrade()
      al_flip_display();
 }
 
-void Display::InitMainMenu()
+void Display::InitMainMenu(ALLEGRO_BITMAP *buffer)
 {
-    Button *create = new Button();
-    create->SetCaption("Create Game");
-    create->SetSize(120, 40);
-    create->Create();
-    create->OnClick = MainMenu::Create;
-    create->SetPosition(buffer, -100, -375);
-    buttonManager.AddButton(create);
-    Button *play = new Button();
-    play->SetCaption("Play Game");
-    play->SetSize(120, 40);
-    play->Create();
-    play->OnClick = MainMenu::Play;
-    play->SetPosition(buffer, -100, -275);
-    buttonManager.AddButton(play);
-    Button *survival = new Button();
-    survival->SetCaption("Survival Game");
-    survival->SetSize(120, 40);
-    survival->Create();
-    survival->OnClick = MainMenu::Survival;
-    survival->SetPosition(buffer, -100, -175);
-    buttonManager.AddButton(survival);
-    
+    mainMenu = new MainMenu(buffer);
 }
 
 void Display::DrawMainMenu()
 {
-    al_set_target_bitmap(buffer);
-    al_draw_bitmap(mainMenu,0,0,0);
-    buttonManager.Update();
-    buttonManager.Render(buffer);
-    al_flip_display();
+    mainMenu->Draw(buffer);
 }
 
 void Display::SetBackground ()
@@ -239,9 +210,9 @@ void Display::RemoveWall (int xPos, int yPos)
     al_draw_filled_rectangle(x1, y1, x2, y2, al_map_rgb(255,255,255));
 }
 
-bool Display::UpdateGUI()
+bool Display::UpdateMainMenuGUI()
 {
-    return buttonManager.Update();
+    return mainMenu->GetButtonManager().Update();
 }
 
 ALLEGRO_DISPLAY* Display::GetDisplay() const
