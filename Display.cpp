@@ -6,7 +6,7 @@
 #include "Map.h"
 #include "Button.h"
 #include "ButtonManager.h"
-#include "Menu.h"
+#include "MainMenu.h"
 #include <cmath>
 #include <vector>
 #include <allegro5/allegro_font.h>
@@ -126,21 +126,21 @@ void Display::InitMainMenu()
     create->SetCaption("Create Game");
     create->SetSize(120, 40);
     create->Create();
-    create->OnClick = Menu::Create;
+    create->OnClick = MainMenu::Create;
     create->SetPosition(buffer, -100, -375);
     buttonManager.AddButton(create);
     Button *play = new Button();
     play->SetCaption("Play Game");
     play->SetSize(120, 40);
     play->Create();
-    play->OnClick = Menu::Play;
+    play->OnClick = MainMenu::Play;
     play->SetPosition(buffer, -100, -275);
     buttonManager.AddButton(play);
     Button *survival = new Button();
     survival->SetCaption("Survival Game");
     survival->SetSize(120, 40);
     survival->Create();
-    survival->OnClick = Menu::Survival;
+    survival->OnClick = MainMenu::Survival;
     survival->SetPosition(buffer, -100, -175);
     buttonManager.AddButton(survival);
     

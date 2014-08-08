@@ -1,4 +1,4 @@
-#include "Menu.h"
+#include "MainMenu.h"
 #include "Game.h"
 #include "SurvivalGame.h"
 #include "Display.h"
@@ -142,14 +142,14 @@ static string read_string(int yCoord)
     return edittext;
 }
 
-void Menu::Create(Button* object, void* data)
+void MainMenu::Create(Button* object, void* data)
 {
     Game *game = Game::GetInstance();
     string name = read_string(object->GetY()+45);
     game->Create(name);
 }
 
-void Menu::Survival(Button* object, void* data)
+void MainMenu::Survival(Button* object, void* data)
 {
     Game *game = Game::GetInstance();
     SurvivalGame::NewInstance();
@@ -161,7 +161,7 @@ void Menu::Survival(Button* object, void* data)
         cerr << "Invalid game name \"" << name << "\"\n";
 }
 
-void Menu::Play(Button* object, void* data)
+void MainMenu::Play(Button* object, void* data)
 {
     Game *game = Game::GetInstance();
     string name = read_string(object->GetY()+45);

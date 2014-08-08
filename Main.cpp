@@ -10,9 +10,7 @@ using namespace std;
 
 /*
 Issues
-Wall breakers - switch active weapon?
 Upgrade store - use buttons
-graphics quality
 */
 
 void cleanup(void)

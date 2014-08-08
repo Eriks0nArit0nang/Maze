@@ -1,7 +1,5 @@
 #include "Input.h"
 #include "Display.h"
-#include <iostream>
-
 Input *Input::instance = 0;
 
 Input::Input():Interaction(),movement(0),weapons(0,0),mouse(0,0),closed(false),time(false),mouseClick(false)
@@ -44,10 +42,8 @@ void Input::ReadInput()
     weapons.second = 0;
     mouse.first = 0;
     mouse.second = 0;
-    std::cerr << "Input::ReadInput\n";
     while (al_get_next_event(event_queue,&event))
     {
-        std::cerr << "  Event found " << event.type << std::endl;
         if (event.type == ALLEGRO_EVENT_KEY_DOWN )
         {
             key[event.keyboard.keycode] = true;
@@ -106,6 +102,8 @@ void Input::ReadInput()
     
     if (key[ALLEGRO_KEY_LCTRL] || key[ALLEGRO_KEY_RCTRL])
         weapons.second*=2;
+    if (key[ALLEGRO_KEY_LSHIFT] || key[ALLEGRO_KEY_RSHIFT])
+        weapons.second*=3;
         
     if (key[ALLEGRO_KEY_C])
         weapons.first += 1000;

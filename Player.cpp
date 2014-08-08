@@ -53,28 +53,26 @@ static bool contains (int num, int digit)
 void Player::Attack ()
 {
     attackDelay--;
-    WeaponType option = activeWeapon;
+    WeaponType option = _None;
     std::pair<int,int> input = Input::GetInstance()->GetWeapons();
     if (input.first / 1000 == 1)
         option = _Mine;
     else if (input.first / 100 == 1)
         option = _Nuke;
-    else if (input.first / 10 == 1 && attackDelay <= 0)
+
+    if (contains(input.second,1))
     {
-        NextWeapon();
         option = activeWeapon;
-        attackDelay = 10;
-    }
-    else if (input.first / 1 == 1 && attackDelay <= 0)
-    {
-        PrevWeapon();
-        option = activeWeapon;
-        attackDelay = 10;
     }
     if (contains(input.second,2))
     {
         input.second/=2;
         option = _Grenade;
+    }
+    if (contains(input.second,3))
+    {
+        input.second/=3;
+        option = _WallBreaker;
     }
     
     if (GetWeaponProperties(option).GetShotsTaken() == GetWeaponProperties(option).GetClipSize() && attackDelay == 0)
@@ -92,6 +90,7 @@ void Player::Attack ()
         switch (option)
         {
             case _None:
+                break;
             case _Enemy:
                 std::cerr << "Invalid active weapon for character\n";
                 break;
@@ -115,7 +114,7 @@ void Player::Attack ()
                     weapons.push_back(new Grenade(GetX(), GetY(), GetWeaponProperties(option), input.second, this));
                     weaponProperties[option].SetWeaponQuantity(weaponProperties[option].GetWeaponQuantity()-1);
                     if (GetWeaponProperties(option).GetWeaponQuantity() == 0)
-                        activeWeapon == _Gun;
+                        activeWeapon = _Gun;
                 }
                 break;
             case _Mine:
@@ -138,7 +137,7 @@ void Player::Attack ()
                     weapons.push_back(new WallBreaker(GetX(), GetY(), GetWeaponProperties(option), input.second, this));
                     weaponProperties[option].SetWeaponQuantity(weaponProperties[option].GetWeaponQuantity()-1);
                     if (GetWeaponProperties(option).GetWeaponQuantity() == 0)
-                        activeWeapon == _Gun;
+                        activeWeapon = _Gun;
                 }
                 break;
             default:

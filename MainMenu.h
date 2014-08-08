@@ -1,9 +1,9 @@
-#ifndef __MENU_H__
-#define __MENU_H__
+#ifndef __MaiNMENU_H__
+#define __MAINMENU_H__
 
 class Button;
 
-class Menu
+class MainMenu
 {
     public:
         static void Create(Button* object, void* data);
