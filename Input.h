@@ -20,6 +20,7 @@ class Input : public Interaction
         bool IsMouseClicked() const;
         bool Timer();
         static void RemoveInstance();
+        void ForcePressed(int keyCode);
         
         
     private:
@@ -36,8 +37,7 @@ class Input : public Interaction
         bool mouseClick;
         bool closed;
         bool time;
-    
-    
+        int forced;
 };
 
 #endif

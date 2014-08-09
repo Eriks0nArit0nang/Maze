@@ -7,6 +7,7 @@
 #include "Button.h"
 #include "ButtonManager.h"
 #include "MainMenu.h"
+#include "UpgradeMenu.h"
 #include <cmath>
 #include <vector>
 #include <allegro5/allegro_font.h>
@@ -36,7 +37,6 @@ Display::Display():Interaction()
     screen = al_create_display(SCREEN_X+GRID_SIZE*2, SCREEN_Y);
     timer = al_create_timer(25);
     int size = Map::GetInstance()->GetGridSize();
-    upgradeScreen = al_load_bitmap ("Upgrade.bmp");
     buffer=al_get_backbuffer(screen);
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0,0,0));
@@ -49,6 +49,7 @@ Display::Display():Interaction()
     al_set_target_bitmap(background);
     al_clear_to_color(al_map_rgb(0,0,0));
     font=al_load_bitmap_font("a4_font.tga");
+    upgradeMenu = new UpgradeMenu(buffer);
     InitMainMenu(buffer);
 }
 
@@ -56,7 +57,6 @@ Display::~Display()
 {
     al_destroy_bitmap(background);
     al_destroy_bitmap(miniMap);
-    al_destroy_bitmap(upgradeScreen);
     al_destroy_display(screen);
     al_destroy_timer(timer);
     al_destroy_font(font);
@@ -88,32 +88,7 @@ void Display::UpdateScreen()
 
 void Display::DrawUpgrade()
 {
-    Player &P = *Game::GetInstance()->GetPlayer();
-    al_set_target_bitmap(buffer);
-    al_draw_bitmap (upgradeScreen,0,0,0);
-    int rate = P.GetWeaponProperties(_Gun).GetFireRate();
-    int clip = P.GetWeaponProperties(_Gun).GetClipSize();
-    int range = P.GetWeaponProperties(_Gun).GetRange();
-    int health = P.GetHealth();
-    int money = P.GetMoney();
-    WeaponProperties nuke = P.GetWeaponProperties(_Nuke);
-    WeaponProperties wideShot = P.GetWeaponProperties(_WideShot);
-    WeaponProperties grenade = P.GetWeaponProperties(_Grenade);
-    WeaponProperties explodingShot = P.GetWeaponProperties(_ExplodingShot);
-    WeaponProperties mine = P.GetWeaponProperties(_Mine);
-    WeaponProperties wallBreaker = P.GetWeaponProperties(_WallBreaker);
-    al_draw_textf(font, al_map_rgb(255,255,255), 180, 162, 0, "%d Cost: %d", rate, 500*(11-rate)*(11-rate));
-    al_draw_textf(font, al_map_rgb(255,255,255), 180, 201, 0, "%d Cost: %d", clip, 10*clip);
-    al_draw_textf(font, al_map_rgb(255,255,255), 180, 240, 0, "%d Cost: %d", range, 100*(range/BOX_PIXEL_WIDTH));
-    al_draw_textf(font, al_map_rgb(255,255,255), 180, 279, 0, "%d Cost: %d", health, 100+P.GetAddedHealth()/4);
-    al_draw_textf(font, al_map_rgb(255,255,255), 300, 162, 0, "Money: %d", money);
-    al_draw_textf(font, al_map_rgb(255,255,255), 400, 355, 0, "N %d Cost: %d", nuke.GetWeaponQuantity(), nuke.GetCost());
-    al_draw_textf(font, al_map_rgb(255,255,255), 400, 394, 0, "W %d Cost: %d", wideShot.GetWeaponQuantity(), wideShot.GetCost());
-    al_draw_textf(font, al_map_rgb(255,255,255), 400, 433, 0, "G %d Cost: %d", grenade.GetWeaponQuantity(), grenade.GetCost());
-    al_draw_textf(font, al_map_rgb(255,255,255), 400, 472, 0, "E %d Cost: %d", explodingShot.GetWeaponQuantity(), explodingShot.GetCost());
-    al_draw_textf(font, al_map_rgb(255,255,255), 400, 511, 0, "M %d Cost: %d", mine.GetWeaponQuantity(), mine.GetCost());
-    al_draw_textf(font, al_map_rgb(255,255,255), 400, 550, 0, "S %d Cost: %d", wallBreaker.GetWeaponQuantity(), wallBreaker.GetCost());
-     al_flip_display();
+    upgradeMenu->Draw(buffer);
 }
 
 void Display::InitMainMenu(ALLEGRO_BITMAP *buffer)
@@ -213,6 +188,11 @@ void Display::RemoveWall (int xPos, int yPos)
 bool Display::UpdateMainMenuGUI()
 {
     return mainMenu->GetButtonManager().Update();
+}
+
+bool Display::UpdateUpgradeMenuGUI()
+{
+    return upgradeMenu->GetButtonManager().Update();
 }
 
 ALLEGRO_DISPLAY* Display::GetDisplay() const

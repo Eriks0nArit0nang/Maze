@@ -2,7 +2,7 @@
 #include "Display.h"
 Input *Input::instance = 0;
 
-Input::Input():Interaction(),movement(0),weapons(0,0),mouse(0,0),closed(false),time(false),mouseClick(false)
+Input::Input():Interaction(),movement(0),weapons(0,0),mouse(0,0),closed(false),time(false),mouseClick(false), forced(0)
 {
     event_queue = al_create_event_queue();
     al_register_event_source(event_queue, al_get_display_event_source(Display::GetInstance()->GetDisplay()));
@@ -136,11 +136,25 @@ void Input::ReadUpgrade()
             mouse.first = event.mouse.x;
             mouse.second = event.mouse.y;
         }
+        else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+        {
+            mouse.first = event.mouse.x;
+            mouse.second = event.mouse.y;
+            mouseClick = true;
+        }
+        else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
+        {
+            mouse.first = event.mouse.x;
+            mouse.second = event.mouse.y;
+            mouseClick = false;
+        }
         else if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
         {
             closed = true;
         }
     }
+    
+    Display::GetInstance()->UpdateUpgradeMenuGUI();
     
     if (key[ALLEGRO_KEY_U])
         upgrade += 1;
@@ -163,7 +177,13 @@ void Input::ReadUpgrade()
     if (key[ALLEGRO_KEY_M])
         upgrade += 512;    
     if (key[ALLEGRO_KEY_S])
-        upgrade += 1024;    
+        upgrade += 1024;   
+        
+    if (forced != 0)
+    {
+        key[forced] = false;
+        forced = 0;
+    }
 }    
 
 int Input::GetMovement() const
@@ -209,4 +229,10 @@ bool Input::Timer ()
         return true;
     }
     return time;
+}
+
+void Input::ForcePressed(int keyCode)
+{
+    key[keyCode] = true;
+    forced = keyCode;
 }

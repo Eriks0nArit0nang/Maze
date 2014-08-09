@@ -4,6 +4,7 @@
 
 struct ALLEGRO_FONT;
 class MainMenu;
+class UpgradeMenu;
 #include "Interaction.h"
 #include "ButtonManager.h"
 #include <allegro5/allegro.h>
@@ -22,6 +23,7 @@ class Display : public Interaction
         void DrawMainMenu();
         void Zoom(int centreX, int centreY);
         bool UpdateMainMenuGUI();
+        bool UpdateUpgradeMenuGUI();
         ALLEGRO_DISPLAY* GetDisplay() const;
         
         
@@ -36,7 +38,7 @@ class Display : public Interaction
         ALLEGRO_BITMAP* miniMap;
         ALLEGRO_BITMAP* background;
         ALLEGRO_BITMAP* buffer;
-        ALLEGRO_BITMAP* upgradeScreen;
+        UpgradeMenu* upgradeMenu;
         MainMenu* mainMenu;
         ALLEGRO_FONT* font;
 };
