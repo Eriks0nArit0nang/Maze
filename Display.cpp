@@ -41,13 +41,10 @@ Display::Display():Interaction()
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0,0,0));
     al_flip_display();
-    miniMap = al_create_bitmap(size*2,600);
+    miniMap = al_create_bitmap(size*2,SCREEN_Y);
     al_set_target_bitmap(miniMap);
     al_clear_to_color(al_map_rgb(0,0,0));
     al_draw_filled_rectangle(0,0,size*2,size*4,al_map_rgb(100,100,100));
-    background=al_create_bitmap(size*BOX_PIXEL_WIDTH,size*BOX_PIXEL_WIDTH);
-    al_set_target_bitmap(background);
-    al_clear_to_color(al_map_rgb(0,0,0));
     font=al_load_bitmap_font("a4_font.tga");
     upgradeMenu = new UpgradeMenu(buffer);
     InitMainMenu(buffer);
@@ -71,18 +68,18 @@ void Display::UpdateScreen()
     al_set_target_bitmap(buffer);
     al_draw_bitmap (background, -(P->GetX()-SCREEN_X/2), -(P->GetY()-SCREEN_Y/2),0);
     al_draw_bitmap (miniMap, SCREEN_X, 0,0);
-    al_draw_filled_circle(SCREEN_X+P->GetX()/30, P->GetY()/30, 4, al_map_rgb (150,150,255)); // Draw player icon on mini map
+    al_draw_filled_circle(SCREEN_X+P->GetX()*2/BOX_PIXEL_WIDTH, P->GetY()*2/BOX_PIXEL_WIDTH, 4, al_map_rgb (150,150,255)); // Draw player icon on mini map
     for (int i = 0; i < E.size(); i++)
-        if (abs (E[i]->GetX () - P->GetX()) < 300 && abs (E[i]->GetY() - P->GetY()) < 300)
+        if (abs (E[i]->GetX () - P->GetX()) < SCREEN_X/2 && abs (E[i]->GetY() - P->GetY()) < SCREEN_Y/2)
         {
             E[i]->Draw(buffer, SCREEN_X/2-P->GetX(), SCREEN_Y/2-P->GetY());
         }
     P->Draw(buffer, SCREEN_X/2-P->GetX(), SCREEN_Y/2-P->GetY());
     int clipRemaining = P->GetWeaponProperties(_Gun).GetClipSize()-P->GetWeaponProperties(_Gun).GetShotsTaken();
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 520, 0, "Clip: %d", clipRemaining); 
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 540, 0, "Health: %d", P->GetHealth());
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 560, 0, "Enemies: %d", E.size());
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+GRID_SIZE*2, 580, 0, "Money: %d", P->GetMoney());
+    al_draw_textf(font, al_map_rgb(255,0,0), 500+size*2, 520, 0, "Clip: %d", clipRemaining); 
+    al_draw_textf(font, al_map_rgb(255,0,0), 500+size*2, 540, 0, "Health: %d", P->GetHealth());
+    al_draw_textf(font, al_map_rgb(255,0,0), 500+size*2, 560, 0, "Enemies: %d", E.size());
+    al_draw_textf(font, al_map_rgb(255,0,0), 500+size*2, 580, 0, "Money: %d", P->GetMoney());
     al_flip_display();
 }
 
@@ -106,7 +103,9 @@ void Display::SetBackground ()
     Map *mapInst = Map::GetInstance();
     int **map = mapInst->GetGrid();
     int size = mapInst->GetGridSize();
+    background=al_create_bitmap(size*BOX_PIXEL_WIDTH,size*BOX_PIXEL_WIDTH);
     al_set_target_bitmap(background);
+    al_clear_to_color(al_map_rgb(0,0,0));
     al_draw_filled_rectangle(0,0,size*BOX_PIXEL_WIDTH,size*BOX_PIXEL_WIDTH,al_map_rgb(0,0,0));
     for (int i = 0; i < size; i++)
         for (int j = 0; j < size; j++)
@@ -120,7 +119,7 @@ void Display::SetBackground ()
                 al_draw_filled_rectangle(i*BOX_PIXEL_WIDTH,j*BOX_PIXEL_WIDTH,(i+1)*BOX_PIXEL_WIDTH,(j+1)*BOX_PIXEL_WIDTH,al_map_rgb(0,255,0));
     
     al_set_target_bitmap(miniMap);
-    al_draw_filled_rectangle(0,0,GRID_SIZE*2,600,al_map_rgb(100,100,100));
+    al_draw_filled_rectangle(0,0,size*2,SCREEN_Y,al_map_rgb(100,100,100));
 }
 
 void Display::UpdateMiniMap (int centreX, int centreY)
@@ -166,19 +165,19 @@ void Display::Zoom (int centreX, int centreY)
     Player *p = Game::GetInstance()->GetPlayer();
     vector<Enemy *> E = Game::GetInstance()->GetEnemies();
     for (int i = 0; i < E.size(); i++)
-        if ((E[i]->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(GRID_SIZE/10))*10 >= 0 && 
-                (E[i]->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(GRID_SIZE/10))*10 < GRID_SIZE*2 && 
+        if ((E[i]->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10 >= 0 && 
+                (E[i]->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10 < size*2 && 
                 mapInst->Fog(E[i]->GetX()/BOX_PIXEL_WIDTH, E[i]->GetY()/BOX_PIXEL_WIDTH))
-            al_draw_rectangle ((E[i]->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(GRID_SIZE/10))*10+1,
-                               GRID_SIZE*2+(E[i]->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(GRID_SIZE/10))*10+1,
-                               (E[i]->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(GRID_SIZE/10))*10+9,
-                               GRID_SIZE*2+(E[i]->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(GRID_SIZE/10))*10+9,
+            al_draw_rectangle ((E[i]->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(size/10))*10+1,
+                               size*2+(E[i]->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10+1,
+                               (E[i]->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(size/10))*10+9,
+                               size*2+(E[i]->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10+9,
                                al_map_rgb(255,0,0),2);
-    if ((p->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(GRID_SIZE/10))*10 >= 0 && (p->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(GRID_SIZE/10))*10 < GRID_SIZE*2)
-        al_draw_rectangle ((p->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(GRID_SIZE/10))*10+1,
-                           GRID_SIZE*2+(p->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(GRID_SIZE/10))*10+1,
-                           (p->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(GRID_SIZE/10))*10+9,
-                           GRID_SIZE*2+(p->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(GRID_SIZE/10))*10+9,
+    if ((p->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10 >= 0 && (p->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10 < size*2)
+        al_draw_rectangle ((p->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(size/10))*10+1,
+                           size*2+(p->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10+1,
+                           (p->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(size/10))*10+9,
+                           size*2+(p->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10+9,
                            al_map_rgb(0,0,255),2);
 }
 
