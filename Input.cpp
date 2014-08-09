@@ -1,5 +1,6 @@
 #include "Input.h"
 #include "Display.h"
+
 Input *Input::instance = 0;
 
 Input::Input():Interaction(),movement(0),weapons(0,0),mouse(0,0),closed(false),time(false),mouseClick(false), forced(0)
@@ -40,8 +41,6 @@ void Input::ReadInput()
     movement = 0;
     weapons.first = 0;
     weapons.second = 0;
-    mouse.first = 0;
-    mouse.second = 0;
     while (al_get_next_event(event_queue,&event))
     {
         if (event.type == ALLEGRO_EVENT_KEY_DOWN )

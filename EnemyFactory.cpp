@@ -21,6 +21,8 @@ Enemy *EnemyFactory::Generate(int health, int xPos, int yPos)
             return InitializeBasic(health, xPos, yPos);
         case 2:
             return InitializeMedium(health, xPos, yPos);
+        case 3:
+            return InitializeHard(health, xPos, yPos);
         case SURVIVAL_GAME_TYPE:
             return InitializeSurvival(health, xPos, yPos);
         default:
@@ -55,6 +57,22 @@ Enemy *EnemyFactory::InitializeMedium(int health, int xPos, int yPos)
     else
     {
         std::cerr << "EnemyFactory::InitializeMedium has invalid value\n";
+        return 0;
+    }
+}
+
+Enemy *EnemyFactory::InitializeHard(int health, int xPos, int yPos)
+{
+    int type = rand() % 10;
+    if (type >= 0 && type < 3)
+        return new StandardEnemy(health,xPos,yPos);
+    else if (type >= 3 && type < 5)
+        return new FloatingEnemy(health,xPos,yPos);
+    else if (type >= 5 && type < 10)
+        return new ShootingEnemy(health,xPos,yPos);
+    else
+    {
+        std::cerr << "EnemyFactory::InitializeHard has invalid value\n";
         return 0;
     }
 }

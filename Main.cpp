@@ -8,11 +8,6 @@ using namespace std;
 #include <iostream>
 #include <fstream>
 
-/*
-Issues
-Upgrade store - use buttons
-*/
-
 void cleanup(void)
 {
     Input::RemoveInstance();

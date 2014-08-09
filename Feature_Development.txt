@@ -4,7 +4,6 @@ Below is a list of features/updates that are planned for the game.
 
 - Allow for create a game to be done with any game name the user wishes and for any size map.
 - Allow for enemy spawning at a certain rate with maximum number of enemies at one time.  Would spawn randomly somewhere within range of tracking user. Only on Medium or higher.
-- Create user friendly interface for upgrades screen
-- Create a battle mode for 2 users.  Initially on same computer.  Potentially set up for within network, internet connection.  Can upgrade to include more than 2 people.
+- Create a battle mode for 2 users.  Set up for within network, internet connection.  Can upgrade to include more than 2 people.
 - Other Multiplayer modes
 	- Empire -- user tries to claim as much of the map as possible. Each player starts with even share of the map and gains ground by either killing a certain number of enemies or the other user and then travelling onto their property.

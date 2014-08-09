@@ -223,7 +223,7 @@ void Player::Draw(ALLEGRO_BITMAP *buffer, int midX, int midY)
     al_set_target_bitmap(buffer);
     al_draw_filled_circle (midX+GetX(), midY+GetY(), radius, al_map_rgb(0,0,255));
     if (initialHealth-health >= 0)
-        al_draw_filled_circle (midX, midY, (initialHealth-health)/(initialHealth/radius), al_map_rgb(150,150,255)); 
+        al_draw_filled_circle (midX+GetX(), midY+GetY(), (initialHealth-health)/(initialHealth/radius), al_map_rgb(150,150,255)); 
     
 }
 

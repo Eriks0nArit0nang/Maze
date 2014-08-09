@@ -162,6 +162,24 @@ void Display::Zoom (int centreX, int centreY)
                     else if (map[centreX+i][centreY+j] == 3)
                         al_draw_filled_rectangle((i+(int)floor(size/10))*10,size*2+(j+(int)floor(size/10))*10,(i+(int)floor(size/10)+1)*10,size*2+(j+(int)floor(size/10)+1)*10,al_map_rgb(0,255,0));
                 }    
+    
+    Player *p = Game::GetInstance()->GetPlayer();
+    vector<Enemy *> E = Game::GetInstance()->GetEnemies();
+    for (int i = 0; i < E.size(); i++)
+        if ((E[i]->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(GRID_SIZE/10))*10 >= 0 && 
+                (E[i]->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(GRID_SIZE/10))*10 < GRID_SIZE*2 && 
+                mapInst->Fog(E[i]->GetX()/BOX_PIXEL_WIDTH, E[i]->GetY()/BOX_PIXEL_WIDTH))
+            al_draw_rectangle ((E[i]->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(GRID_SIZE/10))*10+1,
+                               GRID_SIZE*2+(E[i]->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(GRID_SIZE/10))*10+1,
+                               (E[i]->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(GRID_SIZE/10))*10+9,
+                               GRID_SIZE*2+(E[i]->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(GRID_SIZE/10))*10+9,
+                               al_map_rgb(255,0,0),2);
+    if ((p->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(GRID_SIZE/10))*10 >= 0 && (p->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(GRID_SIZE/10))*10 < GRID_SIZE*2)
+        al_draw_rectangle ((p->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(GRID_SIZE/10))*10+1,
+                           GRID_SIZE*2+(p->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(GRID_SIZE/10))*10+1,
+                           (p->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(GRID_SIZE/10))*10+9,
+                           GRID_SIZE*2+(p->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(GRID_SIZE/10))*10+9,
+                           al_map_rgb(0,0,255),2);
 }
 
 void Display::NukeAnimation ()
