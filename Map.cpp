@@ -247,7 +247,7 @@ void Map::CreateAuto()
             level.second[i][j] = 1;
         }
     int t,t2;
-    Prim_Values vals [(int)floor(GRID_SIZE/2)-5][(int)floor(GRID_SIZE/2)-5][4];
+    Prim_Values vals [(int)floor(GRID_SIZE/2)-4][(int)floor(GRID_SIZE/2)-4][4];
     
     // Set start and end points
     do {
@@ -258,8 +258,8 @@ void Map::CreateAuto()
     
     // Initialize values to run Prim's
     // Will assign duplicate weights for every path.
-    for (int i = 0; i < (int)floor(GRID_SIZE/2)-5; i++)
-        for (int j = 0; j < (int)floor(GRID_SIZE/2)-5; j++)
+    for (int i = 0; i <= (int)floor(GRID_SIZE/2)-5; i++)
+        for (int j = 0; j <= (int)floor(GRID_SIZE/2)-5; j++)
             for (int k = 0; k < 4; k++)
             {
                 vals[i][j][k].weight = rand () % 100000;
@@ -296,9 +296,9 @@ void Map::CreateAuto()
             t2 = (nums.top().y2-5)/2;
             nums.pop();
             for (int i = 0; i < 4; i++)
-                if (t >= 0 && t < (int)floor(GRID_SIZE/2)-5 && t2 >= 0 && t2 < (int)floor(GRID_SIZE/2)-5)
+                if (t >= 0 && t <= (int)floor(GRID_SIZE/2)-5 && t2 >= 0 && t2 <= (int)floor(GRID_SIZE/2)-5)
                 {
-                    if (!(t == 0&&i==1)&&!(t==(int)floor(GRID_SIZE/2)-6&&i==3)&&!(t2==0&&i==0)&&!(t2==(int)floor(GRID_SIZE/2)-6&&i==2))
+                    if (!(t == 0&&i==1)&&!(t==(int)floor(GRID_SIZE/2)-5&&i==3)&&!(t2==0&&i==0)&&!(t2==(int)floor(GRID_SIZE/2)-5&&i==2))
                         nums.push (vals[t][t2][i]);
                 }
         }

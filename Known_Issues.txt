@@ -2,5 +2,4 @@ Known Issues/Inconveniences with Maze Game
 
 - Create a game feature only allows you to create a game with a fixed number of levels.
 - Game difficulty is not able to be entered at this time
-- Games with non-GRID_SIZE size go crazy on graphics
-- upgrade screen and main menu don't work well on >40 GRID_SIZE default
+- upgrade screen and main menu need buttons relocated

@@ -34,17 +34,16 @@ Display::Display():Interaction()
 {
     al_init_font_addon();
     al_set_new_display_option(ALLEGRO_VSYNC, 1, ALLEGRO_SUGGEST);
-    screen = al_create_display(SCREEN_X+GRID_SIZE*2, SCREEN_Y);
+    screen = al_create_display(SCREEN_X+MAX_GRID_SIZE*2, SCREEN_Y);
     timer = al_create_timer(25);
     int size = Map::GetInstance()->GetGridSize();
     buffer=al_get_backbuffer(screen);
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0,0,0));
     al_flip_display();
-    miniMap = al_create_bitmap(size*2,SCREEN_Y);
+    miniMap = al_create_bitmap(MAX_GRID_SIZE*2,SCREEN_Y);
     al_set_target_bitmap(miniMap);
-    al_clear_to_color(al_map_rgb(0,0,0));
-    al_draw_filled_rectangle(0,0,size*2,size*4,al_map_rgb(100,100,100));
+    al_clear_to_color(al_map_rgb(100,100,100));
     font=al_load_bitmap_font("a4_font.tga");
     upgradeMenu = new UpgradeMenu(buffer);
     InitMainMenu(buffer);
@@ -65,10 +64,11 @@ void Display::UpdateScreen()
     vector<Enemy *> E = Game::GetInstance()->GetEnemies();
     Map *mapInst = Map::GetInstance();
     int size = mapInst->GetGridSize();
+    int boxSize = 2*MAX_GRID_SIZE/size;
     al_set_target_bitmap(buffer);
     al_draw_bitmap (background, -(P->GetX()-SCREEN_X/2), -(P->GetY()-SCREEN_Y/2),0);
     al_draw_bitmap (miniMap, SCREEN_X, 0,0);
-    al_draw_filled_circle(SCREEN_X+P->GetX()*2/BOX_PIXEL_WIDTH, P->GetY()*2/BOX_PIXEL_WIDTH, 4, al_map_rgb (150,150,255)); // Draw player icon on mini map
+    al_draw_filled_circle(SCREEN_X+P->GetX()*boxSize/BOX_PIXEL_WIDTH, P->GetY()*boxSize/BOX_PIXEL_WIDTH, 4, al_map_rgb (150,150,255)); // Draw player icon on mini map
     for (int i = 0; i < E.size(); i++)
         if (abs (E[i]->GetX () - P->GetX()) < SCREEN_X/2 && abs (E[i]->GetY() - P->GetY()) < SCREEN_Y/2)
         {
@@ -76,10 +76,10 @@ void Display::UpdateScreen()
         }
     P->Draw(buffer, SCREEN_X/2-P->GetX(), SCREEN_Y/2-P->GetY());
     int clipRemaining = P->GetWeaponProperties(_Gun).GetClipSize()-P->GetWeaponProperties(_Gun).GetShotsTaken();
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+size*2, 520, 0, "Clip: %d", clipRemaining); 
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+size*2, 540, 0, "Health: %d", P->GetHealth());
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+size*2, 560, 0, "Enemies: %d", E.size());
-    al_draw_textf(font, al_map_rgb(255,0,0), 500+size*2, 580, 0, "Money: %d", P->GetMoney());
+    al_draw_textf(font, al_map_rgb(255,255,255), SCREEN_X+10, 520, 0, "Clip: %d", clipRemaining); 
+    al_draw_textf(font, al_map_rgb(255,255,255), SCREEN_X+10, 540, 0, "Health: %d", P->GetHealth());
+    al_draw_textf(font, al_map_rgb(255,255,255), SCREEN_X+10, 560, 0, "Enemies: %d", E.size());
+    al_draw_textf(font, al_map_rgb(255,255,255), SCREEN_X+10, 580, 0, "Money: %d", P->GetMoney());
     al_flip_display();
 }
 
@@ -119,7 +119,7 @@ void Display::SetBackground ()
                 al_draw_filled_rectangle(i*BOX_PIXEL_WIDTH,j*BOX_PIXEL_WIDTH,(i+1)*BOX_PIXEL_WIDTH,(j+1)*BOX_PIXEL_WIDTH,al_map_rgb(0,255,0));
     
     al_set_target_bitmap(miniMap);
-    al_draw_filled_rectangle(0,0,size*2,SCREEN_Y,al_map_rgb(100,100,100));
+    al_clear_to_color(al_map_rgb(100,100,100));
 }
 
 void Display::UpdateMiniMap (int centreX, int centreY)
@@ -127,17 +127,18 @@ void Display::UpdateMiniMap (int centreX, int centreY)
     Map *mapInst = Map::GetInstance();
     int **map = mapInst->GetGrid();
     int size = mapInst->GetGridSize();
+    int boxSize = 2*MAX_GRID_SIZE/size;
     al_set_target_bitmap(miniMap);
     for (int i = centreX-5; i < centreX+5 && i >= 0 && i < size; i++)
         for (int j = centreY-5; j < centreY+5 && j >= 0 && j < size; j++)
             if (map[i][j] == 0)
-                al_draw_filled_rectangle(i*2,j*2,i*2+2,j*2+2,al_map_rgb(255,255,255));
+                al_draw_filled_rectangle(i*boxSize,j*boxSize,i*boxSize+boxSize,j*boxSize+boxSize,al_map_rgb(255,255,255));
             else if (map[i][j] == 1)
-                al_draw_filled_rectangle(i*2,j*2,i*2+2,j*2+2,al_map_rgb(0,0,0));
+                al_draw_filled_rectangle(i*boxSize,j*boxSize,i*boxSize+boxSize,j*boxSize+boxSize,al_map_rgb(0,0,0));
             else if (map[i][j] == 2)
-                al_draw_filled_rectangle(i*2,j*2,i*2+2,j*2+2,al_map_rgb(255,0,254));
+                al_draw_filled_rectangle(i*boxSize,j*boxSize,i*boxSize+boxSize,j*boxSize+boxSize,al_map_rgb(255,0,254));
             else if (map[i][j] == 3)
-                al_draw_filled_rectangle(i*2,j*2,i*2+2,j*2+2,al_map_rgb(0,255,0));
+                al_draw_filled_rectangle(i*boxSize,j*boxSize,i*boxSize+boxSize,j*boxSize+boxSize,al_map_rgb(0,255,0));
 }
 
 void Display::Zoom (int centreX, int centreY)
@@ -145,40 +146,43 @@ void Display::Zoom (int centreX, int centreY)
     Map *mapInst = Map::GetInstance();
     int **map = mapInst->GetGrid();
     int size = mapInst->GetGridSize();
+    float boxSize = 2*MAX_GRID_SIZE/11.0;
+    
     al_set_target_bitmap(miniMap);
-    al_draw_filled_rectangle(0,size*2,size*2,size*4,al_map_rgb (100,100,100));
-    for (int i = -(int)floor(size/10); i < (int)floor(size/10); i++)
-        for (int j = -(int)floor(size/10); j < (int)floor(size/10); j++)
+    al_draw_filled_rectangle(0,MAX_GRID_SIZE*2,MAX_GRID_SIZE*2,MAX_GRID_SIZE*4,al_map_rgb (100,100,100));
+    for (int i = -5; i <= 5; i++)
+        for (int j = -5; j <= 5; j++)
             if (i+centreX >= 0 && i+centreX < size  && j+centreY >= 0 && j+centreY < size)
                 if (mapInst->Fog(centreX+i, centreY+j))
                 {
                     if (map[centreX+i][centreY+j] == 0)
-                        al_draw_filled_rectangle((i+(int)floor(size/10))*10,size*2+(j+(int)floor(size/10))*10,(i+(int)floor(size/10)+1)*10,size*2+(j+(int)floor(size/10)+1)*10,al_map_rgb(255,255,255));
+                        al_draw_filled_rectangle((i+(int)floor(MAX_GRID_SIZE/boxSize))*boxSize,MAX_GRID_SIZE*2+(j+(int)floor(MAX_GRID_SIZE/boxSize))*boxSize,(i+(int)floor(MAX_GRID_SIZE/boxSize)+1)*boxSize,MAX_GRID_SIZE*2+(j+(int)floor(MAX_GRID_SIZE/boxSize)+1)*boxSize,al_map_rgb(255,255,255));
                     else if (map[centreX+i][centreY+j] == 1)
-                        al_draw_filled_rectangle((i+(int)floor(size/10))*10,size*2+(j+(int)floor(size/10))*10,(i+(int)floor(size/10)+1)*10,size*2+(j+(int)floor(size/10)+1)*10+10,al_map_rgb(0,0,0));
+                        al_draw_filled_rectangle((i+(int)floor(MAX_GRID_SIZE/boxSize))*boxSize,MAX_GRID_SIZE*2+(j+(int)floor(MAX_GRID_SIZE/boxSize))*boxSize,(i+(int)floor(MAX_GRID_SIZE/boxSize)+1)*boxSize,MAX_GRID_SIZE*2+(j+(int)floor(MAX_GRID_SIZE/boxSize)+1)*boxSize,al_map_rgb(0,0,0));
                     else if (map[centreX+i][centreY+j] == 2)
-                        al_draw_filled_rectangle((i+(int)floor(size/10))*10,size*2+(j+(int)floor(size/10))*10,(i+(int)floor(size/10)+1)*10,size*2+(j+(int)floor(size/10)+1)*10,al_map_rgb(255,0,254));
+                        al_draw_filled_rectangle((i+(int)floor(MAX_GRID_SIZE/boxSize))*boxSize,MAX_GRID_SIZE*2+(j+(int)floor(MAX_GRID_SIZE/boxSize))*boxSize,(i+(int)floor(MAX_GRID_SIZE/boxSize)+1)*boxSize,MAX_GRID_SIZE*2+(j+(int)floor(MAX_GRID_SIZE/boxSize)+1)*boxSize,al_map_rgb(255,0,254));
                     else if (map[centreX+i][centreY+j] == 3)
-                        al_draw_filled_rectangle((i+(int)floor(size/10))*10,size*2+(j+(int)floor(size/10))*10,(i+(int)floor(size/10)+1)*10,size*2+(j+(int)floor(size/10)+1)*10,al_map_rgb(0,255,0));
+                        al_draw_filled_rectangle((i+(int)floor(MAX_GRID_SIZE/boxSize))*boxSize,MAX_GRID_SIZE*2+(j+(int)floor(MAX_GRID_SIZE/boxSize))*boxSize,(i+(int)floor(MAX_GRID_SIZE/boxSize)+1)*boxSize,MAX_GRID_SIZE*2+(j+(int)floor(MAX_GRID_SIZE/boxSize)+1)*boxSize,al_map_rgb(0,255,0));
                 }    
     
     Player *p = Game::GetInstance()->GetPlayer();
     vector<Enemy *> E = Game::GetInstance()->GetEnemies();
     for (int i = 0; i < E.size(); i++)
-        if ((E[i]->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10 >= 0 && 
-                (E[i]->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10 < size*2 && 
+        if (E[i]->GetY()/BOX_PIXEL_WIDTH-centreY >= -5 && 
+                E[i]->GetY()/BOX_PIXEL_WIDTH-centreY <= 5 && 
                 mapInst->Fog(E[i]->GetX()/BOX_PIXEL_WIDTH, E[i]->GetY()/BOX_PIXEL_WIDTH))
-            al_draw_rectangle ((E[i]->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(size/10))*10+1,
-                               size*2+(E[i]->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10+1,
-                               (E[i]->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(size/10))*10+9,
-                               size*2+(E[i]->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10+9,
+            al_draw_rectangle ((E[i]->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(MAX_GRID_SIZE/boxSize))*boxSize+1,
+                               MAX_GRID_SIZE*2+(E[i]->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(MAX_GRID_SIZE/boxSize))*boxSize+1,
+                               (E[i]->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(MAX_GRID_SIZE/boxSize))*boxSize+boxSize-1,
+                               MAX_GRID_SIZE*2+(E[i]->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(MAX_GRID_SIZE/boxSize))*boxSize+boxSize-1,
                                al_map_rgb(255,0,0),2);
-    if ((p->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10 >= 0 && (p->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10 < size*2)
-        al_draw_rectangle ((p->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(size/10))*10+1,
-                           size*2+(p->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10+1,
-                           (p->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(size/10))*10+9,
-                           size*2+(p->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(size/10))*10+9,
+    if (p->GetY()/BOX_PIXEL_WIDTH-centreY >= -5 && p->GetY()/BOX_PIXEL_WIDTH-centreY <= 5)
+        al_draw_rectangle ((p->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(MAX_GRID_SIZE/boxSize))*boxSize+1,
+                           MAX_GRID_SIZE*2+(p->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(MAX_GRID_SIZE/boxSize))*boxSize+1,
+                           (p->GetX()/BOX_PIXEL_WIDTH-centreX+(int)floor(MAX_GRID_SIZE/boxSize))*boxSize+boxSize-1,
+                           MAX_GRID_SIZE*2+(p->GetY()/BOX_PIXEL_WIDTH-centreY+(int)floor(MAX_GRID_SIZE/boxSize))*boxSize+boxSize-1,
                            al_map_rgb(0,0,255),2);
+                           
 }
 
 void Display::NukeAnimation ()

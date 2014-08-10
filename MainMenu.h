@@ -9,7 +9,7 @@ class Button;
 class MainMenu
 {
     private:
-        static std::string ReadString(int yCoord);
+        static std::string ReadString(int yCoord, int type);
         ALLEGRO_BITMAP *mainMenu;
         ButtonManager buttonManager;
         void Init(ALLEGRO_BITMAP *buffer);

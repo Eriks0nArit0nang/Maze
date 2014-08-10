@@ -7,3 +7,4 @@ Game 6
 test
 newMapTest
 20
+

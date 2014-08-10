@@ -136,7 +136,7 @@ void Game::Create(std::string gameName)
 void Game::InitLevel(int level, int difficulty, string fileName)
 {
     srand(time(0));
-    EnemyFactory enemyFactory = EnemyFactory(difficulty);
+    EnemyFactory enemyFactory = EnemyFactory(difficulty % NUM_ENEMY_DIFFICULTIES);
     Map * mapInst = Map::GetInstance();
     if (fileName == "")
         mapInst->CreateAuto();
@@ -145,7 +145,7 @@ void Game::InitLevel(int level, int difficulty, string fileName)
     pair<int,int> startLoc = mapInst->GetStartLoc();
     player->SetX(startLoc.first*BOX_PIXEL_WIDTH+BOX_PIXEL_WIDTH/2);
     player->SetY(startLoc.second*BOX_PIXEL_WIDTH+BOX_PIXEL_WIDTH/2);
-    int numEnemies = level * difficulty * (GRID_SIZE/5);
+    int numEnemies = level * (difficulty/NUM_ENEMY_DIFFICULTIES + 1) * (mapInst->GetGridSize()/5);
     for (int i = 0; i < numEnemies; i++)
     {
         int x, y, health = (rand() % (MAX_ENEMY_HEALTH - 10)) + 10;
@@ -159,8 +159,8 @@ void Game::InitLevel(int level, int difficulty, string fileName)
     }
     Display *display = display->GetInstance();
     display->SetBackground();
-    display->UpdateMiniMap (player->GetX()/60,player->GetY()/60);
-    display->Zoom(player->GetX()/60,player->GetY()/60);
+    display->UpdateMiniMap (player->GetX()/BOX_PIXEL_WIDTH,player->GetY()/BOX_PIXEL_WIDTH);
+    display->Zoom(player->GetX()/BOX_PIXEL_WIDTH,player->GetY()/BOX_PIXEL_WIDTH);
     display->UpdateScreen();
 }
 
@@ -274,8 +274,8 @@ void Game::PlayLevel()
             Map::GetInstance()->UpdateFog(player->GetX()/60, player->GetY()/60);
 
             pair<int, int> mouse_pos = input->GetMouse();
-            if (mouse_pos.first >= SCREEN_X && mouse_pos.first < SCREEN_X+GRID_SIZE*2 && mouse_pos.second < GRID_SIZE*2 && mouse_pos.second >= 0)
-                display->Zoom ((mouse_pos.first-(SCREEN_X))/2,mouse_pos.second/2);
+            if (mouse_pos.first >= SCREEN_X && mouse_pos.first < SCREEN_X+MAX_GRID_SIZE*2 && mouse_pos.second < MAX_GRID_SIZE*2 && mouse_pos.second >= 0)
+                display->Zoom ((mouse_pos.first-(SCREEN_X))/(2*(MAX_GRID_SIZE/Map::GetInstance()->GetGridSize())),mouse_pos.second/(2*(MAX_GRID_SIZE/Map::GetInstance()->GetGridSize())));
             else
                 display->Zoom (player->GetX()/60,player->GetY()/60);
             display->UpdateMiniMap (player->GetX()/60,player->GetY()/60);

@@ -66,7 +66,7 @@ ButtonManager &MainMenu::GetButtonManager()
     return buttonManager;
 }
 
-string MainMenu::ReadString(int yCoord)
+string MainMenu::ReadString(int yCoord, int type)
 {
     ALLEGRO_BITMAP *buffer = al_create_bitmap(270,40);
     string  edittext = "";                         // an empty string for editting
@@ -81,19 +81,24 @@ string MainMenu::ReadString(int yCoord)
     ALLEGRO_FONT* font=al_load_bitmap_font("a4_font.tga");
     ALLEGRO_EVENT event;
     bool exit = false;
-    vector <string> gameNames = Game::GetInstance()->GetGameNames();
-    ALLEGRO_DISPLAY *display = al_create_display(200,gameNames.size()*15+30);
-    al_set_window_title(display, "");
-    int x, y;
-    al_get_window_position(Display::GetInstance()->GetDisplay(), &x, &y);
-    al_set_window_position(display,x,y+(SCREEN_Y-gameNames.size()*15-30)/2);
-    al_set_target_bitmap(al_get_backbuffer(display));
-    al_clear_to_color(al_map_rgb(0,0,0));
-    al_draw_text(font, WHITE, 1, 10, 0, "Valid Games");
-    for (int i = 0; i < gameNames.size(); i++)
-        al_draw_textf(font, WHITE, 1, 30+i*15, 0, "%s", gameNames[i].c_str());
-    al_flip_display();
-   // al_set_active_display(Display::GetInstance()->GetDisplay());
+    
+    // List existing games
+    ALLEGRO_DISPLAY *display;
+    if (type == 1 || type == 2)
+    {
+        vector <string> gameNames = Game::GetInstance()->GetGameNames();
+        display = al_create_display(200,gameNames.size()*15+30);
+        al_set_window_title(display, "");
+        int x, y;
+        al_get_window_position(Display::GetInstance()->GetDisplay(), &x, &y);
+        al_set_window_position(display,x,y+(SCREEN_Y-gameNames.size()*15-30)/2);
+        al_set_target_bitmap(al_get_backbuffer(display));
+        al_clear_to_color(al_map_rgb(0,0,0));
+        al_draw_text(font, WHITE, 1, 10, 0, "Valid Games");
+        for (int i = 0; i < gameNames.size(); i++)
+            al_draw_textf(font, WHITE, 1, 30+i*15, 0, "%s", gameNames[i].c_str());
+        al_flip_display();
+    }
     
     // the game loop
     do
@@ -111,7 +116,6 @@ string MainMenu::ReadString(int yCoord)
             else
                 break;
             char ASCII = newkey & 0xff;
-            char scancode = newkey >> 8;
      
             // a character key was pressed; add it to the string
             if(ASCII >= 32 && ASCII <= 126 && edittext.size() < 30)
@@ -187,7 +191,8 @@ string MainMenu::ReadString(int yCoord)
     al_destroy_bitmap(buffer);
     al_destroy_event_queue(queue);
     al_destroy_font(font);
-    al_destroy_display(display);
+    if (type == 1 || type == 2)
+        al_destroy_display(display);
     
     return edittext;
 }
@@ -195,7 +200,7 @@ string MainMenu::ReadString(int yCoord)
 void MainMenu::Create(Button* object, void* data)
 {
     Game *game = Game::GetInstance();
-    string name = ReadString(object->GetY()+45);
+    string name = ReadString(object->GetY()+45,3);
     game->Create(name);
 }
 
@@ -204,7 +209,7 @@ void MainMenu::Survival(Button* object, void* data)
     Game *game = Game::GetInstance();
     SurvivalGame::NewInstance();
     game = Game::GetInstance();
-    string name = ReadString(object->GetY()+45);
+    string name = ReadString(object->GetY()+45,2);
     if (game->Valid(name))
         game->Play(name, 1);
     else
@@ -214,7 +219,7 @@ void MainMenu::Survival(Button* object, void* data)
 void MainMenu::Play(Button* object, void* data)
 {
     Game *game = Game::GetInstance();
-    string name = ReadString(object->GetY()+45);
+    string name = ReadString(object->GetY()+45,1);
     if (game->Valid(name))
         game->Play(name, 1);
     else
