@@ -34,7 +34,7 @@ void SurvivalGame::InitLevel(int level, int difficulty, std::string fileName)
     srand(time(0));
     Map * mapInst = Map::GetInstance();
     if (fileName == "")
-        mapInst->CreateAuto();
+        mapInst->CreateAuto(GRID_SIZE);
     else
         mapInst->Load(fileName);
     std::pair<int,int> startLoc = mapInst->GetStartLoc();
@@ -182,7 +182,7 @@ void SurvivalGame::PlayLevel()
 
             std::pair<int, int> mouse_pos = input->GetMouse();
             if (mouse_pos.first >= SCREEN_X && mouse_pos.first < SCREEN_X+MAX_GRID_SIZE*2 && mouse_pos.second < MAX_GRID_SIZE*2 && mouse_pos.second >= 0)
-                display->Zoom ((mouse_pos.first-(SCREEN_X))/(2*(MAX_GRID_SIZE/Map::GetInstance()->GetGridSize())),mouse_pos.second/(2*(MAX_GRID_SIZE/Map::GetInstance()->GetGridSize())));
+                display->Zoom ((mouse_pos.first-(SCREEN_X))/(2*MAX_GRID_SIZE/Map::GetInstance()->GetGridSize()),mouse_pos.second/(2*MAX_GRID_SIZE/Map::GetInstance()->GetGridSize()));
             else
                 display->Zoom (GetPlayer()->GetX()/60,GetPlayer()->GetY()/60);
             display->UpdateMiniMap (GetPlayer()->GetX()/60,GetPlayer()->GetY()/60);

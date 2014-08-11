@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "SurvivalGame.h"
 #include "Display.h"
+#include "Input.h"
 #include "Button.h"
 
 #include <iostream>
@@ -30,6 +31,7 @@ MainMenu::~MainMenu()
 void MainMenu::Draw(ALLEGRO_BITMAP *buffer)
 {
     al_set_target_bitmap(buffer);
+    al_clear_to_color(al_map_rgb(100,100,100));
     al_draw_bitmap(mainMenu,0,0,0);
     buttonManager.Update();
     buttonManager.Render(buffer);
@@ -43,21 +45,21 @@ void MainMenu::Init(ALLEGRO_BITMAP *buffer)
     create->SetSize(120, 40);
     create->Create();
     create->OnClick = MainMenu::Create;
-    create->SetPosition(buffer, -100, -375);
+    create->SetPosition(SCREEN_X-150, SCREEN_Y-375);
     buttonManager.AddButton(create);
     Button *play = new Button();
     play->SetCaption("Play Game");
     play->SetSize(120, 40);
     play->Create();
     play->OnClick = MainMenu::Play;
-    play->SetPosition(buffer, -100, -275);
+    play->SetPosition(SCREEN_X-150, SCREEN_Y-275);
     buttonManager.AddButton(play);
     Button *survival = new Button();
     survival->SetCaption("Survival Game");
     survival->SetSize(120, 40);
     survival->Create();
     survival->OnClick = MainMenu::Survival;
-    survival->SetPosition(buffer, -100, -175);
+    survival->SetPosition(SCREEN_X-150, SCREEN_Y-175);
     buttonManager.AddButton(survival);
 }
 
@@ -68,7 +70,7 @@ ButtonManager &MainMenu::GetButtonManager()
 
 string MainMenu::ReadString(int yCoord, int type)
 {
-    ALLEGRO_BITMAP *buffer = al_create_bitmap(270,40);
+    ALLEGRO_BITMAP *buffer = al_create_bitmap(180,40);
     string  edittext = "";                         // an empty string for editting
     string::iterator iter = edittext.begin(); // string iterator
     int caret  = 0;                       // tracks the text caret
@@ -107,7 +109,10 @@ string MainMenu::ReadString(int yCoord, int type)
         {
             int  newkey, keycode;
             if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+            {
                 exit = true;
+                Input::GetInstance()->ForceClose();
+            }
             else if (event.type == ALLEGRO_EVENT_KEY_CHAR)
             {
                 newkey = event.keyboard.unichar;
@@ -118,7 +123,7 @@ string MainMenu::ReadString(int yCoord, int type)
             char ASCII = newkey & 0xff;
      
             // a character key was pressed; add it to the string
-            if(ASCII >= 32 && ASCII <= 126 && edittext.size() < 30)
+            if(ASCII >= 32 && ASCII <= 126 && edittext.size() < 21)
             {
                 // add the new char, inserting or replacing as need be
                 if(insert || iter == edittext.end())
@@ -197,11 +202,97 @@ string MainMenu::ReadString(int yCoord, int type)
     return edittext;
 }
 
+int MainMenu::ReadSize()
+{
+    int size = GRID_SIZE-10;
+    ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
+    al_register_event_source(queue, al_get_mouse_event_source());
+    
+    ALLEGRO_FONT* font=al_load_bitmap_font("a4_font.tga");
+    ALLEGRO_EVENT event;
+    bool exit = false;
+    
+    ALLEGRO_DISPLAY *display;
+    display = al_create_display(150,130);
+    al_register_event_source(queue, al_get_display_event_source(display));
+    
+    ButtonManager bManager;
+    Button *up = new Button();
+    up->SetCaption("Increase");
+    up->SetSize(40, 20);
+    up->Create();
+    up->OnClick = MainMenu::Larger;
+    up->SetMiscData (&size);
+    up->SetPosition(35, 20);
+    bManager.AddButton(up);
+    Button *down = new Button();
+    down->SetCaption("Decrease");
+    down->SetSize(40, 20);
+    down->Create();
+    down->OnClick = MainMenu::Smaller;
+    down->SetMiscData (&size);
+    down->SetPosition(35, 70);
+    bManager.AddButton(down);
+    Button *close = new Button();
+    close->SetCaption("Done");
+    close->SetSize(40, 20);
+    close->Create();
+    close->OnClick = MainMenu::SetClose;
+    close->SetMiscData (&exit);
+    close->SetPosition(50, 100);
+    bManager.AddButton(close);
+    
+    al_set_window_title(display, "");
+    al_set_target_bitmap(al_get_backbuffer(display));
+    al_clear_to_color(al_map_rgb(0,0,0));
+    al_draw_text(font, WHITE, 20, 1, 0, "Set Grid Size");
+    al_draw_textf(font, WHITE, 63, 50, 0, "%d", size);
+    bManager.Render(al_get_backbuffer(display));
+    al_flip_display();
+    
+    while (!exit)
+    {
+        while(al_get_next_event(queue,&event))
+        {
+            if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+            {
+                exit = true;
+                Input::GetInstance()->ForceClose();
+            }
+            else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+            {
+                Input::GetInstance()->ForceClick(true,event.mouse.x,event.mouse.y);
+            }
+            else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
+            {
+                Input::GetInstance()->ForceClick(false,event.mouse.x,event.mouse.y);
+            }
+            else
+                break;
+            bManager.Update();
+            al_clear_to_color(al_map_rgb(0,0,0));
+            bManager.Render(al_get_backbuffer(display));
+            al_draw_text(font, WHITE, 20, 1, 0, "Set Grid Size");
+            al_draw_textf(font, WHITE, 63, 50, 0, "%d", size);
+            al_flip_display();
+        }
+    }
+    
+    al_destroy_display(display);
+    al_destroy_font(font);
+    return size;
+}
+
 void MainMenu::Create(Button* object, void* data)
 {
     Game *game = Game::GetInstance();
     string name = ReadString(object->GetY()+45,3);
-    game->Create(name);
+    if (Input::GetInstance()->IsClosed())   
+        return;
+    int size = ReadSize() + 10;
+    if (Input::GetInstance()->IsClosed())   
+        return;
+    game->Create(name, size);
 }
 
 void MainMenu::Survival(Button* object, void* data)
@@ -210,6 +301,8 @@ void MainMenu::Survival(Button* object, void* data)
     SurvivalGame::NewInstance();
     game = Game::GetInstance();
     string name = ReadString(object->GetY()+45,2);
+    if (Input::GetInstance()->IsClosed())   
+        return;
     if (game->Valid(name))
         game->Play(name, 1);
     else
@@ -220,9 +313,27 @@ void MainMenu::Play(Button* object, void* data)
 {
     Game *game = Game::GetInstance();
     string name = ReadString(object->GetY()+45,1);
+    if (Input::GetInstance()->IsClosed())   
+        return;
     if (game->Valid(name))
         game->Play(name, 1);
     else
         cerr << "Invalid game name \"" << name << "\"\n";
 }
 
+void MainMenu::Larger(Button* object, void* data)
+{
+    if (*static_cast<int*>(data) < 90)
+        (*static_cast<int*>(data))++;
+}
+
+void MainMenu::Smaller(Button* object, void* data)
+{
+    if (*static_cast<int*>(data) > 10)
+        (*static_cast<int*>(data))--;
+}
+
+void MainMenu::SetClose(Button* object, void* data)
+{
+    (*static_cast<bool*>(data)) = true;
+}

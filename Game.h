@@ -16,7 +16,7 @@ class Game
         std::vector<Enemy *> &GetEnemies();
         bool Valid(std::string gameName);
         void Play(std::string gameName, int difficulty);
-        void Create(std::string gameName);
+        void Create(std::string gameName, int size);
         std::vector <std::string> GetGameNames() const;
     
     protected:

@@ -21,6 +21,8 @@ class Input : public Interaction
         bool Timer();
         static void RemoveInstance();
         void ForcePressed(int keyCode);
+        void ForceClick(bool clicked, int x, int y);
+        void ForceClose();
         
         
     private:

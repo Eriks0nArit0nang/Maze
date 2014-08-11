@@ -17,7 +17,7 @@ class Map
         int GetGridSize() const;
         void SetGrid(int **map, int size, std::pair<int,int> startPoint, std::pair<int,int> endPoint);
         static void RemoveInstance();
-        void CreateAuto();
+        void CreateAuto(int size);
         std::pair<int, int> GetEndLoc() const;
         std::pair<int, int> GetStartLoc() const;
         void Save(std::string filename);

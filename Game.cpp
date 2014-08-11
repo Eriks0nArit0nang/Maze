@@ -102,9 +102,11 @@ void Game::Play(std::string gameName, int diff)
         cerr << "WINNER\n";
 }
 
-void Game::Create(std::string gameName)
+void Game::Create(std::string gameName, int size)
 {
     cerr << "Creating game \"" << gameName << "\"...\n";
+    if (gameName == "")
+        return;
     if (!Valid(gameName))
         gameNames.push_back(gameName);
     Map *map = Map::GetInstance();
@@ -119,7 +121,7 @@ void Game::Create(std::string gameName)
         t = gameName + "/Level_";
         t += t2.str();
         t+= ".txt";
-        map->CreateAuto();
+        map->CreateAuto(size);
         map->Save(t);
     }
     
@@ -139,7 +141,7 @@ void Game::InitLevel(int level, int difficulty, string fileName)
     EnemyFactory enemyFactory = EnemyFactory(difficulty % NUM_ENEMY_DIFFICULTIES);
     Map * mapInst = Map::GetInstance();
     if (fileName == "")
-        mapInst->CreateAuto();
+        mapInst->CreateAuto(GRID_SIZE);
     else
         mapInst->Load(fileName);
     pair<int,int> startLoc = mapInst->GetStartLoc();
@@ -275,7 +277,7 @@ void Game::PlayLevel()
 
             pair<int, int> mouse_pos = input->GetMouse();
             if (mouse_pos.first >= SCREEN_X && mouse_pos.first < SCREEN_X+MAX_GRID_SIZE*2 && mouse_pos.second < MAX_GRID_SIZE*2 && mouse_pos.second >= 0)
-                display->Zoom ((mouse_pos.first-(SCREEN_X))/(2*(MAX_GRID_SIZE/Map::GetInstance()->GetGridSize())),mouse_pos.second/(2*(MAX_GRID_SIZE/Map::GetInstance()->GetGridSize())));
+                display->Zoom ((mouse_pos.first-(SCREEN_X))/(2*MAX_GRID_SIZE/Map::GetInstance()->GetGridSize()),mouse_pos.second/(2*MAX_GRID_SIZE/Map::GetInstance()->GetGridSize()));
             else
                 display->Zoom (player->GetX()/60,player->GetY()/60);
             display->UpdateMiniMap (player->GetX()/60,player->GetY()/60);

@@ -10,6 +10,7 @@ class MainMenu
 {
     private:
         static std::string ReadString(int yCoord, int type);
+        static int ReadSize();
         ALLEGRO_BITMAP *mainMenu;
         ButtonManager buttonManager;
         void Init(ALLEGRO_BITMAP *buffer);
@@ -22,7 +23,9 @@ class MainMenu
         static void Create(Button* object, void* data);
         static void Play(Button* object, void* data);
         static void Survival(Button* object, void* data);
-        
+        static void Larger(Button* object, void* data);
+        static void Smaller(Button* object, void* data);
+        static void SetClose(Button* object, void* data);
 };
     
 #endif

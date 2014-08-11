@@ -235,3 +235,15 @@ void Input::ForcePressed(int keyCode)
     key[keyCode] = true;
     forced = keyCode;
 }
+
+void Input::ForceClick(bool clicked, int x, int y)
+{
+    mouseClick = clicked;
+    mouse.first = x;
+    mouse.second = y;
+}
+
+void Input::ForceClose()
+{
+    closed = true;
+}

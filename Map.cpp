@@ -224,9 +224,9 @@ bool operator()(Prim_Values x, Prim_Values y)
      return x.weight > y.weight;
 }};
 
-void Map::CreateAuto()
+void Map::CreateAuto(int size)
 {
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < this->size; i++)
     {
         delete [] knownMap[i];
         delete [] map[i];
@@ -236,30 +236,35 @@ void Map::CreateAuto()
     delete [] map;
     delete [] distFromPlayer;
     
+    this->size = size;
     
     // Initialize Prim's Algorithm
-    pair <int[4],int[GRID_SIZE][GRID_SIZE]> level;
-    bool tocheck[GRID_SIZE][GRID_SIZE];
-    for (int i = 0; i < GRID_SIZE; i++)
-        for (int j = 0; j < GRID_SIZE; j++)
+    pair <int[4],int**> level;
+    level.second = new int*[size];
+    for (int i = 0; i < size; i++)
+        level.second[i] = new int[size];
+        
+    bool tocheck[size][size];
+    for (int i = 0; i < size; i++)
+        for (int j = 0; j < size; j++)
         {
             tocheck[i][j] = false;
             level.second[i][j] = 1;
         }
     int t,t2;
-    Prim_Values vals [(int)floor(GRID_SIZE/2)-4][(int)floor(GRID_SIZE/2)-4][4];
+    Prim_Values vals [(int)floor(size/2)-4][(int)floor(size/2)-4][4];
     
     // Set start and end points
     do {
         for (int i = 0; i < 4; i++)
-            level.first[i] = (rand () % ((int)floor(GRID_SIZE/2)-7))*2+7;
+            level.first[i] = (rand () % ((int)floor(size/2)-7))*2+7;
     } while (level.first[0] == level.first[2] && level.first[1] == level.first[3]);
     priority_queue <Prim_Values,vector <Prim_Values>,comp> nums;
     
     // Initialize values to run Prim's
     // Will assign duplicate weights for every path.
-    for (int i = 0; i <= (int)floor(GRID_SIZE/2)-5; i++)
-        for (int j = 0; j <= (int)floor(GRID_SIZE/2)-5; j++)
+    for (int i = 0; i <= (int)floor(size/2)-5; i++)
+        for (int j = 0; j <= (int)floor(size/2)-5; j++)
             for (int k = 0; k < 4; k++)
             {
                 vals[i][j][k].weight = rand () % 100000;
@@ -296,9 +301,9 @@ void Map::CreateAuto()
             t2 = (nums.top().y2-5)/2;
             nums.pop();
             for (int i = 0; i < 4; i++)
-                if (t >= 0 && t <= (int)floor(GRID_SIZE/2)-5 && t2 >= 0 && t2 <= (int)floor(GRID_SIZE/2)-5)
+                if (t >= 0 && t <= (int)floor(size/2)-5 && t2 >= 0 && t2 <= (int)floor(size/2)-5)
                 {
-                    if (!(t == 0&&i==1)&&!(t==(int)floor(GRID_SIZE/2)-5&&i==3)&&!(t2==0&&i==0)&&!(t2==(int)floor(GRID_SIZE/2)-5&&i==2))
+                    if (!(t == 0&&i==1)&&!(t==(int)floor(size/2)-5&&i==3)&&!(t2==0&&i==0)&&!(t2==(int)floor(size/2)-5&&i==2))
                         nums.push (vals[t][t2][i]);
                 }
         }
@@ -307,7 +312,6 @@ void Map::CreateAuto()
     }
      
     // Initialize data from result
-    size = GRID_SIZE;
     map = new int *[size];
     knownMap = new bool *[size];
     distFromPlayer = new int *[size];
@@ -343,6 +347,10 @@ void Map::CreateAuto()
     endLoc.first = maxX;
     endLoc.second = maxY;
     map[endLoc.first][endLoc.second] = 3;
+
+    for (int i = 0; i < size; i++)
+        delete [] level.second[i];
+    delete [] level.second;
 }
 
 bool Map::VerifyLevel ()

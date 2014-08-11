@@ -8,3 +8,6 @@ test
 newMapTest
 20
 
+testC
+x
+t
