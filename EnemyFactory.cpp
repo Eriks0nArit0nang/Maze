@@ -17,11 +17,11 @@ Enemy *EnemyFactory::Generate(int health, int xPos, int yPos)
 {
     switch (gameType)
     {
-        case 1:
+        case 0:
             return InitializeBasic(health, xPos, yPos);
-        case 2:
+        case 1:
             return InitializeMedium(health, xPos, yPos);
-        case 3:
+        case 2:
             return InitializeHard(health, xPos, yPos);
         case SURVIVAL_GAME_TYPE:
             return InitializeSurvival(health, xPos, yPos);

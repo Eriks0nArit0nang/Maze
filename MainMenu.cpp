@@ -280,7 +280,97 @@ int MainMenu::ReadSize()
     
     al_destroy_display(display);
     al_destroy_font(font);
+    al_destroy_event_queue(queue);
     return size;
+}
+
+int MainMenu::ReadDifficulty()
+{
+    int difficulty = 5;
+    ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
+    al_register_event_source(queue, al_get_mouse_event_source());
+    
+    ALLEGRO_FONT* font=al_load_bitmap_font("a4_font.tga");
+    ALLEGRO_EVENT event;
+    bool exit = false;
+    ALLEGRO_DISPLAY* display = Display::GetInstance()->GetDisplay();
+
+    al_register_event_source(queue, al_get_display_event_source(display));
+    
+    ButtonManager bManager;
+    Button *beg = new Button();
+    beg->SetCaption("Beginner");
+    beg->SetSize(40, 20);
+    beg->Create();
+    beg->OnClick = MainMenu::Beginner;
+    beg->SetMiscData (&difficulty);
+    beg->SetPosition(SCREEN_X+35, 320);
+    bManager.AddButton(beg);
+    Button *easy = new Button();
+    easy->SetCaption("Easy");
+    easy->SetSize(40, 20);
+    easy->Create();
+    easy->OnClick = MainMenu::Easy;
+    easy->SetMiscData (&difficulty);
+    easy->SetPosition(SCREEN_X+35, 350);
+    bManager.AddButton(easy);
+    Button *medium = new Button();
+    medium->SetCaption("Medium");
+    medium->SetSize(40, 20);
+    medium->Create();
+    medium->OnClick = MainMenu::Medium;
+    medium->SetMiscData (&difficulty);
+    medium->SetPosition(SCREEN_X+35, 380);
+    bManager.AddButton(medium);
+    Button *hard = new Button();
+    hard->SetCaption("Hard");
+    hard->SetSize(40, 20);
+    hard->Create();
+    hard->OnClick = MainMenu::Hard;
+    hard->SetMiscData (&difficulty);
+    hard->SetPosition(SCREEN_X+35, 410);
+    bManager.AddButton(hard);
+    Button *expert = new Button();
+    expert->SetCaption("Expert");
+    expert->SetSize(40, 20);
+    expert->Create();
+    expert->OnClick = MainMenu::Expert;
+    expert->SetMiscData (&difficulty);
+    expert->SetPosition(SCREEN_X+35, 440);
+    bManager.AddButton(expert);
+    
+    al_set_target_bitmap(al_get_backbuffer(display));
+    al_draw_text(font, WHITE, SCREEN_X+10, 301, 0, "Choose Difficulty");
+    bManager.Render(al_get_backbuffer(display));
+    al_flip_display();
+    
+    while (!exit)
+    {
+        while(al_get_next_event(queue,&event))
+        {
+            if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+            {
+                exit = true;
+                Input::GetInstance()->ForceClose();
+            }
+            else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+            {
+                Input::GetInstance()->ForceClick(true,event.mouse.x,event.mouse.y);
+            }
+            else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
+            {
+                Input::GetInstance()->ForceClick(false,event.mouse.x,event.mouse.y);
+            }
+            else
+                break;
+            if (!exit)
+                exit = bManager.Update();
+        }
+    }
+    
+    al_destroy_font(font);
+    al_destroy_event_queue(queue);
+    return difficulty;
 }
 
 void MainMenu::Create(Button* object, void* data)
@@ -303,8 +393,11 @@ void MainMenu::Survival(Button* object, void* data)
     string name = ReadString(object->GetY()+45,2);
     if (Input::GetInstance()->IsClosed())   
         return;
+    int difficulty = ReadDifficulty();
+    if (Input::GetInstance()->IsClosed())   
+        return;
     if (game->Valid(name))
-        game->Play(name, 1);
+        game->Play(name, difficulty);
     else
         cerr << "Invalid game name \"" << name << "\"\n";
 }
@@ -315,8 +408,11 @@ void MainMenu::Play(Button* object, void* data)
     string name = ReadString(object->GetY()+45,1);
     if (Input::GetInstance()->IsClosed())   
         return;
+    int difficulty = ReadDifficulty();
+    if (Input::GetInstance()->IsClosed())   
+        return;
     if (game->Valid(name))
-        game->Play(name, 1);
+        game->Play(name, difficulty);
     else
         cerr << "Invalid game name \"" << name << "\"\n";
 }
@@ -336,4 +432,29 @@ void MainMenu::Smaller(Button* object, void* data)
 void MainMenu::SetClose(Button* object, void* data)
 {
     (*static_cast<bool*>(data)) = true;
+}
+
+void MainMenu::Beginner(Button* object, void* data)
+{
+    (*static_cast<int*>(data)) = 0;
+}
+
+void MainMenu::Easy(Button* object, void* data)
+{
+    (*static_cast<int*>(data)) = 1;
+}
+
+void MainMenu::Medium(Button* object, void* data)
+{
+    (*static_cast<int*>(data)) = 4;
+}
+
+void MainMenu::Hard(Button* object, void* data)
+{
+    (*static_cast<int*>(data)) = 7;
+}
+
+void MainMenu::Expert(Button* object, void* data)
+{
+    (*static_cast<int*>(data)) = 8;
 }
