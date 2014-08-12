@@ -111,8 +111,8 @@ void Game::Create(std::string gameName, int size)
         gameNames.push_back(gameName);
     Map *map = Map::GetInstance();
     string t;
-    string t2 = "mkdir ";
-    system((t2 + gameName).c_str());
+    string temp2 = "mkdir \"";
+    system((temp2 + gameName + "\"").c_str());
     
     for (int i = 0; i < 20; i++)
     {
