@@ -6,7 +6,7 @@
 Maze.exe
 *.layout
 log.txt
-*Level_*.txt
+[!(Game 1)(Game 2)(Game 3)]*Level_*.txt
 
 
 
