@@ -89,16 +89,10 @@ string MainMenu::ReadString(int yCoord, int type)
     if (type == 1 || type == 2)
     {
         vector <string> gameNames = Game::GetInstance()->GetGameNames();
-        display = al_create_display(200,gameNames.size()*15+30);
-        al_set_window_title(display, "");
-        int x, y;
-        al_get_window_position(Display::GetInstance()->GetDisplay(), &x, &y);
-        al_set_window_position(display,x,y+(SCREEN_Y-gameNames.size()*15-30)/2);
-        al_set_target_bitmap(al_get_backbuffer(display));
-        al_clear_to_color(al_map_rgb(0,0,0));
-        al_draw_text(font, WHITE, 1, 10, 0, "Valid Games");
+        al_set_target_bitmap(al_get_backbuffer(Display::GetInstance()->GetDisplay()));
+        al_draw_text(font, WHITE, SCREEN_X+1, 10, 0, "Valid Games");
         for (int i = 0; i < gameNames.size(); i++)
-            al_draw_textf(font, WHITE, 1, 30+i*15, 0, "%s", gameNames[i].c_str());
+            al_draw_textf(font, WHITE, SCREEN_X+1, 30+i*15, 0, "%s", gameNames[i].c_str());
         al_flip_display();
     }
     
@@ -196,8 +190,6 @@ string MainMenu::ReadString(int yCoord, int type)
     al_destroy_bitmap(buffer);
     al_destroy_event_queue(queue);
     al_destroy_font(font);
-    if (type == 1 || type == 2)
-        al_destroy_display(display);
     
     return edittext;
 }
@@ -207,14 +199,11 @@ int MainMenu::ReadSize()
     int size = GRID_SIZE-10;
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     al_register_event_source(queue, al_get_mouse_event_source());
+    al_register_event_source(queue, al_get_display_event_source(Display::GetInstance()->GetDisplay()));
     
     ALLEGRO_FONT* font=al_load_bitmap_font("a4_font.tga");
     ALLEGRO_EVENT event;
     bool exit = false;
-    
-    ALLEGRO_DISPLAY *display;
-    display = al_create_display(150,130);
-    al_register_event_source(queue, al_get_display_event_source(display));
     
     ButtonManager bManager;
     Button *up = new Button();
@@ -223,7 +212,7 @@ int MainMenu::ReadSize()
     up->Create();
     up->OnClick = MainMenu::Larger;
     up->SetMiscData (&size);
-    up->SetPosition(35, 20);
+    up->SetPosition(SCREEN_X+35, 20);
     bManager.AddButton(up);
     Button *down = new Button();
     down->SetCaption("Decrease");
@@ -231,7 +220,7 @@ int MainMenu::ReadSize()
     down->Create();
     down->OnClick = MainMenu::Smaller;
     down->SetMiscData (&size);
-    down->SetPosition(35, 70);
+    down->SetPosition(SCREEN_X+35, 70);
     bManager.AddButton(down);
     Button *close = new Button();
     close->SetCaption("Done");
@@ -239,15 +228,14 @@ int MainMenu::ReadSize()
     close->Create();
     close->OnClick = MainMenu::SetClose;
     close->SetMiscData (&exit);
-    close->SetPosition(50, 100);
+    close->SetPosition(SCREEN_X+50, 100);
     bManager.AddButton(close);
     
-    al_set_window_title(display, "");
-    al_set_target_bitmap(al_get_backbuffer(display));
-    al_clear_to_color(al_map_rgb(0,0,0));
-    al_draw_text(font, WHITE, 20, 1, 0, "Set Grid Size");
-    al_draw_textf(font, WHITE, 63, 50, 0, "%d", size);
-    bManager.Render(al_get_backbuffer(display));
+    
+    al_set_target_bitmap(al_get_backbuffer(Display::GetInstance()->GetDisplay()));
+    al_draw_text(font, WHITE, SCREEN_X+20, 5, 0, "Set Grid Size");
+    al_draw_textf(font, WHITE, SCREEN_X+63, 50, 0, "%d", size);
+    bManager.Render(al_get_backbuffer(Display::GetInstance()->GetDisplay()));
     al_flip_display();
     
     while (!exit)
@@ -270,15 +258,12 @@ int MainMenu::ReadSize()
             else
                 break;
             bManager.Update();
-            al_clear_to_color(al_map_rgb(0,0,0));
-            bManager.Render(al_get_backbuffer(display));
-            al_draw_text(font, WHITE, 20, 1, 0, "Set Grid Size");
-            al_draw_textf(font, WHITE, 63, 50, 0, "%d", size);
+            al_draw_filled_rectangle(SCREEN_X+63,50, SCREEN_X+93, 60, al_map_rgb(100,100,100));
+            al_draw_textf(font, WHITE, SCREEN_X+63, 50, 0, "%d", size);
             al_flip_display();
         }
     }
     
-    al_destroy_display(display);
     al_destroy_font(font);
     al_destroy_event_queue(queue);
     return size;
