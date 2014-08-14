@@ -1,3 +1,0 @@
-Known Issues/Inconveniences with Maze Game
-
-- Game difficulty is not able to be entered at this time
