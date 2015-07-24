@@ -70,6 +70,7 @@ ButtonManager &MainMenu::GetButtonManager()
 
 string MainMenu::ReadString(int yCoord, int type)
 {
+	cerr << "reading game name...\n";
     ALLEGRO_BITMAP *buffer = al_create_bitmap(180,40);
     string  edittext = "";                         // an empty string for editting
     string::iterator iter = edittext.begin(); // string iterator
@@ -83,7 +84,6 @@ string MainMenu::ReadString(int yCoord, int type)
     ALLEGRO_FONT* font=al_load_bitmap_font("a4_font.tga");
     ALLEGRO_EVENT event;
     bool exit = false;
-    
     // List existing games
     ALLEGRO_DISPLAY *display;
     if (type == 1 || type == 2)
@@ -96,9 +96,25 @@ string MainMenu::ReadString(int yCoord, int type)
         al_flip_display();
     }
     
-    // the game loop
+    cerr << "ready to read...\n";
+    
+    // clear screen
+    al_set_target_bitmap(buffer);
+    al_clear_to_color(al_map_rgb(0,0,0));
+    // output the string to the screen
+    al_draw_textf(font, WHITE, 1, 10, 0, "Enter the game name");
+    al_draw_textf(font, WHITE, 1, 30, 0, "%s", edittext.c_str());
+
+    // draw the caret
+    al_draw_line(caret * 8 + 1, 28, caret * 8 + 1, 38, WHITE, 0);
+    // blit to screen
+    al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
+    al_draw_bitmap(buffer, 420, yCoord, 0);
+    al_flip_display();
+    // the main loop
     do
     {
+    	string old_text = edittext;
         while(al_get_next_event(queue,&event))
         {
             int  newkey, keycode;
@@ -170,23 +186,28 @@ string MainMenu::ReadString(int yCoord, int type)
                 }
             }
         }
-        // clear screen
-        al_set_target_bitmap(buffer);
-        al_clear_to_color(al_map_rgb(0,0,0));
- 
-        // output the string to the screen
-        al_draw_textf(font, WHITE, 1, 10, 0, "Enter the game name");
-        al_draw_textf(font, WHITE, 1, 30, 0, "%s", edittext.c_str());
-     
-        // draw the caret
-        al_draw_line(caret * 8 + 1, 28, caret * 8 + 1, 38, WHITE, 0);
-     
-        // blit to screen
-        al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
-        al_draw_bitmap(buffer, 420, yCoord, 0);
-        al_flip_display();
-    }while(!exit); // end of game loop
-      
+        if (old_text != edittext)
+        {
+	        // clear screen
+	        al_set_target_bitmap(buffer);
+	        al_clear_to_color(al_map_rgb(0,0,0));
+	        // output the string to the screen
+	        cerr << "seriously?\n";
+	        al_draw_textf(font, WHITE, 1, 10, 0, "Enter the game name");
+	        cerr << "wtf\n" << font << endl << edittext.c_str() << endl;
+	        al_draw_textf(font, WHITE, 1, 30, 0, "%s", edittext.c_str());
+	        cerr << "I don't understand\n";
+	
+	        // draw the caret
+	        al_draw_line(caret * 8 + 1, 28, caret * 8 + 1, 38, WHITE, 0);
+	        // blit to screen
+	        al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
+	        al_draw_bitmap(buffer, 420, yCoord, 0);
+	        al_flip_display();
+	    }
+    } while(!exit); // end of game loop
+    
+    cerr << "finished reading input\n";
     al_destroy_bitmap(buffer);
     al_destroy_event_queue(queue);
     al_destroy_font(font);
@@ -360,14 +381,18 @@ int MainMenu::ReadDifficulty()
 
 void MainMenu::Create(Button* object, void* data)
 {
+	cerr << "Creating a new game...\n";
     Game *game = Game::GetInstance();
+    cerr << "Retrieved game instance\n";
     string name = ReadString(object->GetY()+45,3);
+    cerr << "game name: " << name << endl;
     if (Input::GetInstance()->IsClosed())   
         return;
     int size = ReadSize() + 10;
     if (Input::GetInstance()->IsClosed())   
         return;
     game->Create(name, size);
+    cerr << "Game created\n";
 }
 
 void MainMenu::Survival(Button* object, void* data)

@@ -23,9 +23,13 @@ int main (int argc, char** argv)
     std::ofstream out("log.txt");
     std::cerr.rdbuf(out.rdbuf());
     
+    cerr << "Initializing...\n";
     Display *display = Display::GetInstance();
+    cerr << "Display fully initialized\n\n";
     Input *input = Input::GetInstance();
+    cerr << "Input fully initialized\n\n";
     Game *game = Game::GetInstance();
+    cerr << "Game fully initialized\n\n";
 
     while (!input->IsClosed())
     {

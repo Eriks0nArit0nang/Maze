@@ -4,12 +4,16 @@
 #include "Game.h"
 #include "Globals.h"
 #include "Input.h"
+#include <iostream>
 
 UpgradeMenu::UpgradeMenu(ALLEGRO_BITMAP *buffer)
 {
+	std::cerr << "initializing upgrade menu...\n";
     upgradeMenu = al_load_bitmap ("Upgrade.bmp");
     font=al_load_bitmap_font("a4_font.tga");
+    std::cerr << "upgrade bitmap and font loaded\ninitializing init function...\n";
     Init(buffer);
+    std::cerr << "upgrade menu initialized\n";
 }
 
 UpgradeMenu::~UpgradeMenu()
@@ -77,6 +81,7 @@ void UpgradeMenu::Init(ALLEGRO_BITMAP *buffer)
     health->OnClick = UpgradeMenu::Health;
     health->SetPosition(SCREEN_X-580, SCREEN_Y-405);
     buttonManager.AddButton(health);
+    std::cerr << "health button created\n";
     Button *rate = new Button();
     rate->SetCaption("Fire Rate (F)");
     rate->SetSize(100, 30);
@@ -84,6 +89,7 @@ void UpgradeMenu::Init(ALLEGRO_BITMAP *buffer)
     rate->OnClick = UpgradeMenu::FireRate;
     rate->SetPosition(SCREEN_X-580, SCREEN_Y-355);
     buttonManager.AddButton(rate);
+    std::cerr << "rate button created\n";
     Button *clip = new Button();
     clip->SetCaption("Larger Clip (C)");
     clip->SetSize(100, 30);
@@ -91,6 +97,7 @@ void UpgradeMenu::Init(ALLEGRO_BITMAP *buffer)
     clip->OnClick = UpgradeMenu::ClipSize;
     clip->SetPosition(SCREEN_X-580, SCREEN_Y-305);
     buttonManager.AddButton(clip);
+    std::cerr << "clip button created\n";
     Button *range = new Button();
     range->SetCaption("Increase Range (R)");
     range->SetSize(100, 30);
@@ -98,6 +105,7 @@ void UpgradeMenu::Init(ALLEGRO_BITMAP *buffer)
     range->OnClick = UpgradeMenu::Range;
     range->SetPosition(SCREEN_X-580, SCREEN_Y-255);
     buttonManager.AddButton(range);
+    std::cerr << "range button created\n";
     Button *nuke = new Button();
     nuke->SetCaption("Buy Nuke (N)");
     nuke->SetSize(100, 30);
@@ -105,6 +113,7 @@ void UpgradeMenu::Init(ALLEGRO_BITMAP *buffer)
     nuke->OnClick = UpgradeMenu::Nuke;
     nuke->SetPosition(SCREEN_X-280, SCREEN_Y-405);
     buttonManager.AddButton(nuke);
+    std::cerr << "nuke button created\n";
     Button *wide = new Button();
     wide->SetCaption("Wider Shots (W)");
     wide->SetSize(100, 30);
@@ -112,6 +121,7 @@ void UpgradeMenu::Init(ALLEGRO_BITMAP *buffer)
     wide->OnClick = UpgradeMenu::WideShot;
     wide->SetPosition(SCREEN_X-280, SCREEN_Y-355);
     buttonManager.AddButton(wide);
+    std::cerr << "wideshot button created\n";
     Button *explode = new Button();
     explode->SetCaption("Exploding Shots (E)");
     explode->SetSize(100, 30);
@@ -119,6 +129,7 @@ void UpgradeMenu::Init(ALLEGRO_BITMAP *buffer)
     explode->OnClick = UpgradeMenu::ExplodingShot;
     explode->SetPosition(SCREEN_X-280, SCREEN_Y-305);
     buttonManager.AddButton(explode);
+    std::cerr << "exploding shot button created\n";
     Button *walls = new Button();
     walls->SetCaption("Buy WallBreaker (S)");
     walls->SetSize(100, 30);
@@ -126,6 +137,7 @@ void UpgradeMenu::Init(ALLEGRO_BITMAP *buffer)
     walls->OnClick = UpgradeMenu::WallBreaker;
     walls->SetPosition(SCREEN_X-280, SCREEN_Y-255);
     buttonManager.AddButton(walls);
+    std::cerr << "wallbreaker button created\n";
     Button *mine = new Button();
     mine->SetCaption("Buy Mine (M)");
     mine->SetSize(100, 30);
@@ -133,6 +145,7 @@ void UpgradeMenu::Init(ALLEGRO_BITMAP *buffer)
     mine->OnClick = UpgradeMenu::Mine;
     mine->SetPosition(SCREEN_X-280, SCREEN_Y-205);
     buttonManager.AddButton(mine);
+    std::cerr << "mine button created\n";
     Button *grenade = new Button();
     grenade->SetCaption("Buy Grenade (G)");
     grenade->SetSize(100, 30);
@@ -140,6 +153,7 @@ void UpgradeMenu::Init(ALLEGRO_BITMAP *buffer)
     grenade->OnClick = UpgradeMenu::Grenade;
     grenade->SetPosition(SCREEN_X-280, SCREEN_Y-155);
     buttonManager.AddButton(grenade);
+    std::cerr << "grenade button created\n";
     Button *resume = new Button();
     resume->SetCaption("Resume (U)");
     resume->SetSize(100, 30);
@@ -147,6 +161,7 @@ void UpgradeMenu::Init(ALLEGRO_BITMAP *buffer)
     resume->OnClick = UpgradeMenu::Resume;
     resume->SetPosition(SCREEN_X-530, SCREEN_Y-155);
     buttonManager.AddButton(resume);
+    std::cerr << "resume button created\n";
 }
 
 ButtonManager &UpgradeMenu::GetButtonManager()

@@ -1,16 +1,22 @@
 #include "Input.h"
 #include "Display.h"
+#include <iostream>
 
 Input *Input::instance = 0;
 
 Input::Input():Interaction(),movement(0),weapons(0,0),mouse(0,0),closed(false),time(false),mouseClick(false), forced(0)
 {
+	std::cerr << "initalizing input...\n";
     event_queue = al_create_event_queue();
+    std::cerr << "event queue created\n";
     al_register_event_source(event_queue, al_get_display_event_source(Display::GetInstance()->GetDisplay()));
+    std::cerr << "registered display events\n";
     al_register_event_source(event_queue, al_get_mouse_event_source());
     al_register_event_source(event_queue, al_get_keyboard_event_source());
+    std::cerr << "listening for events\n";
     timer = al_create_timer(1.0/FPS);
     al_register_event_source(event_queue, al_get_timer_event_source(timer));
+    std::cerr << "listening for timer\n";
     for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
         key[i] = false;
     al_start_timer(timer);

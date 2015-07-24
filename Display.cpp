@@ -9,6 +9,7 @@
 #include "MainMenu.h"
 #include "UpgradeMenu.h"
 #include <cmath>
+#include <iostream>
 #include <vector>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>
@@ -19,8 +20,12 @@ Display *Display::instance = 0;
 
 Display *Display::GetInstance()
 {
-    if (!instance)
+    if (!instance) 
+	{
+    	cerr << "Creating new display instance...\n";
         instance = new Display();
+        cerr << "Display instance created\n";
+    }
     return instance;
 }
 
@@ -32,21 +37,32 @@ void Display::RemoveInstance()
 
 Display::Display():Interaction()
 {
+	cerr << "starting display construction\n";
     al_init_font_addon();
     al_set_new_display_option(ALLEGRO_VSYNC, 1, ALLEGRO_SUGGEST);
     screen = al_create_display(SCREEN_X+MAX_GRID_SIZE*2, SCREEN_Y);
+    cerr << "screen initialized\n";
     timer = al_create_timer(25);
+    cerr << "timer created\n";
     int size = Map::GetInstance()->GetGridSize();
+    cerr << "grid size acquired\n";
     buffer=al_get_backbuffer(screen);
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0,0,0));
+    cerr << "display set up\n";
     al_flip_display();
     miniMap = al_create_bitmap(MAX_GRID_SIZE*2,SCREEN_Y);
+    cerr << "minimap constructed\n";
     al_set_target_bitmap(miniMap);
     al_clear_to_color(al_map_rgb(100,100,100));
+    cerr << "minimap set up\n";
     font=al_load_bitmap_font("a4_font.tga");
+    cerr << "font set up\n";
     upgradeMenu = new UpgradeMenu(buffer);
+    cerr << "initializing main menu...\n";
     InitMainMenu(buffer);
+    cerr << "main menu initialized\n";
+    cerr << "display created\n";
 }
 
 Display::~Display()
@@ -218,5 +234,6 @@ bool Display::UpdateUpgradeMenuGUI()
 
 ALLEGRO_DISPLAY* Display::GetDisplay() const
 {
+	std::cerr << "Getting display...\n";
     return screen;
 }
