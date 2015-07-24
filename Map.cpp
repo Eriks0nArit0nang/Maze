@@ -11,7 +11,7 @@ using namespace std;
 
 Map *Map::instance = 0;
 
-Map::Map(int size):map(new int*[size]),size(size),knownMap(new bool*[size]),distFromPlayer(new int*[size])
+Map::Map(int size):map(new int*[size]),distFromPlayer(new int*[size]),knownMap(new bool*[size]),size(size)
 {
     for (int j = 0; j < size; j++)
     {

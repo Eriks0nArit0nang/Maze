@@ -11,7 +11,7 @@ PrivateResource=
 ResourceIncludes=
 MakeIncludes=
 Compiler=
-CppCompiler=-O3_@@_
+CppCompiler=_@@_
 Linker="C:/Program Files (x86)/Dev-Cpp/lib/liballegro_image-5.0.4-mt.a"_@@_"C:/Program Files (x86)/Dev-Cpp/lib/liballegro_font-5.0.4-mt.a"_@@_"C:/Program Files (x86)/Dev-Cpp/lib/liballegro_primitives-5.0.4-mt.a"_@@_"C:/Program Files (x86)/Dev-Cpp/lib/liballegro-5.0.4-mt.a"_@@_-Lliballegro_font-5.0.4-mt.a_@@_-Lliballegro_image-5.0.4-mt.a_@@_-Lliballegro_primitives-5.0.4-mt.a_@@_-Lliballegro-5.0.4-mt.a_@@_
 IsCpp=1
 Icon=
@@ -27,7 +27,7 @@ CustomMakefile=Makefile.win
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=3
-CompilerSettings=0000000100000000000000000
+CompilerSettings=0000000100100010000000000
 LogOutput=
 LogOutputEnabled=0
 

@@ -13,7 +13,7 @@ void Character::AddHealth (unsigned int h)
 
 Character::Character(int health, double xPos, double yPos, int radius, WeaponType activeWeapon):
                          xPos(xPos),yPos(yPos),xVel(0),yVel(0),radius(radius),health(health),initialHealth(health),addedHealth(0),
-						 activeWeapon(activeWeapon),attackDelay(0){}
+						 attackDelay(0),activeWeapon(activeWeapon){}
 
 Character::~Character()
 {

@@ -4,7 +4,7 @@
 
 Input *Input::instance = 0;
 
-Input::Input():Interaction(),movement(0),weapons(0,0),mouse(0,0),closed(false),time(false),mouseClick(false), forced(0)
+Input::Input():Interaction(),movement(0),weapons(0,0),mouse(0,0),mouseClick(false),closed(false),time(false),forced(0)
 {
 	std::cerr << "initalizing input...\n";
     event_queue = al_create_event_queue();

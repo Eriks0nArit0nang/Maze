@@ -17,18 +17,18 @@ void dummyCallbackFunction(Button* object, void* data)
 }
 
 Button::Button():
-x_(0), y_(0),
-w_(128), h_(24),
-textColor_(al_map_rgb(0,0,0)),
+OnMouseOver(dummyCallbackFunction),
+OnMouseOut(dummyCallbackFunction),
+OnClick(dummyCallbackFunction),
+data_(0),
+image_(NULL),
+caption_(NULL),
 faceColor_(al_map_rgb(192,192,192)),
 borderColor_(al_map_rgb(96,96,96)),
 shadowColor_(al_map_rgb(0,0,0)),
-image_(NULL),
-caption_(NULL),
-OnClick(dummyCallbackFunction),
-OnMouseOver(dummyCallbackFunction),
-OnMouseOut(dummyCallbackFunction),
-data_(0)
+textColor_(al_map_rgb(0,0,0)),
+w_(128), h_(24),
+x_(0), y_(0)
 {}
 
 Button::~Button()

@@ -28,7 +28,7 @@ int main (int argc, char** argv)
     cerr << "Display fully initialized\n\n";
     Input *input = Input::GetInstance();
     cerr << "Input fully initialized\n\n";
-    Game *game = Game::GetInstance();
+    Game::GetInstance();
     cerr << "Game fully initialized\n\n";
 
     while (!input->IsClosed())

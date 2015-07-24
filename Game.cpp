@@ -50,7 +50,7 @@ Game::Game():player(0)
 
 Game::~Game()
 {
-    for (int i = 0; i < enemies.size(); i++)
+    for (unsigned int i = 0; i < enemies.size(); i++)
         delete enemies[i];
     delete player;
 }
@@ -77,7 +77,6 @@ bool Game::GameEnd()
 
 void Game::Play(std::string gameName, int diff)
 {
-    Map *map = Map::GetInstance();
     Input *input = Input::GetInstance();
     player = new Player(0,0);
     string t;
@@ -168,7 +167,7 @@ void Game::InitLevel(int level, int difficulty, string fileName)
 
 void Game::ResetLevel()
 {
-    for (int i = 0; i < enemies.size(); i++)
+    for (unsigned int i = 0; i < enemies.size(); i++)
         delete enemies[i];
     enemies.clear();
 }
@@ -194,7 +193,7 @@ void Game::PlayLevel()
                 while (input->IsPressed(ALLEGRO_KEY_U)) input->ReadInput();
                 input->Timer();
             }
-            for (int i = 0; i < enemies.size(); i++)
+            for (unsigned int i = 0; i < enemies.size(); i++)
             {
                 if (enemies[i]->Dead())
                 {
@@ -247,7 +246,7 @@ void Game::PlayLevel()
                 if ((*weaponIt)->GetProperties().GetType() != _Gun)
                 {
                     (*weaponIt)->Action(player);
-                    for (int i = 0; i < enemies.size(); i++)
+                    for (unsigned int i = 0; i < enemies.size(); i++)
                         (*weaponIt)->Action(enemies[i]);
                     if ((*weaponIt)->WillDestroy())
                     {
@@ -264,7 +263,7 @@ void Game::PlayLevel()
                 {
                     while (!(*weaponIt)->WillDestroy())
                     {
-                        for (int i = 0; i < enemies.size(); i++)
+                        for (unsigned int i = 0; i < enemies.size(); i++)
                             (*weaponIt)->Action(enemies[i]);
                         if ((*weaponIt)->WillDestroy())
                             break;

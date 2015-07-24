@@ -12,6 +12,7 @@
 Game *SurvivalGame::NewInstance()
 {
     Game::SetInstance(new SurvivalGame());
+    return Game::GetInstance();
 }
 
 SurvivalGame::SurvivalGame():Game(),enemyFactory(0){}
@@ -99,7 +100,7 @@ void SurvivalGame::PlayLevel()
                 while (input->IsPressed(ALLEGRO_KEY_U)) input->ReadInput();
                 input->Timer();
             }
-            for (int i = 0; i < GetEnemies().size(); i++)
+            for (unsigned int i = 0; i < GetEnemies().size(); i++)
             {
                 if (GetEnemies()[i]->Dead())
                 {
@@ -152,7 +153,7 @@ void SurvivalGame::PlayLevel()
                 if ((*weaponIt)->GetProperties().GetType() != _Gun)
                 {
                     (*weaponIt)->Action(GetPlayer());
-                    for (int i = 0; i < GetEnemies().size(); i++)
+                    for (unsigned int i = 0; i < GetEnemies().size(); i++)
                         (*weaponIt)->Action(GetEnemies()[i]);
                     if ((*weaponIt)->WillDestroy())
                     {
@@ -169,7 +170,7 @@ void SurvivalGame::PlayLevel()
                 {
                     while (!(*weaponIt)->WillDestroy())
                     {
-                        for (int i = 0; i < GetEnemies().size(); i++)
+                        for (unsigned int i = 0; i < GetEnemies().size(); i++)
                             (*weaponIt)->Action(GetEnemies()[i]);
                         if ((*weaponIt)->WillDestroy())
                             break;

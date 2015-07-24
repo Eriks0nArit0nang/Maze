@@ -85,32 +85,21 @@ string MainMenu::ReadString(int yCoord, int type)
     ALLEGRO_EVENT event;
     bool exit = false;
     // List existing games
-    ALLEGRO_DISPLAY *display;
     if (type == 1 || type == 2)
     {
         vector <string> gameNames = Game::GetInstance()->GetGameNames();
         al_set_target_bitmap(al_get_backbuffer(Display::GetInstance()->GetDisplay()));
         al_draw_text(font, WHITE, SCREEN_X+1, 10, 0, "Valid Games");
-        for (int i = 0; i < gameNames.size(); i++)
+        for (unsigned int i = 0; i < gameNames.size(); i++)
+        {
+        	cerr << i << " " << gameNames[i].c_str() << " " << al_get_target_bitmap() << endl;
             al_draw_textf(font, WHITE, SCREEN_X+1, 30+i*15, 0, "%s", gameNames[i].c_str());
+        }
         al_flip_display();
     }
     
     cerr << "ready to read...\n";
     
-    // clear screen
-    al_set_target_bitmap(buffer);
-    al_clear_to_color(al_map_rgb(0,0,0));
-    // output the string to the screen
-    al_draw_textf(font, WHITE, 1, 10, 0, "Enter the game name");
-    al_draw_textf(font, WHITE, 1, 30, 0, "%s", edittext.c_str());
-
-    // draw the caret
-    al_draw_line(caret * 8 + 1, 28, caret * 8 + 1, 38, WHITE, 0);
-    // blit to screen
-    al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
-    al_draw_bitmap(buffer, 420, yCoord, 0);
-    al_flip_display();
     // the main loop
     do
     {
@@ -186,25 +175,20 @@ string MainMenu::ReadString(int yCoord, int type)
                 }
             }
         }
-        if (old_text != edittext)
-        {
-	        // clear screen
-	        al_set_target_bitmap(buffer);
-	        al_clear_to_color(al_map_rgb(0,0,0));
-	        // output the string to the screen
-	        cerr << "seriously?\n";
-	        al_draw_textf(font, WHITE, 1, 10, 0, "Enter the game name");
-	        cerr << "wtf\n" << font << endl << edittext.c_str() << endl;
-	        al_draw_textf(font, WHITE, 1, 30, 0, "%s", edittext.c_str());
-	        cerr << "I don't understand\n";
-	
-	        // draw the caret
-	        al_draw_line(caret * 8 + 1, 28, caret * 8 + 1, 38, WHITE, 0);
-	        // blit to screen
-	        al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
-	        al_draw_bitmap(buffer, 420, yCoord, 0);
-	        al_flip_display();
-	    }
+        // clear screen
+        al_set_target_bitmap(buffer);
+        al_clear_to_color(al_map_rgb(0,0,0));
+        // output the string to the screen
+        al_draw_textf(font, WHITE, 1, 10, 0, "Enter the game name");
+        cerr << edittext.c_str() << endl;
+        al_draw_textf(font, WHITE, 1, 30, 0, "%s", edittext.c_str());
+
+        // draw the caret
+        al_draw_line(caret * 8 + 1, 28, caret * 8 + 1, 38, WHITE, 0);
+        // blit to screen
+        al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
+        al_draw_bitmap(buffer, 420, yCoord, 0);
+        al_flip_display();
     } while(!exit); // end of game loop
     
     cerr << "finished reading input\n";

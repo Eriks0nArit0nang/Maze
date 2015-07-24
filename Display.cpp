@@ -44,8 +44,6 @@ Display::Display():Interaction()
     cerr << "screen initialized\n";
     timer = al_create_timer(25);
     cerr << "timer created\n";
-    int size = Map::GetInstance()->GetGridSize();
-    cerr << "grid size acquired\n";
     buffer=al_get_backbuffer(screen);
     al_set_target_bitmap(buffer);
     al_clear_to_color(al_map_rgb(0,0,0));
@@ -85,7 +83,7 @@ void Display::UpdateScreen()
     al_draw_bitmap (background, -(P->GetX()-SCREEN_X/2), -(P->GetY()-SCREEN_Y/2),0);
     al_draw_bitmap (miniMap, SCREEN_X, 0,0);
     al_draw_filled_circle(SCREEN_X+P->GetX()*boxSize/BOX_PIXEL_WIDTH, P->GetY()*boxSize/BOX_PIXEL_WIDTH, 4, al_map_rgb (150,150,255)); // Draw player icon on mini map
-    for (int i = 0; i < E.size(); i++)
+    for (unsigned int i = 0; i < E.size(); i++)
         if (abs (E[i]->GetX () - P->GetX()) < SCREEN_X/2 && abs (E[i]->GetY() - P->GetY()) < SCREEN_Y/2)
         {
             E[i]->Draw(buffer, SCREEN_X/2-P->GetX(), SCREEN_Y/2-P->GetY());
@@ -183,7 +181,7 @@ void Display::Zoom (int centreX, int centreY)
     
     Player *p = Game::GetInstance()->GetPlayer();
     vector<Enemy *> E = Game::GetInstance()->GetEnemies();
-    for (int i = 0; i < E.size(); i++)
+    for (unsigned int i = 0; i < E.size(); i++)
         if (E[i]->GetY()/BOX_PIXEL_WIDTH-centreY >= -5 && 
                 E[i]->GetY()/BOX_PIXEL_WIDTH-centreY <= 5 && 
                 mapInst->Fog(E[i]->GetX()/BOX_PIXEL_WIDTH, E[i]->GetY()/BOX_PIXEL_WIDTH))

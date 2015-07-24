@@ -218,7 +218,7 @@ void Player::UpgradeWeapon(WeaponType type, std::string property)
 
 void Player::Draw(ALLEGRO_BITMAP *buffer, int midX, int midY)
 {
-    for (int i = 0; i < weapons.size(); i++)
+    for (unsigned int i = 0; i < weapons.size(); i++)
         weapons[i]->Draw(buffer, midX, midY);
     al_set_target_bitmap(buffer);
     al_draw_filled_circle (midX+GetX(), midY+GetY(), radius, al_map_rgb(0,0,255));
